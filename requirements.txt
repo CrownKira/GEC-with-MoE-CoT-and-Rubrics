@@ -1,0 +1,5 @@
+openai
+aiofiles
+python-dotenv
+spacy
+errant

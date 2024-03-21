@@ -1,0 +1,5 @@
+myenv
+.env*
+processing.log
+venv
+logs/
