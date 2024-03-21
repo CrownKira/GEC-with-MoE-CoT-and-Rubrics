@@ -226,15 +226,15 @@ async def ask_llm(
                 raise ValueError("'text' field not found in response JSON")
 
             # TODO: fix this
-            # if len(response_text.split("\n")) != len(text.split("\n")):
-            #     print(
-            #         "check lines:",
-            #         len(response_text.split("\n")),
-            #         len(text.split("\n")),
-            #     )
-            #     raise ValueError(
-            #         "Number of lines in response_text does not match the number of lines in text"
-            #     )
+            if len(response_text.split("\n")) != len(text.split("\n")):
+                print(
+                    "check lines:",
+                    len(response_text.split("\n")),
+                    len(text.split("\n")),
+                )
+                # raise ValueError(
+                #     "Number of lines in response_text does not match the number of lines in text"
+                # )
 
             return response_text
         except (json.JSONDecodeError, ValueError) as e:
@@ -277,9 +277,13 @@ async def correct_grammar_and_write_csv(
             model_name,
         )
 
+        # TODO: better way?
         # Process the corrected text with spaCy
         doc = nlp(corrected_text.strip())
         processed_text = " ".join(token.text for token in doc)
+        stripped_lines = [line.strip() for line in processed_text.split("\n")]
+        processed_text = "\n".join(stripped_lines)
+
         logging.info(
             f"{GREEN}Received correction for batch {batch_number}/{total_batches}: {processed_text}{RESET}"
         )
