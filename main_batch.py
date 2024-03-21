@@ -15,6 +15,10 @@ import datetime
 from tiktoken import get_encoding
 
 
+# python3 main.py
+# python3 commands/evaluate_correction.py
+
+
 # Load the spaCy model outside of the asynchronous function to avoid reloading it multiple times
 nlp = spacy.load("en_core_web_sm")
 
@@ -50,7 +54,13 @@ MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 30  # Delay in seconds before retrying an API
 QPM_LIMIT = 3  # Queries per minute limit
 
-MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+# MODEL_NAME = "gpt-3.5-turbo"
+MODEL_NAME = "gpt-3.5-turbo-1106"
+# MODEL_NAME = "llama-2-7b-chat.Q8_0.gguf"
+# MODEL_NAME = "gpt-4-1106-preview"
+# MODEL_NAME = "togethercomputer/Llama-2-7B-32K-Instruct"
+# MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+
 
 GRAMMAR_PROMPT = """You are a language model assistant specialized in grammatical error correction. Your task is to:
 1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to standard English grammar rules.
