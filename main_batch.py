@@ -5,8 +5,8 @@ import openai
 import asyncio
 import logging
 import aiofiles
+import csv
 from dotenv import load_dotenv
-from csv import DictReader, DictWriter
 import atexit
 from typing import Any, List
 import spacy
@@ -51,7 +51,6 @@ RETRY_DELAY = 30  # Delay in seconds before retrying an API
 QPM_LIMIT = 3  # Queries per minute limit
 
 MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
-
 
 GRAMMAR_PROMPT = """You are a language model assistant specialized in grammatical error correction. Your task is to:
 1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to standard English grammar rules.
@@ -223,33 +222,41 @@ async def ask_llm(
             )
             content_json = json.loads(response)
             response_text = content_json.get("text")
-            if response_text is not None:
-                return response_text
-            else:
-                logging.warning(
-                    f"'text' field not found in response JSON for batch {batch_number}/{total_batches}. Retrying..."
-                )
-                retries += 1
-                await asyncio.sleep(RETRY_DELAY)
-        except json.JSONDecodeError as e:
+            if response_text is None:
+                raise ValueError("'text' field not found in response JSON")
+
+            # TODO: fix this
+            # if len(response_text.split("\n")) != len(text.split("\n")):
+            #     print(
+            #         "check lines:",
+            #         len(response_text.split("\n")),
+            #         len(text.split("\n")),
+            #     )
+            #     raise ValueError(
+            #         "Number of lines in response_text does not match the number of lines in text"
+            #     )
+
+            return response_text
+        except (json.JSONDecodeError, ValueError) as e:
             logging.error(
-                f"JSON parsing error for batch {batch_number}/{total_batches}: {e}"
+                f"Error processing response for batch {batch_number}/{total_batches}: {e}"
             )
-            retries += 1
-            await asyncio.sleep(RETRY_DELAY)
         except Exception as e:
             logging.error(
                 f"An error occurred while processing batch {batch_number}/{total_batches}: {e}"
             )
-            retries += 1
+        retries += 1
+        if retries < MAX_RETRIES:
             logging.info(
                 f"{YELLOW}Retrying for batch {batch_number}/{total_batches} (Attempt {retries}/{MAX_RETRIES}){RESET}"
             )
             await asyncio.sleep(RETRY_DELAY)
-    logging.error(
-        f"Max retries reached for batch {batch_number}/{total_batches}. Exiting the program."
-    )
-    sys.exit(1)
+        else:
+            logging.error(
+                f"Max retries reached for batch {batch_number}/{total_batches}. Exiting the program."
+            )
+            sys.exit(1)  # Exit the program with a non-zero status code
+    raise RuntimeError("Unexpected execution path")
 
 
 async def correct_grammar_and_write_csv(
@@ -269,48 +276,44 @@ async def correct_grammar_and_write_csv(
             total_batches,
             model_name,
         )
+
         # Process the corrected text with spaCy
         doc = nlp(corrected_text.strip())
         processed_text = " ".join(token.text for token in doc)
         logging.info(
             f"{GREEN}Received correction for batch {batch_number}/{total_batches}: {processed_text}{RESET}"
         )
-        # Split the processed text into individual lines
-        lines = processed_text.split("\n")
-        # Write each line as a separate row in the CSV
-        for line_number, line in enumerate(lines, start=1):
-            row = {
-                "Line Number": (batch_number - 1) * BATCH_SIZE_IN_TOKENS
-                + line_number,
-                "Original Sentence": line.strip(),
-                "Corrected Sentence": line.strip(),
-            }
-            await csv_writer.writerow(row)
+        # Write the batch number and corrected text to the CSV
+        row = {
+            "Batch Number": batch_number,
+            "Corrected Text": processed_text,
+        }
+        await csv_writer.writerow(row)
         return processed_text
 
 
-# Function to check which lines have already been processed
-async def get_processed_lines(csv_output_path: str) -> set[int]:
-    processed_lines = set()
+# Function to check which batches have already been processed
+async def get_processed_batches(csv_output_path: str) -> set[int]:
+    processed_batches = set()
     try:
         async with aiofiles.open(csv_output_path, "r") as csv_file:
             content = await csv_file.read()
-            reader = DictReader(content.splitlines())
+            reader = csv.DictReader(content.splitlines())
             for row in reader:
                 try:
-                    line_number = int(row["Line Number"])
-                    processed_lines.add(line_number)
+                    batch_number = int(row["Batch Number"])
+                    processed_batches.add(batch_number)
                 except (ValueError, KeyError):
-                    # Skip rows with invalid or missing "Line Number"
+                    # Skip rows with invalid or missing "Batch Number"
                     continue
     except FileNotFoundError:
         # If the CSV file does not exist, return an empty set
         pass
-    return processed_lines
+    return processed_batches
 
 
 async def process_file(client: Any, test_file_path: str, csv_output_path: str):
-    processed_lines = await get_processed_lines(csv_output_path)
+    processed_batches = await get_processed_batches(csv_output_path)
     # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
     should_write_header = (
@@ -320,27 +323,20 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
         csv_output_path, "a", newline=""
     ) as csv_file:
         text = await test_file.read()
-        csv_writer = DictWriter(
+        csv_writer = csv.DictWriter(
             csv_file,
             fieldnames=[
-                "Line Number",
-                "Original Sentence",
-                "Corrected Sentence",
+                "Batch Number",
+                "Corrected Text",
             ],
         )
         if should_write_header:
-            await csv_file.write(
-                '"Line Number","Original Sentence","Corrected Sentence"\n'
-            )
+            await csv_file.write('"Batch Number","Corrected Text"\n')
         batches = split_text_into_batches(text, BATCH_SIZE_IN_TOKENS)
         total_batches = len(batches)
         tasks = []
         for batch_number, batch_text in enumerate(batches, start=1):
-            if all(
-                (batch_number - 1) * BATCH_SIZE_IN_TOKENS + i + 1
-                in processed_lines
-                for i in range(len(batch_text.split("\n")))
-            ):
+            if batch_number in processed_batches:
                 continue
             tasks.append(
                 correct_grammar_and_write_csv(
@@ -355,21 +351,35 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
         await asyncio.gather(*tasks)
 
 
+# TODO: fix this
 async def generate_corrected_file_from_csv(
-    csv_output_path: str, output_path: str
+    csv_output_path: str,
+    output_path: str,
 ):
-    async with aiofiles.open(csv_output_path, mode="r") as csv_file:
-        csv_content = await csv_file.read()
-    csv_reader = DictReader(csv_content.splitlines())
-    sorted_rows = sorted(csv_reader, key=lambda row: int(row["Line Number"]))
-    async with aiofiles.open(output_path, mode="w") as output_file:
-        for row in sorted_rows:
-            if "Corrected Sentence" in row:
-                await output_file.write(row["Corrected Sentence"] + "\n")
-            else:
-                logging.warning(
-                    f"Key 'Corrected Sentence' not found in row: {row}"
-                )
+    rows = []
+
+    # Correctly awaiting the read operation before calling splitlines
+    async with aiofiles.open(
+        csv_output_path, mode="r", encoding="utf-8"
+    ) as csv_file:
+        csv_content = await csv_file.read()  # Await the read operation
+        reader = csv.DictReader(csv_content.splitlines())
+        for row in reader:
+            rows.append(row)
+
+    # Proceed with sorting and other operations
+    sorted_rows = sorted(rows, key=lambda row: int(row["Batch Number"]))
+
+    # Concatenate all "Corrected Text" entries, with a newline between each
+    corrected_text_combined = "\n".join(
+        row["Corrected Text"] for row in sorted_rows if "Corrected Text" in row
+    )
+
+    # Asynchronously write the concatenated corrected text to the output file
+    async with aiofiles.open(
+        output_path, mode="w", encoding="utf-8"
+    ) as output_file:
+        await output_file.write(corrected_text_combined)
 
 
 # Function to log a divider when the program exits
