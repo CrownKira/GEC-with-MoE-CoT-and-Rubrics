@@ -58,13 +58,13 @@ Return the grammatically corrected text in the JSON format, without any explanat
 
 # Desired format
 For example, if the input is:
-Travel by bus is exspensive , bored and annoying .
-I go to school yesterday .
+{"input": "1:Travel by bus is exspensive , bored and annoying .\n2:I go to school yesterday ."}
 
 Your output should be JSON only:
-{"text": "Travelling by bus is expensive, boring and annoying.\nI went to school yesterday."}
+{"text": "1:Travelling by bus is expensive, boring and annoying.\n2:I went to school yesterday."}
 
 Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections."""
+
 
 # Generate a unique identifier for this run based on the current timestamp
 run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -139,7 +139,12 @@ rate_limiter = RateLimiter(QPM_LIMIT)
 
 
 def format_user_content(text: str) -> str:
-    return json.dumps({"input": text})
+    # Modify the function to enumerate lines and add line numbers before encoding to JSON
+    lines_with_numbers = [
+        f"{i+1}:{line}" for i, line in enumerate(text.split("\n"))
+    ]
+    text_with_line_numbers = "\n".join(lines_with_numbers)
+    return json.dumps({"input": text_with_line_numbers})
 
 
 def count_tokens(text: str) -> int:
@@ -176,6 +181,7 @@ def split_text_into_batches(
             print("Tokens:", line_tokens)
             sys.exit(1)
 
+        # TODO: better way to not strip?
         if current_batch_tokens + line_tokens <= batch_size_in_tokens:
             current_batch += line + "\n"
             current_batch_tokens += line_tokens
@@ -225,18 +231,31 @@ async def ask_llm(
             if response_text is None:
                 raise ValueError("'text' field not found in response JSON")
 
-            # TODO: fix this
             if len(response_text.split("\n")) != len(text.split("\n")):
-                print(
-                    "check lines:",
-                    len(response_text.split("\n")),
-                    len(text.split("\n")),
-                )
-                # raise ValueError(
-                #     "Number of lines in response_text does not match the number of lines in text"
+                # print(
+                #     "check lines:",
+                #     len(response_text.split("\n")),
+                #     len(text.split("\n")),
                 # )
+                raise ValueError(
+                    "Number of lines in response_text does not match the number of lines in text"
+                )
 
-            return response_text
+            corrected_lines = []
+            for line in response_text.split("\n"):
+                try:
+                    number, corrected_line = line.split(":", 1)
+                    corrected_lines.append(corrected_line.strip())
+                except ValueError:
+                    logging.error(
+                        f"Error processing line (missing line number): {line}"
+                    )
+                    raise ValueError(
+                        f"Line in response_text does not contain a number: {line}"
+                    )
+
+            final_text = "\n".join(corrected_lines)
+            return final_text
         except (json.JSONDecodeError, ValueError) as e:
             logging.error(
                 f"Error processing response for batch {batch_number}/{total_batches}: {e}"
@@ -369,10 +388,9 @@ def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
     ) as output_file:
         for row in sorted_rows:
             if "Corrected Text" in row:
-                # Ensure to process and write the "Corrected Text" as needed
                 corrected_lines = row["Corrected Text"].split("\n")
                 for corrected_line in corrected_lines:
-                    output_file.write(corrected_line.strip() + "\n")
+                    output_file.write(corrected_line + "\n")
 
 
 # Function to log a divider when the program exits
