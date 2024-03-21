@@ -55,9 +55,9 @@ RETRY_DELAY = 30  # Delay in seconds before retrying an API
 QPM_LIMIT = 3  # Queries per minute limit
 
 # MODEL_NAME = "gpt-3.5-turbo"
-MODEL_NAME = "gpt-3.5-turbo-1106"
+# MODEL_NAME = "gpt-3.5-turbo-1106"
 # MODEL_NAME = "llama-2-7b-chat.Q8_0.gguf"
-# MODEL_NAME = "gpt-4-1106-preview"
+MODEL_NAME = "gpt-4-1106-preview"
 # MODEL_NAME = "togethercomputer/Llama-2-7B-32K-Instruct"
 # MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
