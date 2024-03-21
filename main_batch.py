@@ -351,35 +351,24 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
         await asyncio.gather(*tasks)
 
 
-# TODO: fix this
-async def generate_corrected_file_from_csv(
-    csv_output_path: str,
-    output_path: str,
-):
-    rows = []
-
-    # Correctly awaiting the read operation before calling splitlines
-    async with aiofiles.open(
-        csv_output_path, mode="r", encoding="utf-8"
+def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
+    with open(
+        csv_output_path, mode="r", newline="", encoding="utf-8"
     ) as csv_file:
-        csv_content = await csv_file.read()  # Await the read operation
-        reader = csv.DictReader(csv_content.splitlines())
-        for row in reader:
-            rows.append(row)
+        csv_reader = csv.DictReader(csv_file)
+        sorted_rows = sorted(
+            csv_reader, key=lambda row: int(row["Batch Number"])
+        )
 
-    # Proceed with sorting and other operations
-    sorted_rows = sorted(rows, key=lambda row: int(row["Batch Number"]))
-
-    # Concatenate all "Corrected Text" entries, with a newline between each
-    corrected_text_combined = "\n".join(
-        row["Corrected Text"] for row in sorted_rows if "Corrected Text" in row
-    )
-
-    # Asynchronously write the concatenated corrected text to the output file
-    async with aiofiles.open(
-        output_path, mode="w", encoding="utf-8"
+    with open(
+        output_path, mode="w", newline="", encoding="utf-8"
     ) as output_file:
-        await output_file.write(corrected_text_combined)
+        for row in sorted_rows:
+            if "Corrected Text" in row:
+                # Ensure to process and write the "Corrected Text" as needed
+                corrected_lines = row["Corrected Text"].split("\n")
+                for corrected_line in corrected_lines:
+                    output_file.write(corrected_line.strip() + "\n")
 
 
 # Function to log a divider when the program exits
@@ -395,8 +384,6 @@ if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
-    asyncio.run(
-        generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
-    )
+    generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
     logging.info("File processing completed.")
     logging.info("=" * 80)
