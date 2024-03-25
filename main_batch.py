@@ -27,9 +27,8 @@ load_dotenv()
 
 
 # TUNABLE CONFIGS
+
 # CONFIGS: MODEL
-
-
 OPENAI_MODELS = [
     "gpt-3.5-turbo",
 ]
@@ -116,6 +115,14 @@ RESET = "\033[0m"
 # )
 
 
+"""
+TODO: add config vars 
+
+base
+grammar_variant
+consistency_reminder
+detailed_correction_focus
+"""
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
 1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
 2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
@@ -131,7 +138,6 @@ Your output should be JSON only:
 Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
     GRAMMAR_VARIANT, NEXT_TOKEN
 )
-
 
 # Generate a unique identifier for this run based on the current timestamp
 run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
