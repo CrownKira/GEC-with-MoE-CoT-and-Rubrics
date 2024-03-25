@@ -30,6 +30,10 @@ MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
+USE_BRITISH_GRAMMAR = True  # Set to False for American grammar
+GRAMMAR_VARIANT = "British" if USE_BRITISH_GRAMMAR else "standard American"
+NEXT_TOKEN = "<|NEXT|>"
+
 
 # ANSI escape codes for colors
 RED = "\033[1;31m"
@@ -73,21 +77,25 @@ TOGETHER_AI_MODELS = [
 ]
 
 
-MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]  # gpt-4-1106-preview
+# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]  # gpt-4-1106-preview
+MODEL_NAME = TOGETHER_AI_MODELS[1]
 
 
-GRAMMAR_PROMPT = """You are a language model assistant specialized in grammatical error correction. Your task is to:
-1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to standard English grammar rules.
-Return the grammatically corrected text in the JSON format, without any explanatory text.
+GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
+1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to {0} English grammar rules.
+2. Maintain consistency in grammar correction (e.g., past or present tense) in parts of the input text that you think are contextually related.
+3. Return the grammatically corrected text in JSON format, without any explanatory text.
 
 # Desired format
 For example, if the input is:
-{"input": "1:Travel by bus is exspensive , bored and annoying .\n2:I go to school yesterday ."}
+{{"input": "Travel by bus is exspensive , bored and annoying .{1}I go to school yesterday .{1}He do not likes the food."}}
 
 Your output should be JSON only:
-{"text": "1:Travelling by bus is expensive, boring and annoying.\n2:I went to school yesterday."}
+{{"text": "Travelling by bus is expensive, boring, and annoying.{1}I went to school yesterday.{1}He does not like the food."}}
 
-Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections."""
+Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
+    GRAMMAR_VARIANT, NEXT_TOKEN
+)
 
 
 # Generate a unique identifier for this run based on the current timestamp
@@ -160,12 +168,9 @@ rate_limiter = RateLimiter(QPM_LIMIT)
 
 
 def format_user_content(text: str) -> str:
-    # Modify the function to enumerate lines and add line numbers before encoding to JSON
-    lines_with_numbers = [
-        f"{i+1}:{line}" for i, line in enumerate(text.split("\n"))
-    ]
-    text_with_line_numbers = "\n".join(lines_with_numbers)
-    return json.dumps({"input": text_with_line_numbers})
+    # TODO: better way?
+    text_with_next_token = text.replace("\n", f"{NEXT_TOKEN}")
+    return json.dumps({"input": text_with_next_token})
 
 
 def count_tokens(text: str) -> int:
@@ -252,30 +257,23 @@ async def ask_llm(
             if response_text is None:
                 raise ValueError("'text' field not found in response JSON")
 
-            if len(response_text.split("\n")) != len(text.split("\n")):
-                # print(
-                #     "check lines:",
-                #     len(response_text.split("\n")),
-                #     len(text.split("\n")),
-                # )
+            # TODO: extract to a function
+            corrected_lines = []
+            for line in response_text.split(NEXT_TOKEN):
+                corrected_lines.append(line.strip())
+
+            final_text = "\n".join(corrected_lines)
+
+            if len(corrected_lines) != len(text.split("\n")):
+                print(
+                    "check lines:",
+                    len(corrected_lines),
+                    len(text.split("\n")),
+                )
                 raise ValueError(
                     "Number of lines in response_text does not match the number of lines in text"
                 )
 
-            corrected_lines = []
-            for line in response_text.split("\n"):
-                try:
-                    number, corrected_line = line.split(":", 1)
-                    corrected_lines.append(corrected_line.strip())
-                except ValueError:
-                    logging.error(
-                        f"Error processing line (missing line number): {line}"
-                    )
-                    raise ValueError(
-                        f"Line in response_text does not contain a number: {line}"
-                    )
-
-            final_text = "\n".join(corrected_lines)
             return final_text
         except (json.JSONDecodeError, ValueError) as e:
             logging.error(
@@ -426,6 +424,7 @@ atexit.register(log_exit_divider)
 if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info(f"Model selected: {MODEL_NAME}")
+    logging.info(f"{BLUE}Using prompt: {GRAMMAR_PROMPT}{RESET}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
