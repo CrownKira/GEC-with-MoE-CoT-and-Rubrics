@@ -13,6 +13,7 @@ import spacy
 import logging
 import datetime
 from tiktoken import get_encoding
+import subprocess
 
 
 # python3 main_batch.py
@@ -461,7 +462,28 @@ def log_exit_divider():
 # Register the exit function
 atexit.register(log_exit_divider)
 
-# Run the script
+
+def prompt_for_evaluation():
+    user_response = (
+        input("Do you want to evaluate the result? (yes/no): ").strip().lower()
+    )
+    if user_response == "yes":
+        try:
+            # Execute the evaluation script
+            print("Evaluating the corrections...")
+            subprocess.run(
+                ["python3", "commands/evaluate_correction.py"], check=True
+            )
+            print("Evaluation completed successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"An error occurred during evaluation: {e}")
+    elif user_response == "no":
+        print("Evaluation skipped.")
+    else:
+        print("Invalid input. Please type 'yes' or 'no'.")
+        prompt_for_evaluation()
+
+
 if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info(f"Model selected: {MODEL_NAME}")
@@ -470,4 +492,5 @@ if __name__ == "__main__":
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
     logging.info("File processing completed.")
+    prompt_for_evaluation()
     logging.info("=" * 80)
