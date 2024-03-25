@@ -32,7 +32,7 @@ BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
 
 USE_BRITISH_GRAMMAR = True  # Set to False for American grammar
 GRAMMAR_VARIANT = "British" if USE_BRITISH_GRAMMAR else "standard American"
-NEXT_TOKEN = "<|NEXT|>"
+NEXT_TOKEN = "<|NEXT|>\n"
 
 
 # ANSI escape codes for colors
@@ -81,14 +81,32 @@ TOGETHER_AI_MODELS = [
 MODEL_NAME = TOGETHER_AI_MODELS[1]
 
 
+# TODO: remind fix what issues later
+# GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
+# 1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to {0} English grammar rules.
+# 2. Maintain consistency in grammar correction (e.g., past or present tense) in parts of the input text that you think are contextually related.
+# 3. Return the grammatically corrected text in JSON format, without any explanatory text.
+
+# # Desired format
+# For example, if the input is:
+# {{"input": "Travel by bus is exspensive , bored and annoying .{1}I go to school yesterday .{1}He do not likes the food."}}
+
+# Your output should be JSON only:
+# {{"text": "Travelling by bus is expensive, boring, and annoying.{1}I went to school yesterday.{1}He does not like the food."}}
+
+# Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
+#     GRAMMAR_VARIANT, NEXT_TOKEN
+# )
+
+
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
-1. Identify and correct grammatical errors in the user-provided text. Focus on fixing issues related to verb tense, subject-verb agreement, pronoun usage, article application, and other grammatical inaccuracies to ensure the text adheres to {0} English grammar rules.
-2. Maintain consistency in grammar correction (e.g., past or present tense) in parts of the input text that you think are contextually related.
+1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
+2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
 3. Return the grammatically corrected text in JSON format, without any explanatory text.
 
 # Desired format
 For example, if the input is:
-{{"input": "Travel by bus is exspensive , bored and annoying .{1}I go to school yesterday .{1}He do not likes the food."}}
+{{"input": "Travel by bus is expensive, boring, and annoying.{1}I go to school yesterday.{1}He does not like the food."}}
 
 Your output should be JSON only:
 {{"text": "Travelling by bus is expensive, boring, and annoying.{1}I went to school yesterday.{1}He does not like the food."}}
