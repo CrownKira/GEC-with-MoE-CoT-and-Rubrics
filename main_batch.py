@@ -25,38 +25,10 @@ nlp = spacy.load("en_core_web_sm")
 # Load environment variables from .env file
 load_dotenv()
 
-# Configuration variables
-MAX_TOKENS = 1024
-BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
-# CHUNK_OVERLAP_IN_TOKENS = 50
 
-USE_BRITISH_GRAMMAR = True  # Set to False for American grammar
-GRAMMAR_VARIANT = "British" if USE_BRITISH_GRAMMAR else "standard American"
-NEXT_TOKEN = "<|NEXT|>\n"
+# TUNABLE CONFIGS
+# CONFIGS: MODEL
 
-
-# ANSI escape codes for colors
-RED = "\033[1;31m"
-GREEN = "\033[1;32m"
-YELLOW = "\033[93m"
-BLUE = "\033[1;34m"
-RESET = "\033[0m"
-
-# ABCN dev set
-CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
-TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
-FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
-CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
-
-AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT", "")
-LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
-TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
-TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
-API_KEY = os.getenv("OPENAI_API_KEY", "")
-
-MAX_RETRIES = 3  # Maximum number of retries for an API call
-RETRY_DELAY = 30  # Delay in seconds before retrying an API
-QPM_LIMIT = 3  # Queries per minute limit
 
 OPENAI_MODELS = [
     "gpt-3.5-turbo",
@@ -79,6 +51,51 @@ TOGETHER_AI_MODELS = [
 
 # MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]  # gpt-4-1106-preview
 MODEL_NAME = TOGETHER_AI_MODELS[1]
+
+
+# CONFIGS: PROMPT
+# GRAMMAR_VARIANT = "standard American"
+GRAMMAR_VARIANT = "British"
+NEXT_TOKEN = "<|NEXT|>\n"
+
+
+# CONFIGS: RAG
+
+
+# NON-TUNABLE CONFIGS
+
+# CONFIGS: INPUT PREPROCESSING
+MAX_TOKENS = 1024
+BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
+# CHUNK_OVERLAP_IN_TOKENS = 50
+
+
+# CONFIGS: PATHS
+# ABCN dev set
+CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
+TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
+FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
+CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
+
+
+# CONFIGS: API
+AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT", "")
+LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
+TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
+API_KEY = os.getenv("OPENAI_API_KEY", "")
+MAX_RETRIES = 3  # Maximum number of retries for an API call
+RETRY_DELAY = 30  # Delay in seconds before retrying an API
+QPM_LIMIT = 3  # Queries per minute limit
+
+
+# CONFIGS: OTHERS
+# ANSI escape codes for colors
+RED = "\033[1;31m"
+GREEN = "\033[1;32m"
+YELLOW = "\033[93m"
+BLUE = "\033[1;34m"
+RESET = "\033[0m"
 
 
 # TODO: remind fix what issues later
