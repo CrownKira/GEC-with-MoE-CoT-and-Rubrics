@@ -15,7 +15,7 @@ import datetime
 from tiktoken import get_encoding
 
 
-# python3 main.py
+# python3 main_batch.py
 # python3 commands/evaluate_correction.py
 
 
@@ -54,12 +54,26 @@ MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 30  # Delay in seconds before retrying an API
 QPM_LIMIT = 3  # Queries per minute limit
 
-# MODEL_NAME = "gpt-3.5-turbo"
-# MODEL_NAME = "gpt-3.5-turbo-1106"
-# MODEL_NAME = "llama-2-7b-chat.Q8_0.gguf"
-MODEL_NAME = "gpt-4-1106-preview"
-# MODEL_NAME = "togethercomputer/Llama-2-7B-32K-Instruct"
-# MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+OPENAI_MODELS = [
+    "gpt-3.5-turbo",
+]
+
+OPENAI_JSON_MODE_SUPPORTED_MODELS = [
+    "gpt-3.5-turbo-1106",
+    "gpt-4-1106-preview",
+]
+
+LOCAL_LLM_MODELS = [
+    "llama-2-7b-chat.Q8_0.gguf",
+]
+
+TOGETHER_AI_MODELS = [
+    "togethercomputer/Llama-2-7B-32K-Instruct",
+    "mistralai/Mixtral-8x7B-Instruct-v0.1",
+]
+
+
+MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]  # gpt-4-1106-preview
 
 
 GRAMMAR_PROMPT = """You are a language model assistant specialized in grammatical error correction. Your task is to:
@@ -106,15 +120,12 @@ root_logger.addHandler(error_handler)
 
 # Initialize the OpenAI client based on the selected model
 def get_openai_client(model_name: str) -> Any:
-    if model_name == "llama-2-7b-chat.Q8_0.gguf":
+    if model_name in LOCAL_LLM_MODELS:
         # Point to the local server
         return openai.AsyncOpenAI(
             base_url=LOCAL_ENDPOINT, api_key="not-needed"
         )
-    if model_name in [
-        "togethercomputer/Llama-2-7B-32K-Instruct",
-        "mistralai/Mixtral-8x7B-Instruct-v0.1",
-    ]:
+    if model_name in TOGETHER_AI_MODELS:
         # Point to the local server
         return openai.AsyncOpenAI(
             base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
@@ -229,7 +240,7 @@ async def ask_llm(
                 "temperature": 0,
                 "max_tokens": MAX_TOKENS,
             }
-            if model_name in ["gpt-4-1106-preview", "gpt-3.5-turbo-1106"]:
+            if model_name in OPENAI_JSON_MODE_SUPPORTED_MODELS:
                 model_params["response_format"] = {"type": "json_object"}
             completion = await client.chat.completions.create(**model_params)
             response = completion.choices[0].message.content
@@ -414,6 +425,7 @@ atexit.register(log_exit_divider)
 # Run the script
 if __name__ == "__main__":
     logging.info("=" * 80)
+    logging.info(f"Model selected: {MODEL_NAME}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
