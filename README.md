@@ -1,6 +1,7 @@
 # NLP-GEC
 
 ## Introduction
+
 NLP-GEC is a powerful Natural Language Processing (NLP) tool designed specifically for Grammatical Error Correction (GEC). Its primary goal is to automatically identify and rectify grammatical errors within text, enhancing overall readability and accuracy.
 
 ## Installation
@@ -8,21 +9,26 @@ NLP-GEC is a powerful Natural Language Processing (NLP) tool designed specifical
 ### Steps
 
 1. **Clone the Repository:**
+
    ```bash
    git clone git@github.com:CrownKira/nlp-gec.git
    ```
 
 2. **Navigate to the Project Directory:**
+
    ```bash
    cd nlp-gec
    ```
 
-3. **Activate the Virtual Environment:**
+3. **Create and Activate the Virtual Environment:**
+
    ```bash
+   python3 -m venv venv
    source venv/bin/activate
    ```
 
 4. **Install Required Python Packages:**
+
    ```bash
    pip3 install -r requirements.txt
    ```
@@ -39,6 +45,7 @@ NLP-GEC is a powerful Natural Language Processing (NLP) tool designed specifical
 
 2. **Run the Main Script:**
    Replace `main.py` with the actual name of your script.
+
    ```bash
    python3 main.py
    ```
