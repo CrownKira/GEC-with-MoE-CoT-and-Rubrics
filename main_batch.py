@@ -397,6 +397,25 @@ async def get_processed_batches(csv_output_path: str) -> set[int]:
 
 
 async def process_file(client: Any, test_file_path: str, csv_output_path: str):
+
+    # Check for existing output files
+    if os.path.exists(FINAL_OUTPUT_PATH) or os.path.exists(CSV_OUTPUT_PATH):
+        user_input = (
+            input(
+                "Existing output files found. Do you want to continue with existing files? Type 'no' to delete and start fresh: "
+            )
+            .strip()
+            .lower()
+        )
+        if user_input == "no":
+            if os.path.exists(FINAL_OUTPUT_PATH):
+                os.remove(FINAL_OUTPUT_PATH)
+            if os.path.exists(CSV_OUTPUT_PATH):
+                os.remove(CSV_OUTPUT_PATH)
+            print("Existing files removed. Starting fresh...")
+        else:
+            print("Continuing with existing files...")
+
     processed_batches = await get_processed_batches(csv_output_path)
     # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
