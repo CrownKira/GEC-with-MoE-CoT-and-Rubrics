@@ -166,8 +166,14 @@ S For example Barcelona , Madrid , Sevilla , Valencia .
 A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S There are wonderful cities because there are a lot of things to visit for example in Madrid you can visit " Puerta del Sol " , " Las Cibeles " .
-A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 13 13|||M:PUNCT|||-|||REQUIRED|||-NONE-|||0
 A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 20 21|||R:PUNCT|||'|||REQUIRED|||-NONE-|||0
+A 24 25|||R:PUNCT|||'|||REQUIRED|||-NONE-|||0
+A 25 26|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
+A 26 27|||R:PUNCT|||'|||REQUIRED|||-NONE-|||0
+A 29 30|||R:PUNCT|||'|||REQUIRED|||-NONE-|||0
 
 S I visit Madrid twice a year .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -176,6 +182,7 @@ S All summer I visit Sevilla because I love this city and I suggest that you vis
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S On the other hand , in my country there are a few job because the economy is very bad .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:NUM|||jobs|||REQUIRED|||-NONE-|||0
 
 S But , if you want I look for a job from you .
@@ -189,7 +196,6 @@ A 5 7|||R:OTHER|||someone|||REQUIRED|||-NONE-|||0
 A 9 10|||R:VERB:FORM|||looking|||REQUIRED|||-NONE-|||0
 
 S Her sister is 6 years old and you should look after every weekend .
-A 8 9|||R:VERB|||would have to|||REQUIRED|||-NONE-|||0
 A 11 11|||M:PRON|||her|||REQUIRED|||-NONE-|||0
 
 S You will be interesting in this job ?
@@ -199,7 +205,8 @@ A 3 4|||R:MORPH|||interested|||REQUIRED|||-NONE-|||0
 
 S Thank you for you e - mail , it was wonderful to hear from you .
 A 3 4|||R:DET|||your|||REQUIRED|||-NONE-|||0
-A 4 7|||R:OTHER|||email|||REQUIRED|||-NONE-|||0
+A 4 5|||R:NOUN|||email|||REQUIRED|||-NONE-|||0
+A 6 8|||U:OTHER||||||REQUIRED|||-NONE-|||0
 
 S I 'm looking forward to seeing you .
 A 1 2|||R:CONTR|||am|||REQUIRED|||-NONE-|||0
@@ -226,7 +233,7 @@ A 12 13|||R:NOUN:NUM|||cars|||REQUIRED|||-NONE-|||0
 
 S But it can use a cheaper way going to their destination especially it is far away from home .
 A 1 2|||R:PRON|||they|||REQUIRED|||-NONE-|||0
-A 7 8|||R:VERB|||to get|||REQUIRED|||-NONE-|||0
+A 7 8|||R:OTHER|||of getting|||REQUIRED|||-NONE-|||0
 A 11 11|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 12 12|||M:PREP|||if|||REQUIRED|||-NONE-|||0
 
@@ -245,13 +252,15 @@ A 24 25|||R:PRON|||who|||REQUIRED|||-NONE-|||0
 A 25 26|||R:VERB:SVA|||do|||REQUIRED|||-NONE-|||0
 A 26 27|||R:CONTR|||not|||REQUIRED|||-NONE-|||0
 A 35 35|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 40 41|||R:PUNCT|||-|||REQUIRED|||-NONE-|||0
 A 44 44|||M:VERB:TENSE|||will|||REQUIRED|||-NONE-|||0
 A 47 47|||M:DET|||a|||REQUIRED|||-NONE-|||0
 A 48 48|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 50 53|||R:VERB|||will|||REQUIRED|||-NONE-|||0
-A 55 56|||R:OTHER|||private|||REQUIRED|||-NONE-|||0
+A 55 56|||U:DET||||||REQUIRED|||-NONE-|||0
 A 57 58|||R:SPELL|||than|||REQUIRED|||-NONE-|||0
 A 58 59|||R:NOUN:NUM|||buses|||REQUIRED|||-NONE-|||0
+A 61 61|||M:NOUN|||systems|||REQUIRED|||-NONE-|||0
 
 S If we think about it the car is better because we do n't need to wait for them has we are waiting for the bus or underground but in another way car cust more money than the public transport .
 A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
@@ -260,37 +269,35 @@ A 17 18|||R:PRON|||it|||REQUIRED|||-NONE-|||0
 A 18 18|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 18 19|||R:SPELL|||as|||REQUIRED|||-NONE-|||0
 A 20 22|||R:VERB|||do|||REQUIRED|||-NONE-|||0
-A 27 27|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 28 29|||R:PREP|||on|||REQUIRED|||-NONE-|||0
-A 29 31|||R:OTHER|||the other hand ,|||REQUIRED|||-NONE-|||0
-A 31 32|||R:NOUN:NUM|||cars|||REQUIRED|||-NONE-|||0
-A 32 33|||R:SPELL|||cost|||REQUIRED|||-NONE-|||0
+A 27 27|||M:PUNCT|||-|||REQUIRED|||-NONE-|||0
+A 31 31|||M:OTHER|||, a|||REQUIRED|||-NONE-|||0
+A 32 33|||R:SPELL|||costs|||REQUIRED|||-NONE-|||0
+A 34 35|||U:NOUN||||||REQUIRED|||-NONE-|||0
 A 36 37|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S By car we can just stay with ourselves which can be good because we can listen to the music that we like and we do n't need to be around people that are unkwoned but if we chose public transport we can meet friends or family so both trasnportations are good and the cars do n't need necessarialy to end up with the public transport .
 A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 4 5|||U:ADV||||||REQUIRED|||-NONE-|||0
-A 6 7|||R:PREP|||by|||REQUIRED|||-NONE-|||0
 A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 19 20|||U:DET||||||REQUIRED|||-NONE-|||0
+A 22 22|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 25 26|||R:CONTR|||not|||REQUIRED|||-NONE-|||0
-A 31 32|||R:PRON|||we|||REQUIRED|||-NONE-|||0
-A 32 33|||R:OTHER|||do not|||REQUIRED|||-NONE-|||0
-A 33 34|||R:OTHER|||know ,|||REQUIRED|||-NONE-|||0
+A 31 32|||R:PRON|||who|||REQUIRED|||-NONE-|||0
+A 33 34|||R:OTHER|||unknown -|||REQUIRED|||-NONE-|||0
 A 37 38|||R:VERB:TENSE|||choose|||REQUIRED|||-NONE-|||0
 A 40 40|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 46 46|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 48 48|||M:OTHER|||means of|||REQUIRED|||-NONE-|||0
-A 48 49|||R:SPELL|||transportation|||REQUIRED|||-NONE-|||0
+A 46 46|||M:PUNCT|||-|||REQUIRED|||-NONE-|||0
+A 48 49|||R:SPELL|||transportations|||REQUIRED|||-NONE-|||0
+A 51 51|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 52 53|||U:DET||||||REQUIRED|||-NONE-|||0
 A 55 57|||R:OTHER|||not|||REQUIRED|||-NONE-|||0
 A 57 58|||R:SPELL|||necessarily|||REQUIRED|||-NONE-|||0
 A 58 58|||M:VERB|||have|||REQUIRED|||-NONE-|||0
-A 59 63|||R:OTHER|||replace|||REQUIRED|||-NONE-|||0
+A 61 62|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 62 63|||R:OTHER|||replacing|||REQUIRED|||-NONE-|||0
 
 S If I had it to choose between both transportation I think I probably chose car because it is better for me to go by car then to go by bus .
 A 3 4|||U:PRON||||||REQUIRED|||-NONE-|||0
-A 8 9|||R:OTHER|||,|||REQUIRED|||-NONE-|||0
+A 8 9|||R:NOUN:NUM|||transportations|||REQUIRED|||-NONE-|||0
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 12 12|||M:VERB:TENSE|||would|||REQUIRED|||-NONE-|||0
 A 13 14|||R:VERB:TENSE|||choose|||REQUIRED|||-NONE-|||0
 A 14 14|||M:DET|||a|||REQUIRED|||-NONE-|||0
@@ -303,22 +310,18 @@ A 9 10|||R:MORPH|||environmental|||REQUIRED|||-NONE-|||0
 
 S We have solar panels and a place to make compost at the last garden , with worms who eat and degrade all the organic waste of the school .
 A 10 11|||R:PREP|||in|||REQUIRED|||-NONE-|||0
-A 17 18|||R:PRON|||that|||REQUIRED|||-NONE-|||0
 
 S In some strategic points of the building we have special trashcans to separate the garbage in organic , paper and cardboard , cans and pet bottles and they also made talks and presentations about the earth problems like global warming , contamination , etc .
 A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 10 11|||R:ORTH|||trash cans|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||into|||REQUIRED|||-NONE-|||0
-A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 29 30|||R:VERB|||give|||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||-|||REQUIRED|||-NONE-|||0
 A 36 36|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
-A 37 38|||R:OTHER|||, such as|||REQUIRED|||-NONE-|||0
+A 37 37|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 40 41|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
 A 42 44|||U:OTHER||||||REQUIRED|||-NONE-|||0
 
 S The manager of all this project is Miss June Sid , our science teacher .
-A 4 5|||R:DET|||these|||REQUIRED|||-NONE-|||0
-A 5 6|||R:NOUN:NUM|||projects|||REQUIRED|||-NONE-|||0
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S All this initiatives has made us all over the years a recognised ecological community .
 A 1 2|||R:DET|||these|||REQUIRED|||-NONE-|||0
@@ -328,16 +331,20 @@ A 11 12|||R:MORPH|||recognized|||REQUIRED|||-NONE-|||0
 A 14 14|||M:OTHER|||over the years|||REQUIRED|||-NONE-|||0
 
 S Good morning everyone , today I want to share about is my favorite sport .
-A 9 10|||R:PREP|||with|||REQUIRED|||-NONE-|||0
-A 10 11|||R:OTHER|||you|||REQUIRED|||-NONE-|||0
+A 10 11|||U:VERB||||||REQUIRED|||-NONE-|||0
 
 S My favorite sport is football , why I choose it?Well , football is a international sport , people around the world will love it so much!Example like Barclay Premier League , Liga Premier , Fifa World Cup and so on .
+A 5 6|||R:PUNCT|||-|||REQUIRED|||-NONE-|||0
 A 7 7|||M:VERB:TENSE|||did|||REQUIRED|||-NONE-|||0
 A 9 10|||R:ORTH|||it ? Well|||REQUIRED|||-NONE-|||0
 A 13 14|||R:DET|||an|||REQUIRED|||-NONE-|||0
+A 17 17|||M:CONJ|||and|||REQUIRED|||-NONE-|||0
 A 18 19|||R:OTHER|||all over|||REQUIRED|||-NONE-|||0
 A 21 22|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
-A 25 27|||R:OTHER|||much ! Examples are the|||REQUIRED|||-NONE-|||0
+A 24 25|||R:OTHER|||!|||REQUIRED|||-NONE-|||0
+A 25 26|||R:OTHER|||Examples|||REQUIRED|||-NONE-|||0
+A 26 27|||R:OTHER|||include|||REQUIRED|||-NONE-|||0
+A 27 27|||M:DET|||the|||REQUIRED|||-NONE-|||0
 A 37 37|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S I believe that 's all will delighted us .
@@ -371,7 +378,7 @@ A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
 A 19 21|||R:ORTH|||superhero|||REQUIRED|||-NONE-|||0
 
 S Pass some years of the university and he know a girl called Kate and he get loved on here and she get loved in him .
-A 4 5|||U:DET||||||REQUIRED|||-NONE-|||0
+A 0 1|||R:VERB:FORM|||Passing|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB|||met|||REQUIRED|||-NONE-|||0
 A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 15 16|||R:OTHER|||fell in|||REQUIRED|||-NONE-|||0
@@ -443,7 +450,8 @@ S Michael closed the door and knew at that moment he had made a mistake .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S Public transportation is an important invention in human history , it brings amount of benefits in our life .
-A 9 11|||R:PUNCT|||. It|||REQUIRED|||-NONE-|||0
+A 4 5|||R:ADJ|||essential|||REQUIRED|||-NONE-|||0
+A 9 10|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 A 12 14|||R:OTHER|||many|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||to|||REQUIRED|||-NONE-|||0
 A 17 18|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0
@@ -457,7 +465,9 @@ S It is true that moving by car is more convenient than take public transportati
 A 4 5|||R:VERB|||travelling|||REQUIRED|||-NONE-|||0
 A 11 12|||R:VERB:FORM|||taking|||REQUIRED|||-NONE-|||0
 A 14 16|||R:PUNCT|||. However|||REQUIRED|||-NONE-|||0
+A 21 22|||R:NOUN|||harm|||REQUIRED|||-NONE-|||0
 A 24 25|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0
+A 26 27|||R:VERB|||damage|||REQUIRED|||-NONE-|||0
 
 S Therefore , we need to think more about our future , our offsprings .
 A 10 11|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
@@ -484,10 +494,10 @@ A 2 3|||R:CONTR|||n't|||REQUIRED|||-NONE-|||0
 A 6 7|||R:VERB:TENSE|||were|||REQUIRED|||-NONE-|||0
 A 8 9|||R:NOUN:NUM|||buses|||REQUIRED|||-NONE-|||0
 A 10 11|||R:SPELL|||MRTs|||REQUIRED|||-NONE-|||0
-A 11 13|||R:PUNCT|||. How|||REQUIRED|||-NONE-|||0
-A 14 16|||R:OTHER|||would it|||REQUIRED|||-NONE-|||0
+A 11 12|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
+A 14 15|||R:PRON|||it|||REQUIRED|||-NONE-|||0
+A 15 16|||R:VERB:TENSE|||would|||REQUIRED|||-NONE-|||0
 A 17 18|||R:OTHER|||me to get to|||REQUIRED|||-NONE-|||0
-A 19 20|||R:PUNCT|||?|||REQUIRED|||-NONE-|||0
 
 S Car is convenient for human , but it brings damage for human also .
 A 0 1|||R:NOUN:NUM|||Cars|||REQUIRED|||-NONE-|||0
@@ -511,11 +521,10 @@ A 12 13|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0
 
 S we can see that there are lots of serious and frequently weather disaster happened in decades , such as typhoon , hurricane , wild fire and mud slide .
 A 0 1|||R:ORTH|||We|||REQUIRED|||-NONE-|||0
-A 5 6|||R:VERB:TENSE|||have been|||REQUIRED|||-NONE-|||0
 A 6 8|||R:OTHER|||many|||REQUIRED|||-NONE-|||0
 A 10 11|||R:MORPH|||frequent|||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:NUM|||disasters|||REQUIRED|||-NONE-|||0
-A 13 14|||U:VERB||||||REQUIRED|||-NONE-|||0
+A 13 14|||R:VERB:FORM|||happening|||REQUIRED|||-NONE-|||0
 A 15 15|||M:ADJ|||recent|||REQUIRED|||-NONE-|||0
 A 19 20|||R:NOUN:NUM|||typhoons|||REQUIRED|||-NONE-|||0
 A 21 22|||R:NOUN:NUM|||hurricanes|||REQUIRED|||-NONE-|||0
@@ -534,6 +543,8 @@ A 10 10|||M:VERB:TENSE|||is|||REQUIRED|||-NONE-|||0
 A 11 11|||M:VERB|||followed up|||REQUIRED|||-NONE-|||0
 
 S Lost shipments have been found more easily when this process will be started right away
+A 2 4|||R:VERB:TENSE|||are|||REQUIRED|||-NONE-|||0
+A 4 7|||R:WO|||more easily found|||REQUIRED|||-NONE-|||0
 A 10 12|||R:VERB:TENSE|||is|||REQUIRED|||-NONE-|||0
 
 S The pleasure of traveling
@@ -547,8 +558,7 @@ S Every day lots of people are travelling abroad but , what 's the best way to d
 A 2 4|||R:OTHER|||, many|||REQUIRED|||-NONE-|||0
 A 8 9|||M:PUNCT|||. But|||REQUIRED|||-NONE-|||0
 A 11 12|||R:CONTR|||is|||REQUIRED|||-NONE-|||0
-A 16 19|||U:OTHER||||||REQUIRED|||-NONE-|||0
-A 20 20|||M:ADV|||internationally|||REQUIRED|||-NONE-|||0
+A 17 18|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S The most important option to travel is , by far , the plane .
 A 4 5|||R:PART|||for|||REQUIRED|||-NONE-|||0

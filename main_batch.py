@@ -272,6 +272,15 @@ def split_text_into_batches(
     return batches
 
 
+def extract_error_snippet(error: json.JSONDecodeError, window=20):
+    start = max(error.pos - window, 0)  # Start a bit before the error, if possible
+    end = min(
+        error.pos + window, len(error.doc)
+    )  # End a bit after the error, if possible
+    snippet = error.doc[start:end]  # Extract the snippet around the error
+    return f"...{snippet}..."
+
+
 async def ask_llm(
     client: Any,
     prompt: str,
@@ -325,7 +334,12 @@ async def ask_llm(
                 )
 
             return final_text
-        except (json.JSONDecodeError, ValueError) as e:
+        except json.JSONDecodeError as e:
+            error_snippet = extract_error_snippet(e)
+            logging.error(
+                f"Error processing response for batch {batch_number}/{total_batches}: {RED}{error_snippet}{RESET}"
+            )
+        except ValueError as e:
             logging.error(
                 f"Error processing response for batch {batch_number}/{total_batches}: {e}"
             )
