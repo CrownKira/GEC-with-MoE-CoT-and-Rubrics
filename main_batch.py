@@ -131,10 +131,10 @@ GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatic
 
 # Desired format
 For example, if the input is:
-{{"input": "Travel by bus is expensive, boring, and annoying.{1}I go to school yesterday.{1}He does not like the food."}}
+{{"input": "Yesterday, we goes to the local park.{1}It was very crowded, but we finds a quiet spot for a picnic.{1}Unfortunately, we forgets our picnic basket at home."}}
 
 Your output should be JSON only:
-{{"text": "Travelling by bus is expensive, boring, and annoying.{1}I went to school yesterday.{1}He does not like the food."}}
+{{"text": "Yesterday, we went to the local park.{1}It was very crowded, but we found a quiet spot for a picnic.{1}Unfortunately, we forgot our picnic basket at home."}}
 
 Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
     GRAMMAR_VARIANT, NEXT_TOKEN
@@ -402,12 +402,12 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
     if os.path.exists(FINAL_OUTPUT_PATH) or os.path.exists(CSV_OUTPUT_PATH):
         user_input = (
             input(
-                "Existing output files found. Do you want to continue with existing files? Type 'no' to delete and start fresh: "
+                "Existing output files found. Do you want to continue with existing files? Type 'reset' to delete and start fresh: "
             )
             .strip()
             .lower()
         )
-        if user_input == "no":
+        if user_input == "reset":
             if os.path.exists(FINAL_OUTPUT_PATH):
                 os.remove(FINAL_OUTPUT_PATH)
             if os.path.exists(CSV_OUTPUT_PATH):
