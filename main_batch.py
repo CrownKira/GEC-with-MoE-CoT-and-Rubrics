@@ -507,6 +507,7 @@ if __name__ == "__main__":
     logging.info(f"{BLUE}Using prompt: {GRAMMAR_PROMPT}{RESET}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
+    logging.info("Generating the corrected file from CSV...")  # Added log statement
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
     logging.info("File processing completed.")
     prompt_for_evaluation()
