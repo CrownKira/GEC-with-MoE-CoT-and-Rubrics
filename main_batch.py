@@ -283,7 +283,9 @@ def extract_error_snippet(error: json.JSONDecodeError, window=20):
     snippet_error = error.doc[error.pos : error.pos + 1]  # The erroneous character
     snippet_end = error.doc[error.pos + 1 : end]
 
-    print("snippet error: ", snippet_error)
+    print("snippet_start: ", snippet_start)
+    print("snippet_error: ", snippet_error)
+    print("snippet_end: ", snippet_end)
 
     snippet = f"...{snippet_start}{RED}{snippet_error}{RESET}{snippet_end}..."
     return snippet
