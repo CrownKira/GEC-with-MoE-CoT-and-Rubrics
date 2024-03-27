@@ -4,3 +4,4 @@ python-dotenv
 spacy
 errant
 tiktoken
+groq

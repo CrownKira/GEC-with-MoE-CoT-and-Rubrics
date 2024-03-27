@@ -14,6 +14,7 @@ import logging
 import datetime
 from tiktoken import get_encoding
 import subprocess
+import groq
 
 
 # python3 main_batch.py
@@ -48,9 +49,15 @@ TOGETHER_AI_MODELS = [
     "mistralai/Mixtral-8x7B-Instruct-v0.1",
 ]
 
+GROQ_MODELS = [
+    "gemma-7b-it",
+    "llama2-70b-4096",
+    "mixtral-8x7b-32768",
+]
 
 # MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]  # gpt-4-1106-preview
-MODEL_NAME = TOGETHER_AI_MODELS[1]
+# MODEL_NAME = TOGETHER_AI_MODELS[1]
+MODEL_NAME = GROQ_MODELS[0]
 
 
 # CONFIGS: PROMPT
@@ -83,6 +90,7 @@ AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT", "")
 LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
 TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 API_KEY = os.getenv("OPENAI_API_KEY", "")
 MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 30  # Delay in seconds before retrying an API
@@ -168,18 +176,17 @@ error_handler.setFormatter(
 root_logger = logging.getLogger()
 root_logger.addHandler(error_handler)
 
+
 # Initialize the OpenAI client based on the selected model
 def get_openai_client(model_name: str) -> Any:
+    if model_name in GROQ_MODELS:
+        return groq.AsyncGroq(api_key=GROQ_API_KEY)
     if model_name in LOCAL_LLM_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(
-            base_url=LOCAL_ENDPOINT, api_key="not-needed"
-        )
+        return openai.AsyncOpenAI(base_url=LOCAL_ENDPOINT, api_key="not-needed")
     if model_name in TOGETHER_AI_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(
-            base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
-        )
+        return openai.AsyncOpenAI(base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY)
     else:
         # Initialize the OpenAI client with Azure endpoint and API key
         return openai.AsyncAzureOpenAI(
@@ -190,6 +197,7 @@ def get_openai_client(model_name: str) -> Any:
 
 
 client = get_openai_client(MODEL_NAME)
+
 
 # Rate limiter using an asyncio Semaphore
 class RateLimiter:
@@ -419,9 +427,7 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
     processed_batches = await get_processed_batches(csv_output_path)
     # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
-    should_write_header = (
-        not file_exists or os.stat(csv_output_path).st_size == 0
-    )
+    should_write_header = not file_exists or os.stat(csv_output_path).st_size == 0
     async with aiofiles.open(test_file_path, "r") as test_file, aiofiles.open(
         csv_output_path, "a", newline=""
     ) as csv_file:
@@ -455,17 +461,11 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
 
 
 def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
-    with open(
-        csv_output_path, mode="r", newline="", encoding="utf-8"
-    ) as csv_file:
+    with open(csv_output_path, mode="r", newline="", encoding="utf-8") as csv_file:
         csv_reader = csv.DictReader(csv_file)
-        sorted_rows = sorted(
-            csv_reader, key=lambda row: int(row["Batch Number"])
-        )
+        sorted_rows = sorted(csv_reader, key=lambda row: int(row["Batch Number"]))
 
-    with open(
-        output_path, mode="w", newline="", encoding="utf-8"
-    ) as output_file:
+    with open(output_path, mode="w", newline="", encoding="utf-8") as output_file:
         for row in sorted_rows:
             if "Corrected Text" in row:
                 corrected_lines = row["Corrected Text"].split("\n")
@@ -490,9 +490,7 @@ def prompt_for_evaluation():
         try:
             # Execute the evaluation script
             print("Evaluating the corrections...")
-            subprocess.run(
-                ["python3", "commands/evaluate_correction.py"], check=True
-            )
+            subprocess.run(["python3", "commands/evaluate_correction.py"], check=True)
             print("Evaluation completed successfully.")
         except subprocess.CalledProcessError as e:
             print(f"An error occurred during evaluation: {e}")
