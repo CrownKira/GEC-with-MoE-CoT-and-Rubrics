@@ -277,8 +277,14 @@ def extract_error_snippet(error: json.JSONDecodeError, window=20):
     end = min(
         error.pos + window, len(error.doc)
     )  # End a bit after the error, if possible
-    snippet = error.doc[start:end]  # Extract the snippet around the error
-    return f"...{snippet}..."
+
+    # Extract the snippet around the error
+    snippet_start = error.doc[start : error.pos]
+    snippet_error = error.doc[error.pos : error.pos + 1]  # The erroneous character
+    snippet_end = error.doc[error.pos + 1 : end]
+
+    snippet = f"...{snippet_start}{RED}{snippet_error}{RESET}{snippet_end}..."
+    return snippet
 
 
 async def ask_llm(
@@ -337,7 +343,7 @@ async def ask_llm(
         except json.JSONDecodeError as e:
             error_snippet = extract_error_snippet(e)
             logging.error(
-                f"Error processing response for batch {batch_number}/{total_batches}: {RED}{error_snippet}{RESET}"
+                f"Error processing response for batch {batch_number}/{total_batches}: {error_snippet}"
             )
         except ValueError as e:
             logging.error(
