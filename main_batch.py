@@ -272,6 +272,11 @@ def split_text_into_batches(
     return batches
 
 
+def escape_special_characters(s):
+    """Returns a visually identifiable string for special characters."""
+    return s.replace("\n", "\\n").replace("\t", "\\t")
+
+
 def extract_error_snippet(error: json.JSONDecodeError, window=20):
     start = max(error.pos - window, 0)  # Start a bit before the error, if possible
     end = min(
@@ -283,11 +288,10 @@ def extract_error_snippet(error: json.JSONDecodeError, window=20):
     snippet_error = error.doc[error.pos : error.pos + 1]  # The erroneous character
     snippet_end = error.doc[error.pos + 1 : end]
 
-    print("snippet_start: ", snippet_start)
-    print("snippet_error: ", snippet_error)
-    print("snippet_end: ", snippet_end)
+    # Escape special characters in the erroneous part
+    snippet_error_escaped = escape_special_characters(snippet_error)
 
-    snippet = f"...{snippet_start}{RED}{snippet_error}{RESET}{snippet_end}..."
+    snippet = f"...{snippet_start}{RED}{snippet_error_escaped}{RESET}{snippet_end}..."
     return snippet
 
 
