@@ -61,26 +61,17 @@ COZE_BOTS = [
     "7351253103510978578",
 ]
 
-# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-MODEL_NAME = TOGETHER_AI_MODELS[1]
+
+# change model here
+MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
 # MODEL_NAME = COZE_BOTS[0]
 
 
 # CONFIGS: PROMPT
-# GRAMMAR_VARIANT = "standard American"
-GRAMMAR_VARIANT = "British"
-
-"""
-# TODO: better delimiter without special character
->>> json.loads('{"input":"hello\ntest"}')
-Traceback (most recent call last):
-json.decoder.JSONDecodeError: Invalid control character at: line 1 column 16 (char 15)
->>> json.loads('{"input":"hello\\ntest"}')
-{'input': 'hello\ntest'}
-"""
 TEXT_DELIMITER = "<|NEXT|>\n"
-# TEXT_DELIMITER = "|||"
+KNOWLEDGE_CUTOFF = "April 2023"
 
 
 # CONFIGS: RAG
@@ -89,17 +80,20 @@ TEXT_DELIMITER = "<|NEXT|>\n"
 # NON-TUNABLE CONFIGS
 
 # CONFIGS: INPUT PREPROCESSING
-MAX_TOKENS = 1024
+# MAX_TOKENS = 1024
+MAX_TOKENS = 3000
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
+MAX_LINES_PER_BATCH = 1  # Maximum number of lines allowed in each batch
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 
 # CONFIGS: PATHS
 # ABCN dev set
-CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
+CEFR_LEVEL_FILENAME = "DataSet_Misinfo_first100"
 TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
 FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
 CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
+REFERENCE_ANSWERS_PATH = f"reference_output/{CEFR_LEVEL_FILENAME}.corrected"
 
 
 # CONFIGS: API
@@ -111,8 +105,9 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 MAX_RETRIES = 3  # Maximum number of retries for an API call
-RETRY_DELAY = 5  # Delay in seconds before retrying an API
-QPM_LIMIT = 3  # Queries per minute limit
+RETRY_DELAY = 30  # Delay in seconds before retrying an API
+# QPM_LIMIT = 3  # Queries per minute limit
+QPM_LIMIT = 10  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
@@ -122,6 +117,9 @@ GREEN = "\033[1;32m"
 YELLOW = "\033[93m"
 BLUE = "\033[1;34m"
 RESET = "\033[0m"
+
+INCLUDE_INPUT_IN_CSV = True
+INCLUDE_ANSWER_IN_CSV = True
 
 
 # TODO: remind fix what issues later
@@ -142,29 +140,26 @@ RESET = "\033[0m"
 # )
 
 
-"""
-TODO: add config vars 
-
-base
-grammar_variant
-consistency_reminder
-detailed_correction_focus
-"""
-GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
-1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
-2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
-3. Return the grammatically corrected text in JSON format, without any explanatory text.
+FACT_CHECK_PROMPT = f"""You are a language model trained to evaluate the truthfulness of statements based on your knowledge, which is current up to {KNOWLEDGE_CUTOFF}. Your tasks are to:
+1. Read the user-provided statement.
+2. Evaluate the statement based on your knowledge up to {KNOWLEDGE_CUTOFF}.
+3. Output "true" if the statement is entirely accurate based on your knowledge, "false" if the statement is entirely inaccurate, or "mixed" if the statement contains elements of both truth and falsehood or if its truthfulness cannot be definitively determined based on the information available to you up to {KNOWLEDGE_CUTOFF}. Do not provide explanations or additional information.
 
 # Desired format
 For example, if the input is:
-{{"input": "Yesterday, we goes to the local park.{1}It was very crowded, but we finds a quiet spot for a picnic.{1}Unfortunately, we forgets our picnic basket at home."}}
+{{"input": "The tallest building in the world as of {KNOWLEDGE_CUTOFF} is the Burj Khalifa."}}
 
 Your output should be JSON only:
-{{"text": "Yesterday, we went to the local park.{1}It was very crowded, but we found a quiet spot for a picnic.{1}Unfortunately, we forgot our picnic basket at home."}}
+{{"text": "true"}}
 
-Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
-    GRAMMAR_VARIANT, TEXT_DELIMITER
-)
+Another example, if the input is:
+{{"input": "As of {KNOWLEDGE_CUTOFF}, the iPhone 12 is the latest model of the iPhone."}}
+
+Your output should be JSON only:
+{{"text": "mixed"}}
+
+Note: Your evaluations should only be based on factual information available up to {KNOWLEDGE_CUTOFF}. Consider the complexity and nuances of the information when determining if a statement is true, false, or mixed."""
+
 
 # Generate a unique identifier for this run based on the current timestamp
 run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -235,7 +230,15 @@ class RateLimiter:
         self.semaphore.release()
 
 
-rate_limiter = RateLimiter(QPM_LIMIT)
+rate_limiter = None  # Declare rate_limiter at the global scope for visibility
+
+
+async def main():
+    global rate_limiter
+    rate_limiter = RateLimiter(
+        QPM_LIMIT
+    )  # Initialize rate_limiter in the async context
+    await process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH, REFERENCE_ANSWERS_PATH)
 
 
 def format_user_content(text: str) -> str:
@@ -259,17 +262,17 @@ def calculate_avg_chars_per_token(sample_text: str) -> float:
 
 def split_text_into_batches(
     text: str,
-    batch_size_in_tokens: int = 10,
+    batch_size_in_tokens: int = BATCH_SIZE_IN_TOKENS,
+    max_lines: int = MAX_LINES_PER_BATCH,
 ) -> List[str]:
     lines = text.split("\n")
     batches = []
     current_batch = ""
     current_batch_tokens = 0
+    current_batch_lines = 0
 
     for line in lines:
-        line_tokens = count_tokens(
-            line + "\n"
-        )  # Include newline character in token count
+        line_tokens = count_tokens(line + "\n")
         if line_tokens > batch_size_in_tokens:
             print(
                 f"Error: Line exceeds the batch size of {batch_size_in_tokens} tokens."
@@ -278,14 +281,18 @@ def split_text_into_batches(
             print("Tokens:", line_tokens)
             sys.exit(1)
 
-        # TODO: better way to not strip?
-        if current_batch_tokens + line_tokens <= batch_size_in_tokens:
+        # If max_lines is None or the current batch size and lines are within limits
+        if current_batch_tokens + line_tokens <= batch_size_in_tokens and (
+            max_lines is None or current_batch_lines < max_lines
+        ):
             current_batch += line + "\n"
             current_batch_tokens += line_tokens
+            current_batch_lines += 1
         else:
             batches.append(current_batch.strip())
             current_batch = line + "\n"
             current_batch_tokens = line_tokens
+            current_batch_lines = 1
 
     if current_batch.strip():
         batches.append(current_batch.strip())
@@ -370,15 +377,9 @@ async def ask_llm(
 
             final_text = "\n".join(corrected_lines)
 
-            if len(corrected_lines) != len(text.split("\n")):
-                print(
-                    "check lines:",
-                    len(corrected_lines),
-                    len(text.split("\n")),
-                )
-                raise ValueError(
-                    "Number of lines in response_text does not match the number of lines in text"
-                )
+            assert len(corrected_lines) == len(
+                text.split("\n")
+            ), "Number of lines in response_text does not match the number of lines in text."
 
             return final_text
         except json.JSONDecodeError as e:
@@ -386,7 +387,7 @@ async def ask_llm(
             logging.error(
                 f"Error processing response for batch {batch_number}/{total_batches}: {error_snippet}"
             )
-        except ValueError as e:
+        except AssertionError as e:
             logging.error(
                 f"Error processing response for batch {batch_number}/{total_batches}: {e}"
             )
@@ -415,11 +416,12 @@ async def correct_grammar_and_write_csv(
     total_batches: int,
     csv_writer: Any,
     model_name: str,
+    correct_answer: str,
 ) -> str:
     async with rate_limiter:
         corrected_text = await ask_llm(
             client,
-            GRAMMAR_PROMPT,
+            FACT_CHECK_PROMPT,
             text,
             batch_number,
             total_batches,
@@ -436,11 +438,14 @@ async def correct_grammar_and_write_csv(
         logging.info(
             f"{GREEN}Received correction for batch {batch_number}/{total_batches}: {processed_text}{RESET}"
         )
+
         # Write the batch number and corrected text to the CSV
-        row = {
-            "Batch Number": batch_number,
-            "Corrected Text": processed_text,
-        }
+        row = {"Batch Number": batch_number, "Corrected Text": processed_text}
+        if INCLUDE_INPUT_IN_CSV:
+            row["Input Text"] = text
+        if INCLUDE_ANSWER_IN_CSV:
+            row["Correct Answer"] = correct_answer
+
         await csv_writer.writerow(row)
         return processed_text
 
@@ -465,8 +470,12 @@ async def get_processed_batches(csv_output_path: str) -> set[int]:
     return processed_batches
 
 
-async def process_file(client: Any, test_file_path: str, csv_output_path: str):
-
+async def process_file(
+    client: Any,
+    test_file_path: str,
+    csv_output_path: str,
+    reference_answers_path: str = None,
+):
     # Check for existing output files
     if os.path.exists(FINAL_OUTPUT_PATH) or os.path.exists(CSV_OUTPUT_PATH):
         user_input = (
@@ -476,6 +485,7 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
             .strip()
             .lower()
         )
+
         if user_input == "reset":
             if os.path.exists(FINAL_OUTPUT_PATH):
                 os.remove(FINAL_OUTPUT_PATH)
@@ -486,26 +496,44 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
             print("Continuing with existing files...")
 
     processed_batches = await get_processed_batches(csv_output_path)
-    # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
     should_write_header = not file_exists or os.stat(csv_output_path).st_size == 0
-    async with aiofiles.open(test_file_path, "r") as test_file, aiofiles.open(
-        csv_output_path, "a", newline=""
-    ) as csv_file:
+
+    async with aiofiles.open(test_file_path, "r") as test_file:
         text = await test_file.read()
-        csv_writer = csv.DictWriter(
-            csv_file,
-            fieldnames=[
-                "Batch Number",
-                "Corrected Text",
-            ],
-        )
+
+    batches = split_text_into_batches(text, BATCH_SIZE_IN_TOKENS)
+
+    answers_batches = [None] * len(batches)
+
+    # Conditionally load answers if a valid reference_answers_path is provided and exists
+    if reference_answers_path and os.path.exists(reference_answers_path):
+        async with aiofiles.open(reference_answers_path, "r") as answers_file:
+            text_answers = await answers_file.read()
+            # Assuming text_answers need to be split according to the number of batches
+            answers_batches = text_answers.split("\n", len(batches) - 1)
+
+    async with aiofiles.open(csv_output_path, "a", newline="") as csv_file:
+        fieldnames = ["Batch Number"]
+        if INCLUDE_INPUT_IN_CSV:
+            fieldnames.append("Input Text")
+        if INCLUDE_ANSWER_IN_CSV:
+            fieldnames.append("Correct Answer")
+        fieldnames.append("Corrected Text")
+
+        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         if should_write_header:
-            await csv_file.write('"Batch Number","Corrected Text"\n')
-        batches = split_text_into_batches(text, BATCH_SIZE_IN_TOKENS)
+            await csv_file.write(",".join(f'"{name}"' for name in fieldnames) + "\n")
+
+        assert len(batches) == len(
+            answers_batches
+        ), "Mismatch between number of input batches and answers batches."
+
         total_batches = len(batches)
         tasks = []
-        for batch_number, batch_text in enumerate(batches, start=1):
+        for batch_number, (batch_text, correct_answer) in enumerate(
+            zip(batches, answers_batches), start=1
+        ):
             if batch_number in processed_batches:
                 continue
             tasks.append(
@@ -516,8 +544,10 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
                     total_batches,
                     csv_writer,
                     MODEL_NAME,
+                    correct_answer,
                 )
             )
+
         await asyncio.gather(*tasks)
 
 
@@ -551,7 +581,10 @@ def prompt_for_evaluation():
         try:
             # Execute the evaluation script
             print("Evaluating the corrections...")
-            subprocess.run(["python3", "commands/evaluate_correction.py"], check=True)
+            # TODO: replace
+            subprocess.run(
+                ["python3", "commands/evaluate_model_performance.py"], check=True
+            )
             print("Evaluation completed successfully.")
         except subprocess.CalledProcessError as e:
             print(f"An error occurred during evaluation: {e}")
@@ -566,10 +599,10 @@ if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info(f"Model selected: {MODEL_NAME}")
     logging.info(
-        f"{BLUE}Using prompt: {escape_special_characters(GRAMMAR_PROMPT)}{RESET}"
+        f"{BLUE}Using prompt: {escape_special_characters(FACT_CHECK_PROMPT)}{RESET}"
     )
     logging.info("Starting to process the file...")
-    asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
+    asyncio.run(main())
     logging.info("Generating the corrected file from CSV...")
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
     logging.info("File processing completed.")
