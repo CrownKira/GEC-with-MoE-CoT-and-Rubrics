@@ -3,3 +3,4 @@ myenv
 processing.log
 venv
 logs/
+*pyc
