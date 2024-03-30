@@ -1,9 +1,5 @@
 # NLP-GEC
 
-## Introduction
-
-NLP-GEC is a powerful Natural Language Processing (NLP) tool designed specifically for Grammatical Error Correction (GEC). Its primary goal is to automatically identify and rectify grammatical errors within text, enhancing overall readability and accuracy.
-
 ## Installation
 
 ### Steps
