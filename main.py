@@ -385,14 +385,15 @@ async def ask_llm(
 
             final_text = "\n".join(corrected_lines)
 
+            # TODO: extract \n
             corrected_lines_length = len(corrected_lines)
             text_lines_length = len(text.split("\n"))
 
             if corrected_lines_length != text_lines_length:
                 print(
-                    "lines diff:",
+                    "lines length diff:",
                     corrected_lines_length,
-                    corrected_lines,
+                    text_lines_length,
                 )
                 raise ValueError(
                     "Number of lines in response_text does not match the number of lines in text"
