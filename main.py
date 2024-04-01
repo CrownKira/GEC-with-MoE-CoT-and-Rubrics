@@ -75,7 +75,7 @@ GRAMMAR_VARIANT = "British"
 
 
 # TEXT_DELIMITER = "|||"
-TEXT_DELIMITER = "~~~"
+TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 
 
 # CONFIGS: RAG
@@ -321,6 +321,20 @@ def extract_error_snippet(error: json.JSONDecodeError, window=20):
     return snippet
 
 
+def extract_and_strip_lines(text: str, delimiter: str) -> List[str]:
+    """
+    Splits the input text by a specified delimiter and strips whitespace from each piece.
+
+    Parameters:
+        text (str): The text to split and strip.
+        delimiter (str): The delimiter to split the text by.
+
+    Returns:
+        List[str]: A list of stripped lines.
+    """
+    return [line.strip() for line in text.split(delimiter)]
+
+
 async def ask_llm(
     client: Any,
     prompt: str,
@@ -351,7 +365,7 @@ async def ask_llm(
                 model_params = {
                     "bot_id": model_name,
                     "user": "KyleToh",
-                    "query": format_user_content(text),
+                    "query": text,
                     "stream": False,
                 }
 
@@ -368,10 +382,9 @@ async def ask_llm(
             if response_text is None:
                 raise ValueError("'text' field not found in response JSON")
 
-            # TODO: extract to a function
-            corrected_lines = []
-            for line in response_text.split(TEXT_DELIMITER):
-                corrected_lines.append(line.strip())
+            corrected_lines = extract_and_strip_lines(
+                response_text, TEXT_DELIMITER
+            )
 
             final_text = "\n".join(corrected_lines)
 
