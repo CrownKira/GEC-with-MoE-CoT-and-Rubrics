@@ -1,7 +1,6 @@
 S It 's difficult answer at the question " what are you going to do in the future ? " if the only one who has to know it is in two minds .
 A 3 3|||M:VERB:FORM|||to|||REQUIRED|||-NONE-|||0
 A 4 5|||U:PREP||||||REQUIRED|||-NONE-|||0
-A 8 9|||R:ORTH|||What|||REQUIRED|||-NONE-|||0
 
 S When I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n't know why .
 A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
@@ -98,7 +97,7 @@ S I hope that you give my the chance to join you .
 A 5 6|||R:PRON|||me|||REQUIRED|||-NONE-|||0
 
 S Thanks
-A 1 1|||M:PUNCT|||.|||REQUIRED|||-NONE-|||0
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S My favourite sport is volleyball because I love plays with my friends .
 A 8 9|||R:VERB:FORM|||playing|||REQUIRED|||-NONE-|||0
@@ -112,7 +111,7 @@ A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 16 16|||M:VERB:FORM|||to|||REQUIRED|||-NONE-|||0
 A 16 17|||R:MORPH|||play|||REQUIRED|||-NONE-|||0
 A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 24 25|||R:ADV|||afterwards|||REQUIRED|||-NONE-|||0
+A 24 25|||R:OTHER|||afterwards ,|||REQUIRED|||-NONE-|||0
 A 26 28|||R:VERB:TENSE|||go|||REQUIRED|||-NONE-|||0
 
 S It is very funny .
@@ -217,7 +216,6 @@ A 19 19|||M:PREP|||for|||REQUIRED|||-NONE-|||0
 
 S Instead it will be common to buy an air ticket and ride on public plane .
 A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 11 12|||R:VERB|||fly|||REQUIRED|||-NONE-|||0
 A 13 13|||M:DET|||a|||REQUIRED|||-NONE-|||0
 
 S In my opinion I think that public transport in future is going to continue to be used because there are a lot of people that does n't have enough money to pay for a car even if it is used , so public transport continue to have future but people are going to use more the cars then bus or underground .
@@ -237,7 +235,8 @@ A 60 60|||M:DET|||the|||REQUIRED|||-NONE-|||0
 S If we think about it the car is better because we do n't need to wait for them has we are waiting for the bus or underground but in another way car cust more money than the public transport .
 A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 18 19|||R:SPELL|||as|||REQUIRED|||-NONE-|||0
-A 20 22|||R:VERB|||do|||REQUIRED|||-NONE-|||0
+A 20 22|||R:VERB:TENSE|||wait|||REQUIRED|||-NONE-|||0
+A 26 26|||M:DET|||the|||REQUIRED|||-NONE-|||0
 A 27 27|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 31 31|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 31 32|||R:NOUN:NUM|||cars|||REQUIRED|||-NONE-|||0
@@ -246,8 +245,8 @@ A 36 37|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S By car we can just stay with ourselves which can be good because we can listen to the music that we like and we do n't need to be around people that are unkwoned but if we chose public transport we can meet friends or family so both trasnportations are good and the cars do n't need necessarialy to end up with the public transport .
 A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 5 6|||R:VERB|||be|||REQUIRED|||-NONE-|||0
 A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 22 22|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 30 30|||M:ADJ|||unknown|||REQUIRED|||-NONE-|||0
 A 31 34|||R:OTHER|||,|||REQUIRED|||-NONE-|||0
 A 37 38|||R:VERB:TENSE|||choose|||REQUIRED|||-NONE-|||0
@@ -276,7 +275,6 @@ A 12 13|||R:NOUN|||matters|||REQUIRED|||-NONE-|||0
 
 S We have solar panels and a place to make compost at the last garden , with worms who eat and degrade all the organic waste of the school .
 A 10 11|||R:PREP|||in|||REQUIRED|||-NONE-|||0
-A 12 13|||R:OTHER|||school|||REQUIRED|||-NONE-|||0
 A 17 18|||R:PRON|||that|||REQUIRED|||-NONE-|||0
 
 S In some strategic points of the building we have special trashcans to separate the garbage in organic , paper and cardboard , cans and pet bottles and they also made talks and presentations about the earth problems like global warming , contamination , etc .
@@ -285,10 +283,8 @@ A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ORTH|||trash cans|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||into|||REQUIRED|||-NONE-|||0
 A 17 17|||M:NOUN|||waste|||REQUIRED|||-NONE-|||0
-A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 26 27|||R:OTHER|||.|||REQUIRED|||-NONE-|||0
-A 27 28|||R:PRON|||We|||REQUIRED|||-NONE-|||0
-A 29 30|||R:VERB|||have|||REQUIRED|||-NONE-|||0
+A 26 28|||R:OTHER|||. They|||REQUIRED|||-NONE-|||0
+A 29 30|||R:VERB|||hold|||REQUIRED|||-NONE-|||0
 A 34 35|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S The manager of all this project is Miss June Sid , our science teacher .
@@ -339,6 +335,8 @@ A 7 8|||R:VERB:FORM|||becoming|||REQUIRED|||-NONE-|||0
 
 S He enter the university of medicine because he thinks that this profession was the more similar to be a super hero .
 A 1 2|||R:VERB:TENSE|||entered|||REQUIRED|||-NONE-|||0
+A 3 4|||R:ORTH|||University|||REQUIRED|||-NONE-|||0
+A 5 6|||R:ORTH|||Medicine|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB:TENSE|||thought|||REQUIRED|||-NONE-|||0
 A 14 15|||R:ADV|||most|||REQUIRED|||-NONE-|||0
 A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
@@ -360,6 +358,8 @@ A 23 24|||R:PREP|||with|||REQUIRED|||-NONE-|||0
 
 S Kate was cursing the university of fashion .
 A 2 3|||R:OTHER|||studying at|||REQUIRED|||-NONE-|||0
+A 4 5|||R:ORTH|||University|||REQUIRED|||-NONE-|||0
+A 6 7|||R:ORTH|||Fashion|||REQUIRED|||-NONE-|||0
 
 S Then the two started to date .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -367,11 +367,9 @@ A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 S Michael and Kate was so happy , until one day that Michael said to him dream to be a super hero , Kate get so nervous saying that it was ridiculous and just a kid dream and that Michael was only dreaming but that would never happen and that super hero do n't exist .
 A 3 4|||R:VERB:SVA|||were|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ADV|||when|||REQUIRED|||-NONE-|||0
-A 13 14|||U:PREP||||||REQUIRED|||-NONE-|||0
-A 14 15|||R:PRON|||he|||REQUIRED|||-NONE-|||0
-A 15 16|||R:VERB:TENSE|||dreamed|||REQUIRED|||-NONE-|||0
-A 16 17|||R:PART|||of|||REQUIRED|||-NONE-|||0
-A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
+A 12 14|||R:OTHER|||told her about|||REQUIRED|||-NONE-|||0
+A 14 15|||R:DET|||his|||REQUIRED|||-NONE-|||0
+A 21 22|||R:PUNCT|||.|||REQUIRED|||-NONE-|||0
 A 23 24|||R:VERB:TENSE|||got|||REQUIRED|||-NONE-|||0
 A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 35 35|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
@@ -427,7 +425,6 @@ A 14 15|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 A 24 25|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0
 
 S Therefore , we need to think more about our future , our offsprings .
-A 10 11|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:INFL|||offspring|||REQUIRED|||-NONE-|||0
 
 S Giving them a safe , clean and comfortable place to live .
@@ -442,7 +439,7 @@ A 7 7|||M:VERB:TENSE|||are|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB|||stuck|||REQUIRED|||-NONE-|||0
 
 S I can not imagine if there is no bus or MRT , how long I will take for school .
-A 4 4|||M:OTHER|||how long it will take for me to get to school|||REQUIRED|||-NONE-|||0
+A 4 4|||M:OTHER|||how long it will take me to get to school|||REQUIRED|||-NONE-|||0
 A 11 19|||U:OTHER||||||REQUIRED|||-NONE-|||0
 
 S Car is convenient for human , but it brings damage for human also .
@@ -451,7 +448,9 @@ A 1 2|||R:VERB:SVA|||are|||REQUIRED|||-NONE-|||0
 A 4 5|||R:NOUN:NUM|||humans|||REQUIRED|||-NONE-|||0
 A 7 8|||R:OTHER|||they also|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB:SVA|||bring|||REQUIRED|||-NONE-|||0
-A 10 13|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 10 11|||R:PREP|||to|||REQUIRED|||-NONE-|||0
+A 11 12|||R:NOUN:NUM|||humans|||REQUIRED|||-NONE-|||0
+A 12 13|||U:ADV||||||REQUIRED|||-NONE-|||0
 
 S For example , carbon dioxide which is created by car .
 A 5 6|||U:DET||||||REQUIRED|||-NONE-|||0

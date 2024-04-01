@@ -107,7 +107,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 5  # Delay in seconds before retrying an API
-QPM_LIMIT = 3  # Queries per minute limit
+QPM_LIMIT = 5  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
@@ -352,7 +352,7 @@ async def ask_llm(
     while retries < MAX_RETRIES:
         try:
             logging.info(
-                f"Sending request for batch {batch_number}/{total_batches}: {text}"
+                f"Sending request for batch {batch_number}/{total_batches}: {format_user_content(text)}"
             )
             model_params = {
                 "model": model_name,
@@ -598,9 +598,7 @@ def prompt_for_evaluation():
 if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info(f"Model selected: {MODEL_NAME}")
-    logging.info(
-        f"{BLUE}Using prompt: {escape_special_characters(GRAMMAR_PROMPT)}{RESET}"
-    )
+    logging.info(f"{BLUE}Using prompt: {(GRAMMAR_PROMPT)}{RESET}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
     logging.info("Generating the corrected file from CSV...")
