@@ -61,8 +61,10 @@ COZE_BOTS = [
     "7351253103510978578",
 ]
 
-# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-MODEL_NAME = TOGETHER_AI_MODELS[1]
+
+# change model here
+MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
 # MODEL_NAME = COZE_BOTS[0]
 
@@ -79,8 +81,11 @@ json.decoder.JSONDecodeError: Invalid control character at: line 1 column 16 (ch
 >>> json.loads('{"input":"hello\\ntest"}')
 {'input': 'hello\ntest'}
 """
-TEXT_DELIMITER = "<|NEXT|>\n"
+# TEXT_DELIMITER = "<|MUST_SPLIT_HERE|>"
 # TEXT_DELIMITER = "|||"
+
+# TEXT_DELIMITER = "|||"
+TEXT_DELIMITER = "~~~"
 
 
 # CONFIGS: RAG
@@ -90,7 +95,7 @@ TEXT_DELIMITER = "<|NEXT|>\n"
 
 # CONFIGS: INPUT PREPROCESSING
 MAX_TOKENS = 1024
-BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.7)
+BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 
@@ -153,7 +158,8 @@ detailed_correction_focus
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
 1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
 2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
-3. Return the grammatically corrected text in JSON format, without any explanatory text.
+3. Crucially, splitting the corrected text using the specified text delimiter, "{1}", whenever it appears in the input text. This division must be reflected in your output.
+4. Returning the grammatically corrected text in JSON format, exclusively, without any supplementary explanatory text.
 
 # Desired format
 For example, if the input is:
@@ -165,6 +171,7 @@ Your output should be JSON only:
 Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
     GRAMMAR_VARIANT, TEXT_DELIMITER
 )
+
 
 # Generate a unique identifier for this run based on the current timestamp
 run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -202,10 +209,14 @@ def get_openai_client(model_name: str) -> Any:
         return groq.AsyncGroq(api_key=GROQ_API_KEY)
     if model_name in LOCAL_LLM_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(base_url=LOCAL_ENDPOINT, api_key="not-needed")
+        return openai.AsyncOpenAI(
+            base_url=LOCAL_ENDPOINT, api_key="not-needed"
+        )
     if model_name in TOGETHER_AI_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY)
+        return openai.AsyncOpenAI(
+            base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
+        )
     if model_name in COZE_BOTS:
         return AsyncCoze(api_key=COZE_API_KEY)
 
@@ -299,14 +310,18 @@ def escape_special_characters(s):
 
 
 def extract_error_snippet(error: json.JSONDecodeError, window=20):
-    start = max(error.pos - window, 0)  # Start a bit before the error, if possible
+    start = max(
+        error.pos - window, 0
+    )  # Start a bit before the error, if possible
     end = min(
         error.pos + window, len(error.doc)
     )  # End a bit after the error, if possible
 
     # Extract the snippet around the error
     snippet_start = error.doc[start : error.pos]
-    snippet_error = error.doc[error.pos : error.pos + 1]  # The erroneous character
+    snippet_error = error.doc[
+        error.pos : error.pos + 1
+    ]  # The erroneous character
     snippet_end = error.doc[error.pos + 1 : end]
 
     # Escape special characters in the erroneous part
@@ -370,11 +385,14 @@ async def ask_llm(
 
             final_text = "\n".join(corrected_lines)
 
-            if len(corrected_lines) != len(text.split("\n")):
+            corrected_lines_length = len(corrected_lines)
+            text_lines_length = len(text.split("\n"))
+
+            if corrected_lines_length != text_lines_length:
                 print(
-                    "check lines:",
-                    len(corrected_lines),
-                    len(text.split("\n")),
+                    "lines diff:",
+                    corrected_lines_length,
+                    corrected_lines,
                 )
                 raise ValueError(
                     "Number of lines in response_text does not match the number of lines in text"
@@ -488,7 +506,9 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
     processed_batches = await get_processed_batches(csv_output_path)
     # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
-    should_write_header = not file_exists or os.stat(csv_output_path).st_size == 0
+    should_write_header = (
+        not file_exists or os.stat(csv_output_path).st_size == 0
+    )
     async with aiofiles.open(test_file_path, "r") as test_file, aiofiles.open(
         csv_output_path, "a", newline=""
     ) as csv_file:
@@ -522,11 +542,17 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
 
 
 def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
-    with open(csv_output_path, mode="r", newline="", encoding="utf-8") as csv_file:
+    with open(
+        csv_output_path, mode="r", newline="", encoding="utf-8"
+    ) as csv_file:
         csv_reader = csv.DictReader(csv_file)
-        sorted_rows = sorted(csv_reader, key=lambda row: int(row["Batch Number"]))
+        sorted_rows = sorted(
+            csv_reader, key=lambda row: int(row["Batch Number"])
+        )
 
-    with open(output_path, mode="w", newline="", encoding="utf-8") as output_file:
+    with open(
+        output_path, mode="w", newline="", encoding="utf-8"
+    ) as output_file:
         for row in sorted_rows:
             if "Corrected Text" in row:
                 corrected_lines = row["Corrected Text"].split("\n")
@@ -551,7 +577,9 @@ def prompt_for_evaluation():
         try:
             # Execute the evaluation script
             print("Evaluating the corrections...")
-            subprocess.run(["python3", "commands/evaluate_correction.py"], check=True)
+            subprocess.run(
+                ["python3", "commands/evaluate_correction.py"], check=True
+            )
             print("Evaluation completed successfully.")
         except subprocess.CalledProcessError as e:
             print(f"An error occurred during evaluation: {e}")
