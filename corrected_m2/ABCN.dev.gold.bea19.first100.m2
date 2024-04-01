@@ -98,7 +98,7 @@ S I hope that you give my the chance to join you .
 A 5 6|||R:PRON|||me|||REQUIRED|||-NONE-|||0
 
 S Thanks
-A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+A 1 1|||M:PUNCT|||.|||REQUIRED|||-NONE-|||0
 
 S My favourite sport is volleyball because I love plays with my friends .
 A 8 9|||R:VERB:FORM|||playing|||REQUIRED|||-NONE-|||0
@@ -112,7 +112,7 @@ A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 16 16|||M:VERB:FORM|||to|||REQUIRED|||-NONE-|||0
 A 16 17|||R:MORPH|||play|||REQUIRED|||-NONE-|||0
 A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 24 25|||R:OTHER|||afterwards ,|||REQUIRED|||-NONE-|||0
+A 24 25|||R:ADV|||afterwards|||REQUIRED|||-NONE-|||0
 A 26 28|||R:VERB:TENSE|||go|||REQUIRED|||-NONE-|||0
 
 S It is very funny .
@@ -134,7 +134,6 @@ S How are you ? I 'm writing to inform you that some advice on travelling and wo
 A 10 11|||R:PREP|||about|||REQUIRED|||-NONE-|||0
 
 S On the one hand , in my country there are a lot of place to travel .
-A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 13 14|||R:NOUN:NUM|||places|||REQUIRED|||-NONE-|||0
 
 S For example Barcelona , Madrid , Sevilla , Valencia .
@@ -144,7 +143,6 @@ S There are wonderful cities because there are a lot of things to visit for exam
 A 0 1|||R:PRON|||These|||REQUIRED|||-NONE-|||0
 A 13 14|||M:PUNCT|||. For|||REQUIRED|||-NONE-|||0
 A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S I visit Madrid twice a year .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -155,7 +153,6 @@ A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S On the other hand , in my country there are a few job because the economy is very bad .
-A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||U:DET||||||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:NUM|||jobs|||REQUIRED|||-NONE-|||0
 
@@ -180,8 +177,6 @@ A 3 4|||R:MORPH|||interested|||REQUIRED|||-NONE-|||0
 
 S Thank you for you e - mail , it was wonderful to hear from you .
 A 3 4|||R:DET|||your|||REQUIRED|||-NONE-|||0
-A 4 7|||R:OTHER|||email|||REQUIRED|||-NONE-|||0
-A 7 8|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 
 S I 'm looking forward to seeing you .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -217,6 +212,7 @@ A 19 19|||M:PREP|||for|||REQUIRED|||-NONE-|||0
 
 S Instead it will be common to buy an air ticket and ride on public plane .
 A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 11 12|||R:VERB|||fly|||REQUIRED|||-NONE-|||0
 A 13 13|||M:DET|||a|||REQUIRED|||-NONE-|||0
 
 S In my opinion I think that public transport in future is going to continue to be used because there are a lot of people that does n't have enough money to pay for a car even if it is used , so public transport continue to have future but people are going to use more the cars then bus or underground .
@@ -236,8 +232,7 @@ A 60 60|||M:DET|||the|||REQUIRED|||-NONE-|||0
 S If we think about it the car is better because we do n't need to wait for them has we are waiting for the bus or underground but in another way car cust more money than the public transport .
 A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 18 19|||R:SPELL|||as|||REQUIRED|||-NONE-|||0
-A 20 22|||R:VERB:TENSE|||wait|||REQUIRED|||-NONE-|||0
-A 26 26|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 20 22|||R:VERB|||do|||REQUIRED|||-NONE-|||0
 A 27 27|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 31 31|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 31 32|||R:NOUN:NUM|||cars|||REQUIRED|||-NONE-|||0
@@ -246,6 +241,7 @@ A 36 37|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S By car we can just stay with ourselves which can be good because we can listen to the music that we like and we do n't need to be around people that are unkwoned but if we chose public transport we can meet friends or family so both trasnportations are good and the cars do n't need necessarialy to end up with the public transport .
 A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 5 6|||R:VERB|||be|||REQUIRED|||-NONE-|||0
 A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 30 30|||M:ADJ|||unknown|||REQUIRED|||-NONE-|||0
 A 31 34|||R:OTHER|||,|||REQUIRED|||-NONE-|||0
@@ -283,10 +279,9 @@ A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ORTH|||trash cans|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||into|||REQUIRED|||-NONE-|||0
 A 17 17|||M:NOUN|||waste|||REQUIRED|||-NONE-|||0
-A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 26 27|||R:OTHER|||.|||REQUIRED|||-NONE-|||0
 A 27 28|||R:PRON|||We|||REQUIRED|||-NONE-|||0
-A 29 30|||R:VERB|||hold|||REQUIRED|||-NONE-|||0
+A 29 30|||R:VERB|||have|||REQUIRED|||-NONE-|||0
 A 34 35|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S The manager of all this project is Miss June Sid , our science teacher .
@@ -317,7 +312,6 @@ A 37 37|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S I believe that 's all will delighted us .
 A 3 4|||U:CONTR||||||REQUIRED|||-NONE-|||0
-A 5 5|||M:OTHER|||of this|||REQUIRED|||-NONE-|||0
 A 6 7|||R:VERB:FORM|||delight|||REQUIRED|||-NONE-|||0
 
 S By the way , my favorite football team is Manchester United , they are brilliant , they have an amazing football players , and they are awesome .
@@ -413,7 +407,7 @@ S Michael closed the door and knew at that moment he had made a mistake .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S Public transportation is an important invention in human history , it brings amount of benefits in our life .
-A 9 10|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
+A 9 11|||R:PUNCT|||. It|||REQUIRED|||-NONE-|||0
 A 12 13|||R:OTHER|||a number|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||to|||REQUIRED|||-NONE-|||0
 A 17 18|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0

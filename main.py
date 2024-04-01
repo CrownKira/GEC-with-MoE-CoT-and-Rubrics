@@ -73,16 +73,6 @@ MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # GRAMMAR_VARIANT = "standard American"
 GRAMMAR_VARIANT = "British"
 
-"""
-# TODO: better delimiter without special character
->>> json.loads('{"input":"hello\ntest"}')
-Traceback (most recent call last):
-json.decoder.JSONDecodeError: Invalid control character at: line 1 column 16 (char 15)
->>> json.loads('{"input":"hello\\ntest"}')
-{'input': 'hello\ntest'}
-"""
-# TEXT_DELIMITER = "<|MUST_SPLIT_HERE|>"
-# TEXT_DELIMITER = "|||"
 
 # TEXT_DELIMITER = "|||"
 TEXT_DELIMITER = "~~~"
