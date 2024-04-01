@@ -322,17 +322,22 @@ def extract_error_snippet(error: json.JSONDecodeError, window=20):
 
 
 def extract_and_strip_lines(text: str, delimiter: str) -> List[str]:
-    """
-    Splits the input text by a specified delimiter and strips whitespace from each piece.
-
-    Parameters:
-        text (str): The text to split and strip.
-        delimiter (str): The delimiter to split the text by.
-
-    Returns:
-        List[str]: A list of stripped lines.
-    """
     return [line.strip() for line in text.split(delimiter)]
+
+
+# TODO: define parser for each model
+def process_response_text(
+    response: str, delimiter: str, model_name: str
+) -> List[str]:
+    response_text = response
+
+    if model_name not in COZE_BOTS:
+        content_json = json.loads(response)
+        response_text = content_json.get("text")
+        if response_text is None:
+            raise ValueError("'text' field not found in response JSON")
+
+    return extract_and_strip_lines(response_text, delimiter)
 
 
 async def ask_llm(
@@ -377,13 +382,9 @@ async def ask_llm(
             logging.info(
                 f"{YELLOW}Received raw response for batch {batch_number}/{total_batches}: {response}{RESET}"
             )
-            content_json = json.loads(response)
-            response_text = content_json.get("text")
-            if response_text is None:
-                raise ValueError("'text' field not found in response JSON")
 
-            corrected_lines = extract_and_strip_lines(
-                response_text, TEXT_DELIMITER
+            corrected_lines = process_response_text(
+                response, TEXT_DELIMITER, model_name
             )
 
             final_text = "\n".join(corrected_lines)

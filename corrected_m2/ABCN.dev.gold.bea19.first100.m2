@@ -134,6 +134,7 @@ S How are you ? I 'm writing to inform you that some advice on travelling and wo
 A 10 11|||R:PREP|||about|||REQUIRED|||-NONE-|||0
 
 S On the one hand , in my country there are a lot of place to travel .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 13 14|||R:NOUN:NUM|||places|||REQUIRED|||-NONE-|||0
 
 S For example Barcelona , Madrid , Sevilla , Valencia .
@@ -143,6 +144,7 @@ S There are wonderful cities because there are a lot of things to visit for exam
 A 0 1|||R:PRON|||These|||REQUIRED|||-NONE-|||0
 A 13 14|||M:PUNCT|||. For|||REQUIRED|||-NONE-|||0
 A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S I visit Madrid twice a year .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -153,6 +155,7 @@ A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S On the other hand , in my country there are a few job because the economy is very bad .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||U:DET||||||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:NUM|||jobs|||REQUIRED|||-NONE-|||0
 
@@ -177,6 +180,8 @@ A 3 4|||R:MORPH|||interested|||REQUIRED|||-NONE-|||0
 
 S Thank you for you e - mail , it was wonderful to hear from you .
 A 3 4|||R:DET|||your|||REQUIRED|||-NONE-|||0
+A 4 7|||R:OTHER|||email|||REQUIRED|||-NONE-|||0
+A 7 8|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 
 S I 'm looking forward to seeing you .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -271,6 +276,7 @@ A 12 13|||R:NOUN|||matters|||REQUIRED|||-NONE-|||0
 
 S We have solar panels and a place to make compost at the last garden , with worms who eat and degrade all the organic waste of the school .
 A 10 11|||R:PREP|||in|||REQUIRED|||-NONE-|||0
+A 12 13|||R:OTHER|||school|||REQUIRED|||-NONE-|||0
 A 17 18|||R:PRON|||that|||REQUIRED|||-NONE-|||0
 
 S In some strategic points of the building we have special trashcans to separate the garbage in organic , paper and cardboard , cans and pet bottles and they also made talks and presentations about the earth problems like global warming , contamination , etc .
@@ -279,6 +285,7 @@ A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ORTH|||trash cans|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||into|||REQUIRED|||-NONE-|||0
 A 17 17|||M:NOUN|||waste|||REQUIRED|||-NONE-|||0
+A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 26 27|||R:OTHER|||.|||REQUIRED|||-NONE-|||0
 A 27 28|||R:PRON|||We|||REQUIRED|||-NONE-|||0
 A 29 30|||R:VERB|||have|||REQUIRED|||-NONE-|||0
@@ -332,8 +339,6 @@ A 7 8|||R:VERB:FORM|||becoming|||REQUIRED|||-NONE-|||0
 
 S He enter the university of medicine because he thinks that this profession was the more similar to be a super hero .
 A 1 2|||R:VERB:TENSE|||entered|||REQUIRED|||-NONE-|||0
-A 3 4|||R:ORTH|||University|||REQUIRED|||-NONE-|||0
-A 5 6|||R:ORTH|||Medicine|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB:TENSE|||thought|||REQUIRED|||-NONE-|||0
 A 14 15|||R:ADV|||most|||REQUIRED|||-NONE-|||0
 A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
@@ -355,8 +360,6 @@ A 23 24|||R:PREP|||with|||REQUIRED|||-NONE-|||0
 
 S Kate was cursing the university of fashion .
 A 2 3|||R:OTHER|||studying at|||REQUIRED|||-NONE-|||0
-A 4 5|||R:ORTH|||University|||REQUIRED|||-NONE-|||0
-A 6 7|||R:ORTH|||Fashion|||REQUIRED|||-NONE-|||0
 
 S Then the two started to date .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -364,9 +367,11 @@ A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 S Michael and Kate was so happy , until one day that Michael said to him dream to be a super hero , Kate get so nervous saying that it was ridiculous and just a kid dream and that Michael was only dreaming but that would never happen and that super hero do n't exist .
 A 3 4|||R:VERB:SVA|||were|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ADV|||when|||REQUIRED|||-NONE-|||0
-A 13 14|||R:PREP|||that|||REQUIRED|||-NONE-|||0
-A 14 15|||R:DET|||his|||REQUIRED|||-NONE-|||0
-A 16 16|||M:VERB|||was|||REQUIRED|||-NONE-|||0
+A 13 14|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 14 15|||R:PRON|||he|||REQUIRED|||-NONE-|||0
+A 15 16|||R:VERB:TENSE|||dreamed|||REQUIRED|||-NONE-|||0
+A 16 17|||R:PART|||of|||REQUIRED|||-NONE-|||0
+A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
 A 23 24|||R:VERB:TENSE|||got|||REQUIRED|||-NONE-|||0
 A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 35 35|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
@@ -422,6 +427,7 @@ A 14 15|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 A 24 25|||R:NOUN:NUM|||lives|||REQUIRED|||-NONE-|||0
 
 S Therefore , we need to think more about our future , our offsprings .
+A 10 11|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:INFL|||offspring|||REQUIRED|||-NONE-|||0
 
 S Giving them a safe , clean and comfortable place to live .
@@ -445,15 +451,15 @@ A 1 2|||R:VERB:SVA|||are|||REQUIRED|||-NONE-|||0
 A 4 5|||R:NOUN:NUM|||humans|||REQUIRED|||-NONE-|||0
 A 7 8|||R:OTHER|||they also|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB:SVA|||bring|||REQUIRED|||-NONE-|||0
-A 10 11|||R:PREP|||to|||REQUIRED|||-NONE-|||0
-A 11 12|||R:NOUN:NUM|||humans|||REQUIRED|||-NONE-|||0
-A 12 13|||U:ADV||||||REQUIRED|||-NONE-|||0
+A 10 13|||U:OTHER||||||REQUIRED|||-NONE-|||0
 
 S For example , carbon dioxide which is created by car .
+A 5 6|||U:DET||||||REQUIRED|||-NONE-|||0
 A 9 10|||R:NOUN:NUM|||cars|||REQUIRED|||-NONE-|||0
 
 S It cause global warming which threats our environment and harms our daily life .
 A 1 2|||R:VERB:SVA|||causes|||REQUIRED|||-NONE-|||0
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 5 6|||R:VERB|||threatens|||REQUIRED|||-NONE-|||0
 
 S we can see that there are lots of serious and frequently weather disaster happened in decades , such as typhoon , hurricane , wild fire and mud slide .
@@ -474,9 +480,11 @@ S The NG Office is notified by the photographer when the film was shipped .
 A 11 12|||R:VERB:TENSE|||is|||REQUIRED|||-NONE-|||0
 
 S If the film does n't arrive on time , it immediately .
-A 10 10|||M:VERB|||is|||REQUIRED|||-NONE-|||0
+A 10 10|||M:VERB:TENSE|||is|||REQUIRED|||-NONE-|||0
+A 11 11|||M:VERB|||reported|||REQUIRED|||-NONE-|||0
 
 S Lost shipments have been found more easily when this process will be started right away
+A 2 4|||R:VERB:TENSE|||are|||REQUIRED|||-NONE-|||0
 A 10 12|||R:VERB:TENSE|||is|||REQUIRED|||-NONE-|||0
 A 15 15|||M:PUNCT|||.|||REQUIRED|||-NONE-|||0
 
@@ -485,10 +493,13 @@ A 3 4|||R:VERB:INFL|||travelling|||REQUIRED|||-NONE-|||0
 A 4 4|||M:PUNCT|||.|||REQUIRED|||-NONE-|||0
 
 S People go , people come .
-A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+A 0 4|||U:OTHER|||People|||REQUIRED|||-NONE-|||0
+A 5 5|||M:OTHER|||and go|||REQUIRED|||-NONE-|||0
 
 S Every day lots of people are travelling abroad but , what 's the best way to do an international travel ?
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 8 10|||R:WO|||, but|||REQUIRED|||-NONE-|||0
+A 11 12|||R:CONTR|||is|||REQUIRED|||-NONE-|||0
 A 17 18|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S The most important option to travel is , by far , the plane .
