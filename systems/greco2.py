@@ -86,6 +86,7 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 # CONFIGS: INPUT PREPROCESSING
 MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
+VOTE_INCREASE_FACTOR = 0.02
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 # CONFIGS: API
@@ -518,6 +519,47 @@ async def quality_estimation_node(
     return quality_scores
 
 
+# TODO: fix this node
+
+
+async def quality_adjustment_node(
+    quality_scores: Dict[str, List[float]],
+    edit_votes: Dict[str, int],
+    edits_output: Dict[str, List[Dict[str, Any]]],
+):
+    """
+    Adjusts the quality scores based on the edit votes.
+
+    :param quality_scores: Dictionary mapping model names to quality scores for each sentence.
+    :param edit_votes: Dictionary with edit operations as keys and votes (counts) as values.
+    :param edits_output: Dictionary with model IDs as keys and lists of edits for each sentence as values.
+    :return: Dictionary mapping model names to adjusted quality scores for each sentence.
+    """
+    adjusted_quality_scores = {}
+
+    for model_id, scores in quality_scores.items():
+        adjusted_scores = []
+        for score, sentence_edits in zip(scores, edits_output[model_id]):
+
+            # Calculate total votes for the edits of the current sentence
+            total_votes = sum(
+                edit_votes.get(edit, 0) for edit in sentence_edits["edits"]
+            )
+
+            # Calculate total adjustment
+            total_adjustment = total_votes * VOTE_INCREASE_FACTOR
+
+            # Adjust the quality score
+            adjusted_score = score + total_adjustment
+            # Ensure the score does not exceed 1
+            adjusted_score = min(adjusted_score, 1.0)
+            adjusted_scores.append(adjusted_score)
+
+        adjusted_quality_scores[model_id] = adjusted_scores
+
+    return adjusted_quality_scores
+
+
 async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
     model_ids = [OPENAI_JSON_MODE_SUPPORTED_MODELS[0], TOGETHER_AI_MODELS[1]]
@@ -552,6 +594,11 @@ async def execute_workflow(input_string: str):
     # Calculate edit votes after edit extraction is done
     edit_votes = calculate_edit_votes(edits_output)
 
+    # Adjust quality scores based on edit votes
+    adjusted_quality_scores = await quality_adjustment_node(
+        quality_estimation, edit_votes, edits_output
+    )
+
     # Now, after both quality estimation and edit votes calculation are done, print out the results
 
     logging.info("Edit Extraction:")
@@ -562,6 +609,9 @@ async def execute_workflow(input_string: str):
 
     logging.info("Quality Estimation:")
     logging.info(json.dumps(quality_estimation, indent=2))
+
+    logging.info("Adjusted Quality Scores:")
+    logging.info(json.dumps(adjusted_quality_scores, indent=2))
 
 
 # Adjust the script's entry point to handle asynchronous execution
