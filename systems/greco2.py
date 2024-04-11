@@ -406,6 +406,27 @@ def extract_edits(aggregated_responses, input_sentences):
     return edits_output
 
 
+def calculate_edit_votes(edits_output):
+    """
+    Calculates votes for each edit operation across all models.
+
+    :param edits_output: Dictionary with model IDs as keys and lists of edits for each sentence as values.
+    :return: Dictionary with edit operations as keys and votes (counts) as values.
+    """
+    edit_votes = {}
+
+    for model_edits in edits_output.values():
+        for sentence_edits in model_edits:
+            for edit in sentence_edits["edits"]:
+                # Assuming the edit format is consistent and can be used as a dictionary key
+                if edit not in edit_votes:
+                    edit_votes[edit] = 1
+                else:
+                    edit_votes[edit] += 1
+
+    return edit_votes
+
+
 async def execute_workflow(input_string: str) -> None:
     input_sentences = InputParser.parse_input(input_string)
 
@@ -437,6 +458,10 @@ async def execute_workflow(input_string: str) -> None:
     edits_output = extract_edits(aggregated_responses, input_sentences)
     logging.info("Extracted Edits Output:")
     logging.info(json.dumps(edits_output, indent=2))
+
+    edit_votes = calculate_edit_votes(edits_output)
+    logging.info("Voting Bias:")
+    logging.info(json.dumps(edit_votes, indent=2))
 
 
 # Adjust the script's entry point to handle asynchronous execution
