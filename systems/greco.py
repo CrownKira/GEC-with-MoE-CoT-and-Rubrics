@@ -2,6 +2,100 @@ import sys
 import json
 import asyncio
 from typing import List, Dict, Union, Tuple, Any
+from dotenv import load_dotenv
+import spacy
+import os
+import groq
+import openai
+from clients.coze import AsyncCoze
+
+
+# CONFIGS: API
+AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT", "")
+LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
+TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+COZE_API_KEY = os.getenv("COZE_API_KEY", "")
+MAX_RETRIES = 3  # Maximum number of retries for an API call
+RETRY_DELAY = 5  # Delay in seconds before retrying an API
+QPM_LIMIT = 5  # Queries per minute limit
+
+
+# CONFIGS: PROMPT
+# GRAMMAR_VARIANT = "standard American"
+GRAMMAR_VARIANT = "British"
+TEXT_DELIMITER = "~~~"
+
+# CONFIGS: MODEL
+OPENAI_MODELS = [
+    "gpt-3.5-turbo",
+]
+
+OPENAI_JSON_MODE_SUPPORTED_MODELS = [
+    "gpt-3.5-turbo-1106",
+    "gpt-4-1106-preview",
+]
+
+LOCAL_LLM_MODELS = [
+    "llama-2-7b-chat.Q8_0.gguf",
+]
+
+TOGETHER_AI_MODELS = [
+    "togethercomputer/Llama-2-7B-32K-Instruct",
+    "mistralai/Mixtral-8x7B-Instruct-v0.1",
+]
+
+GROQ_MODELS = [
+    "gemma-7b-it",
+    "llama2-70b-4096",
+    "mixtral-8x7b-32768",
+]
+
+# coze bot ids
+COZE_BOTS = [
+    "7351253103510978578",
+]
+
+
+# change model here
+MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+
+
+def get_openai_client(model_name: str) -> Any:
+    if model_name in GROQ_MODELS:
+        return groq.AsyncGroq(api_key=GROQ_API_KEY)
+    if model_name in LOCAL_LLM_MODELS:
+        # Point to the local server
+        return openai.AsyncOpenAI(
+            base_url=LOCAL_ENDPOINT, api_key="not-needed"
+        )
+    if model_name in TOGETHER_AI_MODELS:
+        # Point to the local server
+        return openai.AsyncOpenAI(
+            base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
+        )
+    if model_name in COZE_BOTS:
+        return AsyncCoze(api_key=COZE_API_KEY)
+
+    # Initialize the OpenAI client with Azure endpoint and API key
+    return openai.AsyncAzureOpenAI(
+        azure_endpoint=AZURE_ENDPOINT,
+        api_version="2023-12-01-preview",
+        api_key=OPENAI_API_KEY,
+    )
+
+
+client = get_openai_client(MODEL_NAME)
+
+
+# Load the spaCy model outside of the asynchronous function to avoid reloading it multiple times
+nlp = spacy.load("en_core_web_sm")
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # Configuration variable for model injection
 MODEL_CONFIG = {
@@ -19,34 +113,30 @@ def parse_input_from_command_line() -> List[str]:
     return input_sentences
 
 
-# Define the Input Parser for each model
-def input_parser_for_model(input_data: str) -> str:
-    # Splitting the input text into lines, and then joining them with the custom delimiter
-    joined_text = input_data.split("\n").join("~~~")
-    return json.dumps({"input": joined_text})
-
-
-# Define the Output Parser for each model
-def output_parser_for_model(
-    output_data: str,
-) -> Dict[str, Union[List[str], str]]:
-    try:
-        # Deserialize the JSON string to get the actual text
-        text_data = json.loads(output_data)
-        input_text = text_data["input"]
-        # Splitting the deserialized text into lines based on the custom delimiter
-        sentences = input_text.split("~~~")
-        return {"sentences": sentences, "error": ""}
-    except (json.JSONDecodeError, KeyError) as e:
-        return {"sentences": [], "error": f"Processing failed due to {str(e)}"}
+# Define the Input Parser
+def input_parser(sentences: List[str]) -> str:
+    # Join the sentences with the delimiter and return as JSON
+    return json.dumps({"text": TEXT_DELIMITER.join(sentences)})
 
 
 # Define the Model Node (Mock GEC System)
-async def model_node(
-    sentences: List[str], model_name: str
-) -> Dict[str, Union[List[str], str]]:
+async def model_node(input_json: str) -> str:
     # TODO: Implement the mock GEC system logic for the given model
-    pass
+    # For now, we just return the input as the output for demonstration purposes
+    return input_json
+
+
+# Define the Output Parser
+def output_parser(model_output_json: str) -> Dict[str, Any]:
+    try:
+        # Deserialize the JSON string to get the actual text
+        text_data = json.loads(model_output_json)
+        input_text = text_data["text"]
+        # Splitting the deserialized text into lines based on the custom delimiter
+        sentences = input_text.split(TEXT_DELIMITER)
+        return {"sentences": sentences, "error": ""}
+    except (json.JSONDecodeError, KeyError) as e:
+        return {"sentences": [], "error": f"Processing failed due to {str(e)}"}
 
 
 # Define the Aggregate Node
