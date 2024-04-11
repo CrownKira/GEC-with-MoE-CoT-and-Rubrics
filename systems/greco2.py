@@ -60,6 +60,9 @@ COZE_BOTS = [
 ]
 
 
+QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[1]
+
+
 # change model here
 MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
@@ -104,6 +107,28 @@ GREEN = "\033[1;32m"
 YELLOW = "\033[93m"
 BLUE = "\033[1;34m"
 RESET = "\033[0m"
+
+
+QUALITY_ESTIMATION_PROMPT = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on:
+1. Correction of spelling mistakes, punctuation errors, verb tense issues, word choice problems, and other grammatical mistakes.
+2. Preservation of the original meaning, penalizing deviations.
+3. Appropriateness of language in context.
+
+Please rate each correction on a scale from 0 to 100 and return your evaluations in JSON format as follows:
+{{"scores": ["sentence 1 score", "sentence 2 score", ...]}}
+
+# Example
+If the input JSON is:
+{{
+  "original": ["He go to school every day.", "She walk to the park."],
+  "corrected": ["He goes to school every day.", "She walks to the park."]
+}}
+Your output should be JSON only, like:
+{{"scores": [95, 90]}}
+
+Ensure that the number of scores matches the number of corrected sentences provided.
+"""
+
 
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
 1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
@@ -427,6 +452,59 @@ def calculate_edit_votes(edits_output):
     return edit_votes
 
 
+async def quality_estimation_node(aggregated_responses, model_ids, client):
+    """
+    Sends all original sentences vs. corrected sentences in one prompt to the LLM for quality estimation.
+
+    :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
+    :param model_ids: List of model identifiers.
+    :param client: The client used to communicate with the LLM.
+    :return: A dictionary mapping model names to quality scores for each sentence.
+    """
+    quality_scores = {}
+
+    for model_id in model_ids:
+        corrected_sentences = aggregated_responses[model_id]
+
+        # Construct JSON input for the prompt
+        text = {
+            "original": [entry["original"] for entry in corrected_sentences],
+            "corrected": [entry["corrected"] for entry in corrected_sentences],
+        }
+
+        prompt = QUALITY_ESTIMATION_PROMPT.format(
+            TEXT_DELIMITER
+        )  # Ensure TEXT_DELIMITER is defined globally or passed into the function
+
+        def output_parser(response: str, expected_num_sentences: int):
+            try:
+                data = json.loads(response)
+                scores = data.get("scores", [])
+                if len(scores) != expected_num_sentences:
+                    raise ValueError(
+                        f"Expected {expected_num_sentences} scores, but got {len(scores)}."
+                    )
+                return scores
+            except json.JSONDecodeError as e:
+                raise ValueError(f"Failed to decode JSON response: {str(e)}")
+
+        expected_num_sentences = len(text["corrected"])
+        # Making an assumption about the ask_llm function call; adapt as necessary
+        quality_scores[model_id] = await ask_llm(
+            client=client,
+            prompt=prompt,  # Now includes structured instructions for processing JSON input
+            text=json.dumps(text),  # Passes the constructed JSON as input
+            batch_number=1,
+            total_batches=1,
+            model_name=model_id,
+            output_parser=lambda response: output_parser(
+                response, expected_num_sentences
+            ),
+        )
+
+    return quality_scores
+
+
 async def execute_workflow(input_string: str) -> None:
     input_sentences = InputParser.parse_input(input_string)
 
@@ -462,6 +540,13 @@ async def execute_workflow(input_string: str) -> None:
     edit_votes = calculate_edit_votes(edits_output)
     logging.info("Voting Bias:")
     logging.info(json.dumps(edit_votes, indent=2))
+
+    quality_estimation_model = get_openai_client(QUALITY_ESTIMATION_MODEL_NAME)
+    quality_estimation = quality_estimation_node(
+        aggregated_responses, model_ids, quality_estimation_model
+    )
+    logging.info("Quality Estimation:")
+    logging.info(json.dumps(quality_estimation, indent=2))
 
 
 # Adjust the script's entry point to handle asynchronous execution
