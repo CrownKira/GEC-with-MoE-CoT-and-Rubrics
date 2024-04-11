@@ -7,7 +7,7 @@ import aiofiles
 import csv
 from dotenv import load_dotenv
 import atexit
-from typing import Any, List
+from typing import Any, List, Optional
 import spacy
 import logging
 import datetime
@@ -256,6 +256,7 @@ async def ask_llm(
     batch_number: int,
     total_batches: int,
     model_name: str,
+    fallback_model_name: Optional[str] = None,
 ) -> str:
     retries = 0
     while retries < MAX_RETRIES:
@@ -309,18 +310,37 @@ async def ask_llm(
         retries += 1
         if retries < MAX_RETRIES:
             logging.info(
-                f"[{model_name}] {YELLOW}Retrying for batch {batch_number}/{total_batches} (Attempt {retries}/{MAX_RETRIES}){RESET}"
+                f"{YELLOW}[{model_name}] Retrying for batch {batch_number}/{total_batches} (Attempt {retries}/{MAX_RETRIES}){RESET}"
             )
             await asyncio.sleep(RETRY_DELAY)
         else:
-            logging.error(
-                f"[{model_name}] Max retries reached for batch {batch_number}/{total_batches}. Exiting the program."
-            )
-            sys.exit(1)  # Exit the program with a non-zero status code
+            if fallback_model_name:
+                logging.info(
+                    f"{YELLOW}[{model_name}] Max retries reached, switching to fallback model: {fallback_model_name}{RESET}"
+                )
+                model_name = (
+                    fallback_model_name  # Switch to the fallback model
+                )
+                client = get_openai_client(
+                    model_name
+                )  # Get a new client for the fallback model
+                fallback_model_name = (
+                    None  # Reset fallback_model_name to avoid infinite loops
+                )
+                retries = 0  # Reset retry counter for the fallback model
+            else:
+                logging.error(
+                    f"[{model_name}] Max retries reached for batch {batch_number}/{total_batches} with the fallback model. Exiting the program."
+                )
+                sys.exit(1)  # Exit the program with a non-zero status code
     raise RuntimeError("Unexpected execution path")
 
 
-async def mock_gec_system(input_sentences: List[str], model_id: str) -> tuple:
+async def mock_gec_system(
+    input_sentences: List[str],
+    model_id: str,
+    fallback_model_id: Optional[str] = None,
+) -> tuple:
     # Simulate processing of input sentences by a mock GEC system
     # Utilize ModelIOParser for preparing input and parsing output
     prepared_input = ModelIOParser.prepare_model_input(input_sentences)
@@ -334,6 +354,7 @@ async def mock_gec_system(input_sentences: List[str], model_id: str) -> tuple:
         1,
         1,
         model_id,
+        fallback_model_id,
     )
     parsed_output = ModelIOParser.parse_model_output(
         model_output, input_sentences
@@ -352,12 +373,15 @@ async def execute_workflow(input_string: str) -> None:
     model_ids = [
         OPENAI_JSON_MODE_SUPPORTED_MODELS[0],
         TOGETHER_AI_MODELS[1],
-        GROQ_MODELS[2],
+        # GROQ_MODELS[2],
     ]
 
     # Asynchronously call mock_gec_system for each model_id
     tasks = [
-        mock_gec_system(input_sentences, model_id) for model_id in model_ids
+        mock_gec_system(
+            input_sentences, model_id, OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+        )
+        for model_id in model_ids
     ]
     model_responses = await asyncio.gather(*tasks)
 
