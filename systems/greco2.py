@@ -7,7 +7,7 @@ import aiofiles
 import csv
 from dotenv import load_dotenv
 import atexit
-from typing import Any, List, Optional, Callable
+from typing import Any, List, Optional, Callable, Dict
 import spacy
 import logging
 import datetime
@@ -108,6 +108,8 @@ YELLOW = "\033[93m"
 BLUE = "\033[1;34m"
 RESET = "\033[0m"
 
+
+# TODO: explain before answer; give more examples; etc
 
 QUALITY_ESTIMATION_PROMPT = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on:
 1. Correction of spelling mistakes, punctuation errors, verb tense issues, word choice problems, and other grammatical mistakes.
@@ -272,7 +274,6 @@ def extract_error_snippet(
 
 
 async def ask_llm(
-    client: Any,
     prompt: str,
     text: str,
     batch_number: int,
@@ -281,6 +282,8 @@ async def ask_llm(
     output_parser: Callable[[str], List[str]],
     fallback_model_name: Optional[str] = None,
 ) -> List[str]:
+
+    client = get_openai_client(model_name)
     retries = 0
     while retries < MAX_RETRIES:
         try:
@@ -349,9 +352,6 @@ async def ask_llm(
                 model_name = (
                     fallback_model_name  # Switch to the fallback model
                 )
-                client = get_openai_client(
-                    model_name
-                )  # Get a new client for the fallback model
                 fallback_model_name = (
                     None  # Reset fallback_model_name to avoid infinite loops
                 )
@@ -374,9 +374,7 @@ async def mock_gec_system(
     prepared_input = ModelIOParser.prepare_model_input(input_sentences)
     # TODO: Implement the mock GEC system logic here
 
-    client = get_openai_client(model_id)
     model_output = await ask_llm(
-        client=client,
         prompt=GRAMMAR_PROMPT,
         text=prepared_input,
         batch_number=1,
@@ -393,7 +391,7 @@ async def mock_gec_system(
 
 # Additional components (Aggregate Node, Condition Node, etc.) remain similar
 # to the previous code skeleton and should be implemented accordingly
-def extract_edits(aggregated_responses, input_sentences):
+async def extract_edits(aggregated_responses, input_sentences):
     """
     Extracts edits from corrected sentences using ERRANT.
 
@@ -452,7 +450,12 @@ def calculate_edit_votes(edits_output):
     return edit_votes
 
 
-async def quality_estimation_node(aggregated_responses, model_ids, client):
+async def quality_estimation_node(
+    input_sentences: List[str],
+    aggregated_responses: Dict[str, List[str]],
+    model_ids: List[str],
+    quality_estimation_model_id: str,
+):
     """
     Sends all original sentences vs. corrected sentences in one prompt to the LLM for quality estimation.
 
@@ -467,12 +470,13 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
     logging.info("Starting quality estimation node.")
 
     for model_id in model_ids:
+
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
         text = {
-            "original": [entry["original"] for entry in corrected_sentences],
-            "corrected": [entry["corrected"] for entry in corrected_sentences],
+            "original": input_sentences,
+            "corrected": corrected_sentences,
         }
 
         prompt = QUALITY_ESTIMATION_PROMPT.format(
@@ -491,19 +495,18 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
             except json.JSONDecodeError as e:
                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
 
-        expected_num_sentences = len(text["corrected"])
+        expected_num_sentences = len(corrected_sentences)
 
         # Logging information about the model being processed
         logging.info(f"Processing model: {model_id}")
 
         # Making an assumption about the ask_llm function call; adapt as necessary
         quality_scores[model_id] = await ask_llm(
-            client=client,
             prompt=prompt,  # Now includes structured instructions for processing JSON input
             text=json.dumps(text),  # Passes the constructed JSON as input
             batch_number=1,
             total_batches=1,
-            model_name=model_id,
+            model_name=quality_estimation_model_id,
             output_parser=lambda response: output_parser(
                 response, expected_num_sentences
             ),
@@ -515,46 +518,48 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
     return quality_scores
 
 
-async def execute_workflow(input_string: str) -> None:
+async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
-
-    # Define model_ids based on your configurations
-    model_ids = [
-        OPENAI_JSON_MODE_SUPPORTED_MODELS[0],
-        TOGETHER_AI_MODELS[1],
-        # GROQ_MODELS[2],
-    ]
+    model_ids = [OPENAI_JSON_MODE_SUPPORTED_MODELS[0], TOGETHER_AI_MODELS[1]]
 
     # Asynchronously call mock_gec_system for each model_id
     tasks = [
-        mock_gec_system(
-            input_sentences, model_id, OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-        )
-        for model_id in model_ids
+        mock_gec_system(input_sentences, model_id) for model_id in model_ids
     ]
     model_responses = await asyncio.gather(*tasks)
 
-    # Aggregate and print model responses
+    # Aggregate model responses
     aggregated_responses = {
         model_id: response for model_id, response in model_responses
     }
-    logging.info("Aggregated Model Responses:")
-    logging.info(json.dumps(aggregated_responses, indent=2))
 
-    # Assuming aggregated_responses is your dictionary of model responses
-    # And input_sentences is a list of the original sentences
-    edits_output = extract_edits(aggregated_responses, input_sentences)
-    logging.info("Extracted Edits Output:")
+    # Initiate Quality Estimation and Edit Extraction concurrently
+    quality_estimation_task = quality_estimation_node(
+        input_sentences,
+        aggregated_responses,
+        model_ids,
+        QUALITY_ESTIMATION_MODEL_NAME,
+    )
+    edit_extraction_task = extract_edits(
+        aggregated_responses, input_sentences
+    )  # Adjust this if extract_edits is async
+
+    # Wait for both tasks to complete
+    quality_estimation, edits_output = await asyncio.gather(
+        quality_estimation_task, edit_extraction_task
+    )
+
+    # Calculate edit votes after edit extraction is done
+    edit_votes = calculate_edit_votes(edits_output)
+
+    # Now, after both quality estimation and edit votes calculation are done, print out the results
+
+    logging.info("Edit Extraction:")
     logging.info(json.dumps(edits_output, indent=2))
 
-    edit_votes = calculate_edit_votes(edits_output)
     logging.info("Voting Bias:")
     logging.info(json.dumps(edit_votes, indent=2))
 
-    quality_estimation_model = get_openai_client(QUALITY_ESTIMATION_MODEL_NAME)
-    quality_estimation = quality_estimation_node(
-        aggregated_responses, model_ids, quality_estimation_model
-    )
     logging.info("Quality Estimation:")
     logging.info(json.dumps(quality_estimation, indent=2))
 
