@@ -463,6 +463,9 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
     """
     quality_scores = {}
 
+    # Logging information about the function start
+    logging.info("Starting quality estimation node.")
+
     for model_id in model_ids:
         corrected_sentences = aggregated_responses[model_id]
 
@@ -489,6 +492,10 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
 
         expected_num_sentences = len(text["corrected"])
+
+        # Logging information about the model being processed
+        logging.info(f"Processing model: {model_id}")
+
         # Making an assumption about the ask_llm function call; adapt as necessary
         quality_scores[model_id] = await ask_llm(
             client=client,
@@ -501,6 +508,9 @@ async def quality_estimation_node(aggregated_responses, model_ids, client):
                 response, expected_num_sentences
             ),
         )
+
+    # Logging information about the function completion
+    logging.info("Quality estimation node completed.")
 
     return quality_scores
 
