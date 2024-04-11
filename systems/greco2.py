@@ -15,6 +15,12 @@ from tiktoken import get_encoding
 import subprocess
 import groq
 from clients.coze import AsyncCoze
+import spacy
+import errant
+
+# Ensure you have loaded the spaCy model at the start of your script
+nlp = spacy.load("en_core_web_sm")
+annotator = errant.load("en")
 
 
 # Load environment variables from .env file
@@ -362,6 +368,42 @@ async def mock_gec_system(
 
 # Additional components (Aggregate Node, Condition Node, etc.) remain similar
 # to the previous code skeleton and should be implemented accordingly
+def extract_edits(aggregated_responses, input_sentences):
+    """
+    Extracts edits from corrected sentences using ERRANT.
+
+    :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
+    :param input_sentences: List of original sentences.
+    :return: Dictionary with model IDs as keys and lists of edits for each sentence as values.
+    """
+    edits_output = {}
+
+    for model_id, corrected_sentences in aggregated_responses.items():
+        model_edits = []
+        for original_sentence, corrected_sentence in zip(
+            input_sentences, corrected_sentences
+        ):
+            # Parse the original and corrected sentences
+            orig_doc = nlp(original_sentence)
+            cor_doc = nlp(corrected_sentence)
+
+            # Generate ERRANT edits
+            edits = annotator.annotate(orig_doc, cor_doc)
+
+            # Convert edits to M2 format
+            edit_list = [edit.to_m2() for edit in edits]
+
+            sentence_output = {
+                "original_sentence": original_sentence,
+                "corrected_sentence": corrected_sentence,
+                "edits": edit_list,
+            }
+
+            model_edits.append(sentence_output)
+
+        edits_output[model_id] = model_edits
+
+    return edits_output
 
 
 async def execute_workflow(input_string: str) -> None:
@@ -388,6 +430,11 @@ async def execute_workflow(input_string: str) -> None:
         model_id: response for model_id, response in model_responses
     }
     print(json.dumps(aggregated_responses, indent=2))
+
+    # Assuming aggregated_responses is your dictionary of model responses
+    # And input_sentences is a list of the original sentences
+    edits_output = extract_edits(aggregated_responses, input_sentences)
+    print(json.dumps(edits_output, indent=2))
 
 
 # Adjust the script's entry point to handle asynchronous execution
