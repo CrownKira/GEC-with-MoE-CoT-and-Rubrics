@@ -429,12 +429,14 @@ async def execute_workflow(input_string: str) -> None:
     aggregated_responses = {
         model_id: response for model_id, response in model_responses
     }
-    print(json.dumps(aggregated_responses, indent=2))
+    logging.info("Aggregated Model Responses:")
+    logging.info(json.dumps(aggregated_responses, indent=2))
 
     # Assuming aggregated_responses is your dictionary of model responses
     # And input_sentences is a list of the original sentences
     edits_output = extract_edits(aggregated_responses, input_sentences)
-    print(json.dumps(edits_output, indent=2))
+    logging.info("Extracted Edits Output:")
+    logging.info(json.dumps(edits_output, indent=2))
 
 
 # Adjust the script's entry point to handle asynchronous execution
