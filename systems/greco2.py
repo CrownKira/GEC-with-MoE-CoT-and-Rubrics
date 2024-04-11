@@ -7,7 +7,7 @@ import aiofiles
 import csv
 from dotenv import load_dotenv
 import atexit
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Callable
 import spacy
 import logging
 import datetime
@@ -183,34 +183,25 @@ class ModelIOParser:
     @staticmethod
     def parse_model_output(
         model_output: str, input_sentences: List[str]
-    ) -> dict:
+    ) -> List[str]:
         try:
-            # Deserialize the JSON string to get the actual text
             text_data = json.loads(model_output)
             input_text = text_data["text"]
-            # Splitting the deserialized text into lines based on the custom delimiter
             sentences = input_text.split("~~~")
 
             expected_num_sentences = len(input_sentences)
             actual_num_sentences = len(sentences)
 
             if actual_num_sentences < expected_num_sentences:
-                # Calculate the difference in the number of lines
                 diff = expected_num_sentences - actual_num_sentences
-                return {
-                    "sentences": [],
-                    "error": f"Processing failed due to insufficient number of lines. Expected at least {expected_num_sentences}, but got {actual_num_sentences}. Difference: {diff}.",
-                }
+                raise ValueError(
+                    f"Insufficient number of lines. Expected at least {expected_num_sentences}, got {actual_num_sentences}. Difference: {diff}."
+                )
 
-            # If successful, return the sentences with no error
-            return {"sentences": sentences, "error": ""}
+            return sentences
 
-        except (json.JSONDecodeError, KeyError) as e:
-            # Return an error message if parsing fails or the required fields are not found
-            return {
-                "sentences": [],
-                "error": f"Processing failed due to {str(e)}",
-            }
+        except (json.JSONDecodeError, KeyError, ValueError) as e:
+            raise ValueError(f"Parsing failed due to {str(e)}")
 
     @staticmethod
     def prepare_model_input(input_sentences: List[str]) -> str:
@@ -256,8 +247,9 @@ async def ask_llm(
     batch_number: int,
     total_batches: int,
     model_name: str,
+    output_parser: Callable[[str], List[str]],
     fallback_model_name: Optional[str] = None,
-) -> str:
+) -> List[str]:
     retries = 0
     while retries < MAX_RETRIES:
         try:
@@ -293,7 +285,12 @@ async def ask_llm(
                 f"[{model_name}] {YELLOW}Received raw response for batch {batch_number}/{total_batches}: {response}{RESET}"
             )
 
-            return response
+            # Call the output parser function on the response
+            parsed_output = output_parser(
+                response
+            )  # Assuming the parser accepts the response and text as arguments
+            return parsed_output  # Return the parsed output
+
         except json.JSONDecodeError as e:
             error_snippet = extract_error_snippet(e)
             logging.error(
@@ -348,18 +345,19 @@ async def mock_gec_system(
 
     client = get_openai_client(model_id)
     model_output = await ask_llm(
-        client,
-        GRAMMAR_PROMPT,
-        prepared_input,
-        1,
-        1,
-        model_id,
-        fallback_model_id,
+        client=client,
+        prompt=GRAMMAR_PROMPT,
+        text=prepared_input,
+        batch_number=1,
+        total_batches=1,
+        model_name=model_id,
+        fallback_model_name=fallback_model_id,
+        output_parser=lambda response: ModelIOParser.parse_model_output(
+            response, input_sentences
+        ),
     )
-    parsed_output = ModelIOParser.parse_model_output(
-        model_output, input_sentences
-    )
-    return model_id, parsed_output
+
+    return model_id, model_output
 
 
 # Additional components (Aggregate Node, Condition Node, etc.) remain similar
