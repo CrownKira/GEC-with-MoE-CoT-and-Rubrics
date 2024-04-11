@@ -3,7 +3,6 @@ import sys
 import json
 import openai
 import asyncio
-import logging
 import aiofiles
 import csv
 from dotenv import load_dotenv
