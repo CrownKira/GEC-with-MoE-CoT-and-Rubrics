@@ -330,11 +330,11 @@ def process_response_text(
 ) -> List[str]:
     response_text = response
 
-    if model_name not in COZE_BOTS:
-        content_json = json.loads(response)
-        response_text = content_json.get("text")
-        if response_text is None:
-            raise ValueError("'text' field not found in response JSON")
+    # if model_name not in COZE_BOTS:
+    content_json = json.loads(response)
+    response_text = content_json.get("text")
+    if response_text is None:
+        raise ValueError("'text' field not found in response JSON")
 
     return extract_and_strip_lines(response_text, delimiter)
 

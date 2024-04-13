@@ -103,10 +103,11 @@ class AsyncCoze:
                 # )
                 # print(f"API Response Received: {response.json()}")
 
-                # print("query:", model_params["query"])
+                print("coze query:", model_params["query"])
 
                 response = await call_greco_async(model_params["query"], True)
-                # print("response:", response)
+
+                print("coze response:", response)
 
                 response_json = {
                     "messages": [
@@ -127,11 +128,12 @@ class AsyncCoze:
 
 async def main():
     client = AsyncCoze(api_key=COZE_API_KEY)
-    query = """I think that the public transport will always be in the future .
-The rich people will buy a car but the poor people always need to use a bus or taxi .
-I consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .
-Also , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .
-In my experience when I did n't have a car I used to use the bus to go to the school and go back to my house ."""
+    #     query = """I think that the public transport will always be in the future .
+    # The rich people will buy a car but the poor people always need to use a bus or taxi .
+    # I consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .
+    # Also , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .
+    # In my experience when I did n't have a car I used to use the bus to go to the school and go back to my house ."""
+    query = "It 's difficult answer at the question \" what are you going to do in the future ? \" if the only one who has to know it is in two minds .\nWhen I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n't know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt 's difficult because I 'll have to study hard and a lot , but I think that if you like a subject , you 'll study it easier .\nMaybe I 'll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n't have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n't necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends ."
 
     model_params = {
         "bot_id": COZE_BOT_ID,
@@ -144,5 +146,5 @@ In my experience when I did n't have a car I used to use the bus to go to the sc
     print(f"Final Extracted Response: {response}")
 
 
-# if __name__ == "__main__":
-#     asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
