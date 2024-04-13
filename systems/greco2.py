@@ -22,6 +22,7 @@ import argparse
 
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.' --quiet
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.'
+# python3 -m systems.greco2 $'It \'s difficult answer at the question \" what are you going to do in the future ? \" if the only one who has to know it is in two minds .\nWhen I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n\'t know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt \'s difficult because I \'ll have to study hard and a lot , but I think that if you like a subject , you \'ll study it easier .\nMaybe I \'ll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you \'ll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n\'t have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n\'t necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends .'
 
 
 # Ensure you have loaded the spaCy model at the start of your script
@@ -186,8 +187,8 @@ Your feedback should categorize errors under specific tags and subtags, providin
 {
     "evaluations": [
         {
-            "student_correction": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-            "corrections": [
+            "student_text": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "student_text_grades": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
@@ -199,13 +200,13 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -2
                 }
             ],
-            "teacher_correction": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+            "corrected_text": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
             "total_deductions": -4,
             "score": 96
         },
         {
-            "student_correction": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-            "corrections": [
+            "student_text": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "student_text_grades": [
                 {
                     "type": "WORD",
                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
@@ -217,13 +218,13 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
-            "teacher_correction": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+            "corrected_text": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
             "total_deductions": -5,
             "score": 95
         },
         {
-            "student_correction": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-            "corrections": [
+            "student_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "student_text_grades": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
@@ -235,13 +236,13 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -1
                 }
             ],
-            "teacher_correction": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+            "corrected_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
             "total_deductions": -3,
             "score": 97
         },
         {
-            "student_correction": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-            "corrections": [
+            "student_text": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "student_text_grades": [
                 {
                     "type": "WORD",
                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
@@ -253,7 +254,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
-            "teacher_correction": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+            "corrected_text": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
             "total_deductions": -5,
             "score": 95
         }
@@ -636,8 +637,8 @@ async def quality_estimation_node(
 
         # Construct JSON input for the prompt
         text = {
-            "original": input_sentences,
-            "student_correction": corrected_sentences,
+            "original_text": input_sentences,
+            "student_text": corrected_sentences,
         }
 
         prompt = QUALITY_ESTIMATION_PROMPT_V2
