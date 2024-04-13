@@ -20,11 +20,17 @@ def call_greco(sentences: str, quiet: bool = False) -> str:
     if quiet:
         base_command.append("--quiet")
 
-    # Append sentences as a separate argument, properly escaped
     command = base_command + [shlex.quote(sentences)]
 
-    result = subprocess.run(command, capture_output=True, text=True)
-    return result.stdout
+    try:
+        result = subprocess.run(
+            command, capture_output=True, text=True, check=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        # Here you can log the error, raise a custom exception, or handle it in another way
+        print(f"Error running command: {e}")
+        raise
 
 
 async def call_greco_async(sentences: str, quiet: bool = False) -> str:
@@ -138,5 +144,5 @@ In my experience when I did n't have a car I used to use the bus to go to the sc
     print(f"Final Extracted Response: {response}")
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())

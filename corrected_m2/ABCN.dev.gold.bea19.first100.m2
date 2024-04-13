@@ -1,6 +1,7 @@
 S It 's difficult answer at the question " what are you going to do in the future ? " if the only one who has to know it is in two minds .
 A 3 3|||M:VERB:FORM|||to|||REQUIRED|||-NONE-|||0
 A 4 5|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 8 9|||R:ORTH|||What|||REQUIRED|||-NONE-|||0
 
 S When I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n't know why .
 A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
@@ -26,7 +27,6 @@ A 3 3|||M:PRON|||it|||REQUIRED|||-NONE-|||0
 A 12 12|||M:VERB:TENSE|||can|||REQUIRED|||-NONE-|||0
 A 13 14|||U:PART||||||REQUIRED|||-NONE-|||0
 A 21 21|||M:ADV|||when|||REQUIRED|||-NONE-|||0
-A 23 24|||R:NOUN|||bus|||REQUIRED|||-NONE-|||0
 
 S Also , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .
 A 10 11|||U:PREP||||||REQUIRED|||-NONE-|||0
@@ -85,7 +85,7 @@ A 10 10|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
 
 S I love children , and I enjoy looking after them . also , I organized many sports activities before in my school .
 A 11 12|||R:ORTH|||Also|||REQUIRED|||-NONE-|||0
-A 14 15|||R:VERB|||have organised|||REQUIRED|||-NONE-|||0
+A 14 14|||M:VERB:TENSE|||have|||REQUIRED|||-NONE-|||0
 
 S In addition to that , i enjoy cooking .
 A 5 6|||R:ORTH|||I|||REQUIRED|||-NONE-|||0
@@ -111,7 +111,7 @@ A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 16 16|||M:VERB:FORM|||to|||REQUIRED|||-NONE-|||0
 A 16 17|||R:MORPH|||play|||REQUIRED|||-NONE-|||0
 A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
-A 24 25|||R:ADV|||afterwards|||REQUIRED|||-NONE-|||0
+A 24 25|||R:OTHER|||afterwards ,|||REQUIRED|||-NONE-|||0
 A 26 28|||R:VERB:TENSE|||go|||REQUIRED|||-NONE-|||0
 
 S It is very funny .
@@ -133,7 +133,7 @@ S How are you ? I 'm writing to inform you that some advice on travelling and wo
 A 10 11|||R:PREP|||about|||REQUIRED|||-NONE-|||0
 
 S On the one hand , in my country there are a lot of place to travel .
-A 10 13|||R:OTHER|||many|||REQUIRED|||-NONE-|||0
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 13 14|||R:NOUN:NUM|||places|||REQUIRED|||-NONE-|||0
 
 S For example Barcelona , Madrid , Sevilla , Valencia .
@@ -141,9 +141,9 @@ A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S There are wonderful cities because there are a lot of things to visit for example in Madrid you can visit " Puerta del Sol " , " Las Cibeles " .
 A 0 1|||R:PRON|||These|||REQUIRED|||-NONE-|||0
-A 7 10|||R:OTHER|||many|||REQUIRED|||-NONE-|||0
 A 13 14|||M:PUNCT|||. For|||REQUIRED|||-NONE-|||0
 A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S I visit Madrid twice a year .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -154,6 +154,7 @@ A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 
 S On the other hand , in my country there are a few job because the economy is very bad .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||U:DET||||||REQUIRED|||-NONE-|||0
 A 12 13|||R:NOUN:NUM|||jobs|||REQUIRED|||-NONE-|||0
 
@@ -178,7 +179,7 @@ A 3 4|||R:MORPH|||interested|||REQUIRED|||-NONE-|||0
 
 S Thank you for you e - mail , it was wonderful to hear from you .
 A 3 4|||R:DET|||your|||REQUIRED|||-NONE-|||0
-A 4 7|||R:OTHER|||email|||REQUIRED|||-NONE-|||0
+A 7 8|||R:PUNCT|||;|||REQUIRED|||-NONE-|||0
 
 S I 'm looking forward to seeing you .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
@@ -190,6 +191,7 @@ S Today public transport still play an important role in transport system and it
 A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 4 5|||R:VERB:SVA|||plays|||REQUIRED|||-NONE-|||0
 A 9 9|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 12 13|||U:PRON||||||REQUIRED|||-NONE-|||0
 A 14 15|||R:VERB|||continue to do|||REQUIRED|||-NONE-|||0
 A 15 16|||R:OTHER|||so|||REQUIRED|||-NONE-|||0
 
@@ -243,6 +245,7 @@ A 36 37|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S By car we can just stay with ourselves which can be good because we can listen to the music that we like and we do n't need to be around people that are unkwoned but if we chose public transport we can meet friends or family so both trasnportations are good and the cars do n't need necessarialy to end up with the public transport .
 A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 5 6|||R:VERB|||be|||REQUIRED|||-NONE-|||0
 A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 30 30|||M:ADJ|||unknown|||REQUIRED|||-NONE-|||0
 A 31 34|||R:OTHER|||,|||REQUIRED|||-NONE-|||0
@@ -250,6 +253,7 @@ A 37 38|||R:VERB:TENSE|||choose|||REQUIRED|||-NONE-|||0
 A 40 40|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 46 46|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 48 49|||R:NOUN|||transportation methods|||REQUIRED|||-NONE-|||0
+A 51 51|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 52 53|||U:DET||||||REQUIRED|||-NONE-|||0
 A 56 56|||M:ADV|||necessarily|||REQUIRED|||-NONE-|||0
 A 57 58|||U:NOUN||||||REQUIRED|||-NONE-|||0
@@ -279,6 +283,7 @@ A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ORTH|||trash cans|||REQUIRED|||-NONE-|||0
 A 15 16|||R:PREP|||into|||REQUIRED|||-NONE-|||0
 A 17 17|||M:NOUN|||waste|||REQUIRED|||-NONE-|||0
+A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 26 27|||R:OTHER|||.|||REQUIRED|||-NONE-|||0
 A 27 28|||R:PRON|||We|||REQUIRED|||-NONE-|||0
 A 29 30|||R:VERB|||have|||REQUIRED|||-NONE-|||0
@@ -364,9 +369,11 @@ A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 S Michael and Kate was so happy , until one day that Michael said to him dream to be a super hero , Kate get so nervous saying that it was ridiculous and just a kid dream and that Michael was only dreaming but that would never happen and that super hero do n't exist .
 A 3 4|||R:VERB:SVA|||were|||REQUIRED|||-NONE-|||0
 A 10 11|||R:ADV|||when|||REQUIRED|||-NONE-|||0
-A 12 14|||R:OTHER|||told her about|||REQUIRED|||-NONE-|||0
-A 14 15|||R:DET|||his|||REQUIRED|||-NONE-|||0
-A 21 22|||R:PUNCT|||.|||REQUIRED|||-NONE-|||0
+A 13 14|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 14 15|||R:PRON|||he|||REQUIRED|||-NONE-|||0
+A 15 16|||R:VERB:TENSE|||dreamed|||REQUIRED|||-NONE-|||0
+A 16 17|||R:PART|||of|||REQUIRED|||-NONE-|||0
+A 17 18|||R:VERB:FORM|||being|||REQUIRED|||-NONE-|||0
 A 23 24|||R:VERB:TENSE|||got|||REQUIRED|||-NONE-|||0
 A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
 A 35 35|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
@@ -437,7 +444,7 @@ A 7 7|||M:VERB:TENSE|||are|||REQUIRED|||-NONE-|||0
 A 8 9|||R:VERB|||stuck|||REQUIRED|||-NONE-|||0
 
 S I can not imagine if there is no bus or MRT , how long I will take for school .
-A 4 4|||M:OTHER|||how long it will take me to get to school|||REQUIRED|||-NONE-|||0
+A 4 4|||M:OTHER|||how long it will take for me to get to school|||REQUIRED|||-NONE-|||0
 A 11 19|||U:OTHER||||||REQUIRED|||-NONE-|||0
 
 S Car is convenient for human , but it brings damage for human also .
@@ -488,8 +495,7 @@ A 3 4|||R:VERB:INFL|||travelling|||REQUIRED|||-NONE-|||0
 A 4 4|||M:PUNCT|||.|||REQUIRED|||-NONE-|||0
 
 S People go , people come .
-A 0 4|||U:OTHER|||People|||REQUIRED|||-NONE-|||0
-A 5 5|||M:OTHER|||and go|||REQUIRED|||-NONE-|||0
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S Every day lots of people are travelling abroad but , what 's the best way to do an international travel ?
 A 8 10|||R:WO|||, but|||REQUIRED|||-NONE-|||0

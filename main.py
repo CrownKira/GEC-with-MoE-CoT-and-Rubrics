@@ -62,10 +62,10 @@ COZE_BOTS = [
 
 
 # change model here
-MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
-# MODEL_NAME = COZE_BOTS[0]
+MODEL_NAME = COZE_BOTS[0]
 
 
 # CONFIGS: PROMPT
@@ -350,9 +350,11 @@ async def ask_llm(
     retries = 0
     while retries < MAX_RETRIES:
         try:
+            # TODO: refactor later
             logging.info(
                 f"Sending request for batch {batch_number}/{total_batches}: {format_user_content(text)}"
             )
+
             model_params = {
                 "model": model_name,
                 "messages": [
