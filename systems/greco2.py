@@ -20,6 +20,15 @@ import errant
 import argparse
 
 
+# python3 -m systems.greco2 "This is the example input text."
+# python3 -m systems.greco2 "This is the example input text." --quiet
+# python3 -m systems.greco2 "This is the example input text."
+
+# python3 -m systems.greco2 $'This is the first sentence.\nThis is the second sentence.\nAnd this is the third sentence.'
+
+# python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.'
+
+
 # Ensure you have loaded the spaCy model at the start of your script
 nlp = spacy.load("en_core_web_sm")
 annotator = errant.load("en")
@@ -285,6 +294,43 @@ run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 # Define log file paths with the unique run identifier
 LOGGING_OUTPUT_PATH = f"logs/run_{run_id}.log"
 ERROR_OUTPUT_PATH = f"logs/error_{run_id}.log"
+
+
+# Configure logging to output to a file
+parser = argparse.ArgumentParser(description="Process some inputs.")
+parser.add_argument(
+    "input_text",
+    nargs="?",
+    default=None,
+    help="The input text to process. Optional.",
+)
+parser.add_argument(
+    "--quiet",
+    action="store_true",
+    help="Run in quiet mode, producing only the final output.",
+)
+args = parser.parse_args()
+
+
+if args.quiet:
+    # Configure logging to exclude stdout for quiet mode
+    logging.basicConfig(
+        level=logging.INFO,
+        format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(LOGGING_OUTPUT_PATH),
+        ],
+    )
+else:
+    # Existing logging configuration that includes stdout
+    logging.basicConfig(
+        level=logging.INFO,
+        format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(LOGGING_OUTPUT_PATH),
+            logging.StreamHandler(),
+        ],
+    )
 
 
 # Create a separate handler for error logs
@@ -818,25 +864,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.quiet:
-        # Configure logging to exclude stdout for quiet mode
-        logging.basicConfig(
-            level=logging.INFO,
-            format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
-            handlers=[
-                logging.FileHandler(LOGGING_OUTPUT_PATH),
-            ],
-        )
-    else:
-        # Existing logging configuration that includes stdout
-        logging.basicConfig(
-            level=logging.INFO,
-            format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
-            handlers=[
-                logging.FileHandler(LOGGING_OUTPUT_PATH),
-                logging.StreamHandler(),
-            ],
-        )
+    # print("input_text", args.quiet)
+    # print("--quiet", args.quiet)
 
     # Determine the input_string based on args.input_text
     if args.input_text:
