@@ -20,12 +20,7 @@ import errant
 import argparse
 
 
-# python3 -m systems.greco2 "This is the example input text."
-# python3 -m systems.greco2 "This is the example input text." --quiet
-# python3 -m systems.greco2 "This is the example input text."
-
-# python3 -m systems.greco2 $'This is the first sentence.\nThis is the second sentence.\nAnd this is the third sentence.'
-
+# python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.' --quiet
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.'
 
 
