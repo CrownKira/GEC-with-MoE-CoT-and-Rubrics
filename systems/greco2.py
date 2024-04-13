@@ -685,6 +685,57 @@ async def quality_adjustment_node(
     return adjusted_quality_scores
 
 
+async def system_combination_node(
+    adjusted_quality_scores: Dict[str, List[float]],
+    aggregated_responses: Dict[str, List[str]],
+):
+    """
+    Selects the best sentences based on the majority voting from adjusted quality scores.
+
+    :param adjusted_quality_scores: Dictionary mapping model names to adjusted quality scores for each sentence.
+    :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
+    :return: List of the best sentences chosen among the models.
+    """
+    best_sentences = []
+    total_scores = {
+        model_id: sum(scores)
+        for model_id, scores in adjusted_quality_scores.items()
+    }
+
+    # Determine the number of sentences
+    num_sentences = len(next(iter(aggregated_responses.values())))
+
+    for i in range(num_sentences):
+        # Collect scores for this sentence across all models
+        sentence_scores = {
+            model_id: scores[i]
+            for model_id, scores in adjusted_quality_scores.items()
+        }
+
+        # Determine the highest score for the current sentence
+        max_score = max(sentence_scores.values())
+
+        # Get models with the highest score for this sentence
+        top_models = [
+            model_id
+            for model_id, score in sentence_scores.items()
+            if score == max_score
+        ]
+
+        # If multiple models have the top score, use the total adjusted quality score as a tiebreaker
+        if len(top_models) > 1:
+            best_model = max(
+                top_models, key=lambda model_id: total_scores[model_id]
+            )
+        else:
+            best_model = top_models[0]
+
+        # Select the sentence from the best model
+        best_sentences.append(aggregated_responses[best_model][i])
+
+    return best_sentences
+
+
 async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
     model_ids = [OPENAI_JSON_MODE_SUPPORTED_MODELS[0], TOGETHER_AI_MODELS[1]]
@@ -724,8 +775,12 @@ async def execute_workflow(input_string: str):
         quality_estimation, edit_votes, edits_output
     )
 
-    # Now, after both quality estimation and edit votes calculation are done, print out the results
+    # System combination to select the best sentences
+    best_sentences = await system_combination_node(
+        adjusted_quality_scores, aggregated_responses
+    )
 
+    # Now, after both quality estimation, edit votes calculation, and system combination are done, print out the results
     logging.info("Edit Extraction:")
     logging.info(json.dumps(edits_output, indent=2))
 
@@ -737,6 +792,9 @@ async def execute_workflow(input_string: str):
 
     logging.info("Adjusted Quality Scores:")
     logging.info(json.dumps(adjusted_quality_scores, indent=2))
+
+    logging.info("Best Sentences Selected:")
+    logging.info(json.dumps(best_sentences, indent=2))
 
 
 async def read_input_file(file_path: str) -> str:
