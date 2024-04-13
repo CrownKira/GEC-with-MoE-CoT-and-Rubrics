@@ -133,6 +133,118 @@ Ensure that the number of scores matches the number of corrected sentences provi
 """
 
 
+QUALITY_ESTIMATION_PROMPT_V2 = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on the criteria outlined in the rubric below.
+
+### Rubric for Evaluating Sentence Corrections:
+
+1. **Spelling Errors [SPELL]**:
+   - Minor: -2 points [SPELL-MIN]
+   - Major: -5 points [SPELL-MAJ]
+
+2. **Punctuation Errors [PUNCT]**:
+   - Minor: -2 points [PUNCT-MIN]
+   - Major: -5 points [PUNCT-MAJ]
+
+3. **Verb Tense and Grammatical Accuracy [GRAM]**:
+   - Minor: -3 points [GRAM-MIN]
+   - Major: -7 points [GRAM-MAJ]
+
+4. **Preservation of Meaning [MEAN]**:
+   - Minor deviations: -4 points [MEAN-MIN]
+   - Major alterations: -10 points [MEAN-MAJ]
+
+5. **Language Appropriateness [LANG]**:
+   - Tone mismatch: -5 points [LANG-TONE]
+   - Incorrect formality level: -6 points [LANG-FORM]
+   - Mixing grammar variants: -3 points [LANG-MIX]
+   - Inappropriate vocabulary: -8 points [LANG-VOCAB]
+
+6. **Others [OTHER]**:
+   - Any errors not covered above: Up to -10 points (at grader's discretion)
+
+For each identified error, provide feedback using the format: "[Subtag] [Explanation of the error and what would be a correct approach] [-Deduction]."
+
+# Desired Output JSON Format:
+Your feedback should categorize errors under specific tags and subtags, providing a detailed explanation for each error detected. Summarize the deductions and final scores in a structured report, formatted as JSON: 
+
+{
+    "evaluations": [
+        {
+            "sentence": 1,
+            "corrections": [
+                {
+                    "type": "SPELL-MIN",
+                    "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
+                    "deduction": -2
+                },
+                {
+                    "type": "GRAM-MIN",
+                    "description": "'were unphased' should be 'were unfazed' to correct the spelling mistake",
+                    "deduction": -2
+                }
+            ],
+            "total_deductions": -4,
+            "score": 96
+        },
+        {
+            "sentence": 2,
+            "corrections": [
+                {
+                    "type": "WORD",
+                    "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
+                    "deduction": -2
+                },
+                {
+                    "type": "GRAM-MIN",
+                    "description": "'venerable seafarer known for hes bravery' could be rephrased to 'venerable seafarer, known for his bravery,' for better clarity and use of commas",
+                    "deduction": -3
+                }
+            ],
+            "total_deductions": -5,
+            "score": 95
+        },
+        {
+            "sentence": 3,
+            "corrections": [
+                {
+                    "type": "SPELL-MIN",
+                    "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
+                    "deduction": -2
+                },
+                {
+                    "type": "PUNCT-MIN",
+                    "description": "'a gigantic wave, unlike any they had seen before, approached' – consider adding a semicolon before 'unlike' for stylistic emphasis and clarity",
+                    "deduction": -1
+                }
+            ],
+            "total_deductions": -3,
+            "score": 97
+        },
+        {
+            "sentence": 4,
+            "corrections": [
+                {
+                    "type": "WORD",
+                    "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
+                    "deduction": -2
+                },
+                {
+                    "type": "TONE",
+                    "description": "'We must not underestemate this storm,' he declared – 'underestemate' should be 'underestimate'. Additionally, using 'he declared' after a direct command might be redundant. A more nuanced approach could enhance the dramatic tone; consider 'he proclaimed' for variation",
+                    "deduction": -3
+                }
+            ],
+            "total_deductions": -5,
+            "score": 95
+        }
+    ]
+}
+
+Ensure that the number of scores matches the number of corrected sentences provided.
+Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
+"""
+
+
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
 1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
 2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
@@ -480,18 +592,19 @@ async def quality_estimation_node(
             "corrected": corrected_sentences,
         }
 
-        prompt = QUALITY_ESTIMATION_PROMPT.format(
-            TEXT_DELIMITER
-        )  # Ensure TEXT_DELIMITER is defined globally or passed into the function
+        prompt = QUALITY_ESTIMATION_PROMPT_V2
 
         def output_parser(response: str, expected_num_sentences: int):
             try:
                 data = json.loads(response)
-                scores = data.get("scores", [])
-                if len(scores) != expected_num_sentences:
+                evaluations = data.get("evaluations", [])
+                if len(evaluations) != expected_num_sentences:
                     raise ValueError(
-                        f"Expected {expected_num_sentences} scores, but got {len(scores)}."
+                        f"Expected {expected_num_sentences} evaluations, but got {len(evaluations)}."
                     )
+
+                # Extract the scores from each evaluation
+                scores = [evaluation["score"] for evaluation in evaluations]
                 return scores
             except json.JSONDecodeError as e:
                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
