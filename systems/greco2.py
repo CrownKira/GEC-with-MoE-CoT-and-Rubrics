@@ -89,6 +89,14 @@ BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 VOTE_INCREASE_FACTOR = 0.02
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
+# CONFIGS: PATHS
+# ABCN dev set
+CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first5"
+TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
+FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
+CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
+
+
 # CONFIGS: API
 AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT", "")
 LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
@@ -183,6 +191,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -2
                 }
             ],
+            "teacher_correction": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
             "total_deductions": -4,
             "score": 96
         },
@@ -200,6 +209,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
+            "teacher_correction": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
             "total_deductions": -5,
             "score": 95
         },
@@ -217,6 +227,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -1
                 }
             ],
+            "teacher_correction": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
             "total_deductions": -3,
             "score": 97
         },
@@ -234,6 +245,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
+            "teacher_correction": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
             "total_deductions": -5,
             "score": 95
         }
@@ -727,11 +739,18 @@ async def execute_workflow(input_string: str):
     logging.info(json.dumps(adjusted_quality_scores, indent=2))
 
 
+async def read_input_file(file_path: str) -> str:
+    """Reads the input file and returns its content."""
+    async with aiofiles.open(file_path, "r") as f:
+        return await f.read()
+
+
 # Adjust the script's entry point to handle asynchronous execution
 if __name__ == "__main__":
-    input_string = (
-        sys.argv[1]
-        if len(sys.argv) > 1
-        else "Ths is an eror sentence.\nAnothr mistke."
-    )
+    if len(sys.argv) > 1:
+        input_string = sys.argv[1]
+    else:
+        # If no command line argument is provided, read the default text from TEST_FILE_PATH
+        input_string = asyncio.run(read_input_file(TEST_FILE_PATH))
+
     asyncio.run(execute_workflow(input_string))
