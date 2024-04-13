@@ -17,6 +17,8 @@ import groq
 from clients.coze import AsyncCoze
 import spacy
 import errant
+import argparse
+
 
 # Ensure you have loaded the spaCy model at the start of your script
 nlp = spacy.load("en_core_web_sm")
@@ -284,15 +286,6 @@ run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 LOGGING_OUTPUT_PATH = f"logs/run_{run_id}.log"
 ERROR_OUTPUT_PATH = f"logs/error_{run_id}.log"
 
-# Configure logging to output to a file
-logging.basicConfig(
-    level=logging.INFO,
-    format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler(LOGGING_OUTPUT_PATH),
-        logging.StreamHandler(),
-    ],
-)
 
 # Create a separate handler for error logs
 error_handler = logging.FileHandler(ERROR_OUTPUT_PATH)
@@ -796,6 +789,12 @@ async def execute_workflow(input_string: str):
     logging.info("Best Sentences Selected:")
     logging.info(json.dumps(best_sentences, indent=2))
 
+    # After all processing is done, create the final output
+    final_output = "\n".join(best_sentences)
+
+    # Return the final output instead of printing or logging
+    return final_output
+
 
 async def read_input_file(file_path: str) -> str:
     """Reads the input file and returns its content."""
@@ -803,12 +802,50 @@ async def read_input_file(file_path: str) -> str:
         return await f.read()
 
 
-# Adjust the script's entry point to handle asynchronous execution
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        input_string = sys.argv[1]
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Process some inputs.")
+    parser.add_argument(
+        "input_text",
+        nargs="?",
+        default=None,
+        help="The input text to process. Optional.",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Run in quiet mode, producing only the final output.",
+    )
+    args = parser.parse_args()
+
+    if args.quiet:
+        # Configure logging to exclude stdout for quiet mode
+        logging.basicConfig(
+            level=logging.INFO,
+            format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
+            handlers=[
+                logging.FileHandler(LOGGING_OUTPUT_PATH),
+            ],
+        )
     else:
-        # If no command line argument is provided, read the default text from TEST_FILE_PATH
+        # Existing logging configuration that includes stdout
+        logging.basicConfig(
+            level=logging.INFO,
+            format=f"{BLUE}%(asctime)s{RESET} - %(levelname)s - %(message)s",
+            handlers=[
+                logging.FileHandler(LOGGING_OUTPUT_PATH),
+                logging.StreamHandler(),
+            ],
+        )
+
+    # Determine the input_string based on args.input_text
+    if args.input_text:
+        input_string = args.input_text
+    else:
+        # If no input text is provided, you might read from a default file or another source
         input_string = asyncio.run(read_input_file(TEST_FILE_PATH))
 
-    asyncio.run(execute_workflow(input_string))
+    # Execute the workflow
+    output = asyncio.run(execute_workflow(input_string))
+
+    print(output)
