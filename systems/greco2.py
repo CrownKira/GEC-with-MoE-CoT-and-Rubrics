@@ -133,7 +133,7 @@ Ensure that the number of scores matches the number of corrected sentences provi
 """
 
 
-QUALITY_ESTIMATION_PROMPT_V2 = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on the criteria outlined in the rubric below.
+QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
 
 ### Rubric for Evaluating Sentence Corrections:
 
@@ -170,7 +170,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
 {
     "evaluations": [
         {
-            "sentence": 1,
+            "student_correction": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
             "corrections": [
                 {
                     "type": "SPELL-MIN",
@@ -187,7 +187,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 96
         },
         {
-            "sentence": 2,
+            "student_correction": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
             "corrections": [
                 {
                     "type": "WORD",
@@ -204,7 +204,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 95
         },
         {
-            "sentence": 3,
+            "student_correction": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
             "corrections": [
                 {
                     "type": "SPELL-MIN",
@@ -221,7 +221,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 97
         },
         {
-            "sentence": 4,
+            "student_correction": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
             "corrections": [
                 {
                     "type": "WORD",
@@ -589,7 +589,7 @@ async def quality_estimation_node(
         # Construct JSON input for the prompt
         text = {
             "original": input_sentences,
-            "corrected": corrected_sentences,
+            "student_correction": corrected_sentences,
         }
 
         prompt = QUALITY_ESTIMATION_PROMPT_V2
