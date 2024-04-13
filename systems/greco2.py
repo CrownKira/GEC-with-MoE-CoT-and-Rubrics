@@ -86,8 +86,10 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 # CONFIGS: INPUT PREPROCESSING
 MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
-VOTE_INCREASE_FACTOR = 0.02
+VOTE_INCREASE_FACTOR = 0.05
+MAX_SCORE_CAP = 110  # Maximum allowed score
 # CHUNK_OVERLAP_IN_TOKENS = 50
+
 
 # CONFIGS: PATHS
 # ABCN dev set
@@ -653,31 +655,29 @@ async def quality_adjustment_node(
     edits_output: Dict[str, List[Dict[str, Any]]],
 ):
     """
-    Adjusts the quality scores based on the edit votes.
-
-    :param quality_scores: Dictionary mapping model names to quality scores for each sentence.
-    :param edit_votes: Dictionary with edit operations as keys and votes (counts) as values.
-    :param edits_output: Dictionary with model IDs as keys and lists of edits for each sentence as values.
-    :return: Dictionary mapping model names to adjusted quality scores for each sentence.
+    Adjusts the quality scores based on the edit votes, allowing scores to exceed 100 for tie-breaking.
     """
     adjusted_quality_scores = {}
 
     for model_id, scores in quality_scores.items():
         adjusted_scores = []
         for score, sentence_edits in zip(scores, edits_output[model_id]):
+            # Ensure the initial score is within the correct range
+            initial_score = max(0, min(score, 100))
 
             # Calculate total votes for the edits of the current sentence
             total_votes = sum(
                 edit_votes.get(edit, 0) for edit in sentence_edits["edits"]
             )
 
-            # Calculate total adjustment
+            # Calculate total adjustment based on the vote increase factor
             total_adjustment = total_votes * VOTE_INCREASE_FACTOR
 
             # Adjust the quality score
-            adjusted_score = score + total_adjustment
-            # Ensure the score does not exceed 1
-            adjusted_score = min(adjusted_score, 1.0)
+            adjusted_score = initial_score + total_adjustment
+
+            # Allow scores to exceed 100 but cap at MAX_SCORE_CAP
+            adjusted_score = min(adjusted_score, MAX_SCORE_CAP)
             adjusted_scores.append(adjusted_score)
 
         adjusted_quality_scores[model_id] = adjusted_scores
