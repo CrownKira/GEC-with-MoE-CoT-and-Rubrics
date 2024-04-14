@@ -21,7 +21,8 @@ def call_greco(sentences: str, quiet: bool = False) -> str:
     if quiet:
         base_command.append("--quiet")
 
-    command = base_command + [shlex.quote(sentences)]
+    # Directly add sentences without shlex.quote
+    command = base_command + [sentences]
 
     try:
         result = subprocess.run(
@@ -29,7 +30,6 @@ def call_greco(sentences: str, quiet: bool = False) -> str:
         )
         return result.stdout
     except subprocess.CalledProcessError as e:
-        # Here you can log the error, raise a custom exception, or handle it in another way
         print(f"Error running command: {e}")
         raise
 
