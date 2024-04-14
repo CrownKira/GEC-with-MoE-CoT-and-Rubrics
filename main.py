@@ -90,7 +90,8 @@ BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 
 # CONFIGS: PATHS
 # ABCN dev set
-CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
+# CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
+CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19"
 TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
 FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
 CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
