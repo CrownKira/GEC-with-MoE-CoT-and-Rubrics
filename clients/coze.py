@@ -16,7 +16,7 @@ COZE_BOT_ID = os.getenv("COZE_BOT_ID", "")
 
 
 def call_greco(sentences: str, quiet: bool = False) -> str:
-    base_command = ["python3", "-m", "systems.greco2"]
+    base_command = ["python3", "-m", "systems.greco"]
     if quiet:
         base_command.append("--quiet")
 
@@ -73,6 +73,7 @@ class Completion:
         return Completion([Choice(Message(content))])
 
 
+# TODO: change name to greco
 class AsyncCoze:
     def __init__(self, api_key: str, timeout=30.0):
         self.api_key = api_key
