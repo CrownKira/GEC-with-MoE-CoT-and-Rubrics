@@ -105,13 +105,13 @@ class AsyncCoze:
                 # )
                 # print(f"API Response Received: {response.json()}")
 
-                print("coze query:", model_params["query"])
+                print("> coze query:", model_params["query"])
 
                 response = await call_greco_async(model_params["query"], True)
                 # response = await call_greco_async(model_params["query"], False)
                 response = response.strip()
 
-                print("coze response:", response)
+                print("> coze response:", response)
 
                 response_json = {
                     "messages": [

@@ -238,6 +238,7 @@ QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC = """You are an English teacher who
 Please rate each correction on a scale from 0 to 100.
 
 # Desired Output JSON Format:
+Your output should be JSON only, without any explanatory text:
 {
     "total_student_sentences": 4,
     "evaluations": [
@@ -401,7 +402,7 @@ QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
 
 # change estimation model
 QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-# QUALITY_ESTIMATION_MODEL_NAME = TOGETHER_AI_MODELS[2]
+# QUALITY_ESTIMATION_MODEL_NAME = TOGETHER_AI_MODELS[1]
 
 
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
