@@ -661,7 +661,9 @@ async def ask_llm(
     if extra_model_params is not None:
         default_model_params.update(extra_model_params)
 
-    print("kw2", default_model_params)
+    logging.info(
+        f"[{model_name}] default_model_params : {default_model_params}"
+    )
 
     while iteration < MAX_RETRIES:
         try:
@@ -715,11 +717,13 @@ async def ask_llm(
             next_response = completion.choices[0].message.content
             response = merge_responses(response, next_response)
 
-            print("kw3: ", next_response)
+            logging.info(
+                f"[{model_name}] Received next response for batch {batch_number}/{total_batches}: {response}"
+            )
 
             # TODO: debug special character
             logging.info(
-                f"[{model_name}] {YELLOW}Received raw response for batch {batch_number}/{total_batches}: {response}{RESET}"
+                f"[{model_name}] {YELLOW}Merged response for batch {batch_number}/{total_batches}: {response}{RESET}"
             )
 
             # Reset the incomplete_json flag for the next iteration
@@ -752,7 +756,7 @@ async def ask_llm(
                 end_sequences=['"student_sentence_feedback": ['],
             )
 
-            print("kw1", response)
+            logging.info(f"[{model_name}] Repaired JSON: {response}")
 
         except Exception as e:
             logging.error(
