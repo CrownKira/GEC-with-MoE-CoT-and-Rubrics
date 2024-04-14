@@ -170,6 +170,7 @@ RESET = "\033[0m"
 # Ensure that the number of scores matches the number of corrected sentences provided.
 # """
 
+
 QUALITY_ESTIMATION_PROMPT_SCORES_ONLY = """You are an English teacher who assesses the quality of students' grammatical error corrections.
 
 Please rate each correction on a scale from 0 to 100.
@@ -177,25 +178,25 @@ Please rate each correction on a scale from 0 to 100.
 # Desired Output JSON Format:
 Your output should be JSON only, without any explanatory text:
 {
-    "total_student_sentences": 4,
+    "total_sentences": 4,
     "evaluations": [
         {
-            "unique_index": 0,
+            "student_sentences_index": 0,
             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
             "score": 96
         },
         {
-            "unique_index": 1,
+            "student_sentences_index": 1,
             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
             "score": 95
         },
         {
-            "unique_index": 2,
+            "student_sentences_index": 2,
             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
             "score": 97
         },
         {
-            "unique_index": 3,
+            "student_sentences_index": 3,
             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
             "score": 95
         }
@@ -241,7 +242,7 @@ Please rate each correction on a scale from 0 to 100.
 # Desired Output JSON Format:
 Your output should be JSON only, without any explanatory text:
 {
-    "total_student_sentences": 4,
+    "total_sentences": 4,
     "evaluations": [
         {
             "unique_index": 0,
@@ -309,7 +310,7 @@ For each identified error, provide feedback using the format: "[Subtag] [Explana
 # Desired Output JSON Format:
 Your output should be JSON only, without any explanatory text:
 {
-    "total_student_sentences": 4,
+    "total_sentences": 4,
     "evaluations": [
         {
             "unique_index": 0,
@@ -953,8 +954,9 @@ async def quality_estimation_node(
         # Construct JSON input for the prompt
         text = json.dumps(
             {
-                "original_sentence": input_sentences,
-                "student_sentence": corrected_sentences,
+                "original_sentences": input_sentences,
+                "student_sentences": corrected_sentences,
+                "total_sentences": len(corrected_sentences),
             }
         )
 
@@ -968,8 +970,9 @@ async def quality_estimation_node(
                     corrected_sentences
                 ):
                     raise ValueError(
-                        "Mismatch between expected number of sentences and provided scores."
+                        f"Mismatch between expected number of sentences ({len(corrected_sentences)}) and provided scores ({len(data.get('evaluations', []))})."
                     )
+
                 scores = [
                     evaluation["score"] for evaluation in data["evaluations"]
                 ]
