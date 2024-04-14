@@ -114,7 +114,8 @@ DEFAULT_FREQUENCY_PENALTY = 0
 # QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.1
 QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
-VOTE_INCREASE_FACTOR = 0.05
+# VOTE_INCREASE_FACTOR = 0.05
+VOTE_INCREASE_FACTOR = 2
 MAX_SCORE_CAP = 110  # Maximum allowed score
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
@@ -153,144 +154,131 @@ RESET = "\033[0m"
 
 # TODO: explain before answer; give more examples; etc
 
-QUALITY_ESTIMATION_PROMPT = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on:
-1. Correction of spelling mistakes, punctuation errors, verb tense issues, word choice problems, and other grammatical mistakes.
-2. Preservation of the original meaning, penalizing deviations.
-3. Appropriateness of language in context.
+# QUALITY_ESTIMATION_PROMPT = """You are an AI specialized in assessing the quality of grammatical error corrections from JSON inputs. Given an input JSON with 'original' and 'corrected' keys containing lists of sentences, evaluate each corrected sentence based on:
+# 1. Correction of spelling mistakes, punctuation errors, verb tense issues, word choice problems, and other grammatical mistakes.
+# 2. Preservation of the original meaning, penalizing deviations.
+# 3. Appropriateness of language in context.
 
-Please rate each correction on a scale from 0 to 100 and return your evaluations in JSON format as follows:
-{{"scores": ["sentence 1 score", "sentence 2 score", ...]}}
+# Please rate each correction on a scale from 0 to 100 and return your evaluations in JSON format as follows:
+# {{"scores": ["sentence 1 score", "sentence 2 score", ...]}}
 
-# Example
-If the input JSON is:
-{{
-  "original": ["He go to school every day.", "She walk to the park."],
-  "corrected": ["He goes to school every day.", "She walks to the park."]
-}}
-Your output should be JSON only, like:
-{{"scores": [95, 90]}}
+# # Example
+# If the input JSON is:
+# {{
+#   "original": ["He go to school every day.", "She walk to the park."],
+#   "corrected": ["He goes to school every day.", "She walks to the park."]
+# }}
+# Your output should be JSON only, like:
+# {{"scores": [95, 90]}}
+
+# Ensure that the number of scores matches the number of corrected sentences provided.
+# """
+
+QUALITY_ESTIMATION_PROMPT_SCORES_ONLY = """You are an English teacher who assesses the quality of students' grammatical error corrections.
+
+Please rate each correction on a scale from 0 to 100.
+
+# Desired Output JSON Format:
+Your output should be JSON only, without any explanatory text:
+{
+    "total_student_sentences": 4,
+    "evaluations": [
+        {
+            "unique_index": 0,
+            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "score": 96
+        },
+        {
+            "unique_index": 1,
+            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "score": 95
+        },
+        {
+            "unique_index": 2,
+            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "score": 97
+        },
+        {
+            "unique_index": 3,
+            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "score": 95
+        }
+    ]
+}
 
 Ensure that the number of scores matches the number of corrected sentences provided.
+Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
 """
 
 
-# QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
+QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
 
-# ### Rubric for Evaluating Sentence Corrections:
+### Rubric for Evaluating Sentence Corrections:
 
-# 1. **Spelling Errors [SPELL]**:
-#    - Minor: -2 points [SPELL-MIN]
-#    - Major: -5 points [SPELL-MAJ]
+1. **Spelling Errors [SPELL]**:
+   - Minor: -2 points [SPELL-MIN]
+   - Major: -5 points [SPELL-MAJ]
 
-# 2. **Punctuation Errors [PUNCT]**:
-#    - Minor: -2 points [PUNCT-MIN]
-#    - Major: -5 points [PUNCT-MAJ]
+2. **Punctuation Errors [PUNCT]**:
+   - Minor: -2 points [PUNCT-MIN]
+   - Major: -5 points [PUNCT-MAJ]
 
-# 3. **Verb Tense and Grammatical Accuracy [GRAM]**:
-#    - Minor: -3 points [GRAM-MIN]
-#    - Major: -7 points [GRAM-MAJ]
+3. **Verb Tense and Grammatical Accuracy [GRAM]**:
+   - Minor: -3 points [GRAM-MIN]
+   - Major: -7 points [GRAM-MAJ]
 
-# 4. **Preservation of Meaning [MEAN]**:
-#    - Minor deviations: -4 points [MEAN-MIN]
-#    - Major alterations: -10 points [MEAN-MAJ]
+4. **Preservation of Meaning [MEAN]**:
+   - Minor deviations: -4 points [MEAN-MIN]
+   - Major alterations: -10 points [MEAN-MAJ]
 
-# 5. **Language Appropriateness [LANG]**:
-#    - Tone mismatch: -5 points [LANG-TONE]
-#    - Incorrect formality level: -6 points [LANG-FORM]
-#    - Mixing grammar variants: -3 points [LANG-MIX]
-#    - Inappropriate vocabulary: -8 points [LANG-VOCAB]
+5. **Language Appropriateness [LANG]**:
+   - Tone mismatch: -5 points [LANG-TONE]
+   - Incorrect formality level: -6 points [LANG-FORM]
+   - Mixing grammar variants: -3 points [LANG-MIX]
+   - Inappropriate vocabulary: -8 points [LANG-VOCAB]
 
-# 6. **Others [OTHER]**:
-#    - Any errors not covered above: Up to -10 points (at grader's discretion)
+6. **Others [OTHER]**:
+   - Any errors not covered above: Up to -10 points (at grader's discretion)
 
-# For each identified error, provide feedback using the format: "[Subtag] [Explanation of the error and what would be a correct approach] [-Deduction]."
+Please rate each correction on a scale from 0 to 100.
 
-# # Desired Output JSON Format:
-# Your feedback should categorize errors under specific tags and subtags, providing a detailed explanation for each error detected. Summarize the deductions and final scores in a structured report, formatted as JSON:
+# Desired Output JSON Format:
+{
+    "total_student_sentences": 4,
+    "evaluations": [
+        {
+            "unique_index": 0,
+            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+            "score": 96
+        },
+        {
+            "unique_index": 1,
+            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+            "score": 95
+        },
+        {
+            "unique_index": 2,
+            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+            "score": 97
+        },
+        {
+            "unique_index": 3,
+            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+            "score": 95
+        }
+    ]
+}
 
-# {
-#     "evaluations": [
-#         {
-#             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-#             "student_sentence_feedback": [
-#                 {
-#                     "type": "SPELL-MIN",
-#                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
-#                     "deduction": -2
-#                 },
-#                 {
-#                     "type": "GRAM-MIN",
-#                     "description": "'were unphased' should be 'were unfazed' to correct the spelling mistake",
-#                     "deduction": -2
-#                 }
-#             ],
-#             "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
-#             "total_deductions": -4,
-#             "score": 96
-#         },
-#         {
-#             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-#             "student_sentence_feedback": [
-#                 {
-#                     "type": "WORD",
-#                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
-#                     "deduction": -2
-#                 },
-#                 {
-#                     "type": "GRAM-MIN",
-#                     "description": "'venerable seafarer known for hes bravery' could be rephrased to 'venerable seafarer, known for his bravery,' for better clarity and use of commas",
-#                     "deduction": -3
-#                 }
-#             ],
-#             "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
-#             "total_deductions": -5,
-#             "score": 95
-#         },
-#         {
-#             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-#             "student_sentence_feedback": [
-#                 {
-#                     "type": "SPELL-MIN",
-#                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
-#                     "deduction": -2
-#                 },
-#                 {
-#                     "type": "PUNCT-MIN",
-#                     "description": "'a gigantic wave, unlike any they had seen before, approached' – consider adding a semicolon before 'unlike' for stylistic emphasis and clarity",
-#                     "deduction": -1
-#                 }
-#             ],
-#             "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
-#             "total_deductions": -3,
-#             "score": 97
-#         },
-#         {
-#             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-#             "student_sentence_feedback": [
-#                 {
-#                     "type": "WORD",
-#                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
-#                     "deduction": -2
-#                 },
-#                 {
-#                     "type": "TONE",
-#                     "description": "'We must not underestemate this storm,' he declared – 'underestemate' should be 'underestimate'. Additionally, using 'he declared' after a direct command might be redundant. A more nuanced approach could enhance the dramatic tone; consider 'he proclaimed' for variation",
-#                     "deduction": -3
-#                 }
-#             ],
-#             "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
-#             "total_deductions": -5,
-#             "score": 95
-#         }
-#     ]
-# }
-
-# Ensure that the number of scores matches the number of corrected sentences provided.
-# Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
-# """
+Ensure that the number of scores matches the number of corrected sentences provided.
+Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
+"""
 
 
-QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
+QUALITY_ESTIMATION_PROMPT_COT_RUBRIC = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
 
 ### Rubric for Evaluating Sentence Corrections:
 
@@ -322,8 +310,7 @@ QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the qu
 For each identified error, provide feedback using the format: "[Subtag] [Explanation of the error and what would be a correct approach] [-Deduction]."
 
 # Desired Output JSON Format:
-Your feedback should categorize errors under specific tags and subtags, providing a detailed explanation for each error detected. Summarize the deductions and final scores in a structured report, formatted as JSON: 
-
+Your output should be JSON only, without any explanatory text:
 {
     "total_student_sentences": 4,
     "evaluations": [
@@ -939,54 +926,131 @@ def calculate_edit_votes(edits_output):
     return edit_votes
 
 
+# async def quality_estimation_node(
+#     input_sentences: List[str],
+#     aggregated_responses: Dict[str, List[str]],
+#     models: List[dict[str, str]],
+#     quality_estimation_model_id: str,
+# ):
+#     """
+#     Sends all original sentences vs. corrected sentences in one prompt to the LLM for quality estimation.
+
+#     :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
+#     :param model_ids: List of model identifiers.
+#     :param client: The client used to communicate with the LLM.
+#     :return: A dictionary mapping model names to quality scores for each sentence.
+#     """
+#     quality_scores: Dict[str, List[float]] = {}
+
+#     # Logging information about the function start
+#     logging.info("Starting quality estimation node.")
+
+#     for model in models:
+
+#         model_id = model["id"]
+#         corrected_sentences = aggregated_responses[model_id]
+
+#         # Construct JSON input for the prompt
+#         text = {
+#             "original_sentence": input_sentences,
+#             "student_sentence": corrected_sentences,
+#         }
+
+#         prompt = QUALITY_ESTIMATION_PROMPT_V2
+
+#         def output_parser(response: str, expected_num_sentences: int):
+#             try:
+#                 data = json.loads(response)
+#                 evaluations = data.get("evaluations", [])
+#                 if len(evaluations) != expected_num_sentences:
+#                     raise ValueError(
+#                         f"Expected {expected_num_sentences} evaluations, but got {len(evaluations)}."
+#                     )
+
+#                 # Extract the scores from each evaluation
+#                 scores = [evaluation["score"] for evaluation in evaluations]
+#                 return scores
+#             except json.JSONDecodeError as e:
+#                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
+
+#         expected_num_sentences = len(corrected_sentences)
+
+#         # Logging information about the model being processed
+#         logging.info(f"Processing model: {model_id}")
+
+#         extra_model_params = {
+#             "frequency_penalty": QUALITY_ESTIMATION_FREQUENCY_PENALTY,
+#         }
+
+#         json_config = {"end_sequences": ['"student_sentence_feedback": [']}
+
+#         # Making an assumption about the ask_llm function call; adapt as necessary
+#         scores: List[str] = await ask_llm(
+#             prompt=prompt,  # Now includes structured instructions for processing JSON input
+#             text=json.dumps(text),  # Passes the constructed JSON as input
+#             batch_number=1,
+#             total_batches=1,
+#             model_name=quality_estimation_model_id,
+#             output_parser=lambda response: output_parser(
+#                 response, expected_num_sentences
+#             ),
+#             extra_model_params=extra_model_params,
+#             json_config=json_config,
+#         )
+#         quality_scores[model_id] = [float(x) for x in scores]
+
+#     # Logging information about the function completion
+#     logging.info("Quality estimation node completed.")
+
+#     return quality_scores
+
+
 async def quality_estimation_node(
     input_sentences: List[str],
     aggregated_responses: Dict[str, List[str]],
     models: List[dict[str, str]],
     quality_estimation_model_id: str,
 ):
-    """
-    Sends all original sentences vs. corrected sentences in one prompt to the LLM for quality estimation.
-
-    :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
-    :param model_ids: List of model identifiers.
-    :param client: The client used to communicate with the LLM.
-    :return: A dictionary mapping model names to quality scores for each sentence.
-    """
     quality_scores: Dict[str, List[float]] = {}
 
-    # Logging information about the function start
     logging.info("Starting quality estimation node.")
 
-    for model in models:
+    ask_llm_tasks = []
 
+    for model in models:
         model_id = model["id"]
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
-        text = {
-            "original_sentence": input_sentences,
-            "student_sentence": corrected_sentences,
-        }
+        text = json.dumps(
+            {
+                "original_sentence": input_sentences,
+                "student_sentence": corrected_sentences,
+            }
+        )
 
-        prompt = QUALITY_ESTIMATION_PROMPT_V2
+        # prompt = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
+        # prompt = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC
+        prompt = QUALITY_ESTIMATION_PROMPT_COT_RUBRIC
 
-        def output_parser(response: str, expected_num_sentences: int):
+        # Define an output parser for this model, capturing expected_num_scores
+        def output_parser(response: str):
             try:
                 data = json.loads(response)
-                evaluations = data.get("evaluations", [])
-                if len(evaluations) != expected_num_sentences:
+                if len(data.get("evaluations", [])) != len(
+                    corrected_sentences
+                ):
                     raise ValueError(
-                        f"Expected {expected_num_sentences} evaluations, but got {len(evaluations)}."
+                        "Mismatch between expected number of sentences and provided scores."
                     )
-
-                # Extract the scores from each evaluation
-                scores = [evaluation["score"] for evaluation in evaluations]
+                scores = [
+                    evaluation["score"] for evaluation in data["evaluations"]
+                ]
                 return scores
             except json.JSONDecodeError as e:
                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
 
-        expected_num_sentences = len(corrected_sentences)
+        # Create and store the ask_llm task using the specific output parser for this model
 
         # Logging information about the model being processed
         logging.info(f"Processing model: {model_id}")
@@ -997,22 +1061,27 @@ async def quality_estimation_node(
 
         json_config = {"end_sequences": ['"student_sentence_feedback": [']}
 
-        # Making an assumption about the ask_llm function call; adapt as necessary
-        scores: List[str] = await ask_llm(
-            prompt=prompt,  # Now includes structured instructions for processing JSON input
-            text=json.dumps(text),  # Passes the constructed JSON as input
+        ask_llm_task = ask_llm(
+            prompt=prompt,
+            text=text,
             batch_number=1,
             total_batches=1,
             model_name=quality_estimation_model_id,
-            output_parser=lambda response: output_parser(
-                response, expected_num_sentences
-            ),
+            output_parser=output_parser,
+            is_json=True,
             extra_model_params=extra_model_params,
             json_config=json_config,
         )
-        quality_scores[model_id] = [float(x) for x in scores]
 
-    # Logging information about the function completion
+        ask_llm_tasks.append((model_id, ask_llm_task))
+
+    # Execute all ask_llm tasks concurrently and gather the results
+    results = await asyncio.gather(*[task for _, task in ask_llm_tasks])
+
+    # Associate each result with its model_id
+    for (model_id, _), scores in zip(ask_llm_tasks, results):
+        quality_scores[model_id] = scores
+
     logging.info("Quality estimation node completed.")
 
     return quality_scores
@@ -1173,6 +1242,22 @@ async def execute_workflow(input_string: str):
 
     end_time = datetime.datetime.now()
     logging.info(f"Total workflow execution time: {end_time - start_time}.")
+
+    # Now, after both quality estimation, edit votes calculation, and system combination are done, print out the results
+    # logging.info("Edit Extraction:")
+    # logging.info(json.dumps(edits_output, indent=2))
+
+    logging.info("Voting Bias:")
+    logging.info(json.dumps(edit_votes, indent=2))
+
+    logging.info("Quality Estimation:")
+    logging.info(json.dumps(quality_estimation, indent=2))
+
+    logging.info("Adjusted Quality Scores:")
+    logging.info(json.dumps(adjusted_quality_scores, indent=2))
+
+    logging.info("Best Sentences Selected:")
+    logging.info(json.dumps(best_sentences, indent=2))
 
     final_output = "\n".join(best_sentences)
     return final_output
