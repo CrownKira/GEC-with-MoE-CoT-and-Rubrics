@@ -95,14 +95,18 @@ TEXT_DELIMITER = "~~~"
 
 # NON-TUNABLE CONFIGS
 
+
 # CONFIGS: INPUT PREPROCESSING
 # The maximum context length for the Azure GPT-3.5-turbo-1106 model is 16,385 tokens, which encompasses both input and output tokens. However, the limit for the output tokens specifically is set at 4,096 tokens. When calling the API, you should ensure that max_tokens <= 4096 and the sum of input_tokens + max_tokens <= 16385​ (OpenAI Developer Forum)​.
+# DEFAULT_MAX_TOKENS = 1024
+# DEFAULT_MAX_TOKENS = 2048
 DEFAULT_MAX_TOKENS = 4096
 DEFAULT_TEMPERATURE = 0.1
 DEFAULT_FREQUENCY_PENALTY = 0
 # MAX_TOKENS = 1024
 # QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.2
-QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.1
+# QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.1
+QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 VOTE_INCREASE_FACTOR = 0.05
 MAX_SCORE_CAP = 110  # Maximum allowed score
@@ -202,7 +206,7 @@ Ensure that the number of scores matches the number of corrected sentences provi
 #     "evaluations": [
 #         {
 #             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-#             "student_sentence_grades": [
+#             "student_sentence_feedback": [
 #                 {
 #                     "type": "SPELL-MIN",
 #                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
@@ -214,13 +218,13 @@ Ensure that the number of scores matches the number of corrected sentences provi
 #                     "deduction": -2
 #                 }
 #             ],
-#             "corrected_text": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+#             "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
 #             "total_deductions": -4,
 #             "score": 96
 #         },
 #         {
 #             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-#             "student_sentence_grades": [
+#             "student_sentence_feedback": [
 #                 {
 #                     "type": "WORD",
 #                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
@@ -232,13 +236,13 @@ Ensure that the number of scores matches the number of corrected sentences provi
 #                     "deduction": -3
 #                 }
 #             ],
-#             "corrected_text": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+#             "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
 #             "total_deductions": -5,
 #             "score": 95
 #         },
 #         {
 #             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-#             "student_sentence_grades": [
+#             "student_sentence_feedback": [
 #                 {
 #                     "type": "SPELL-MIN",
 #                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
@@ -250,13 +254,13 @@ Ensure that the number of scores matches the number of corrected sentences provi
 #                     "deduction": -1
 #                 }
 #             ],
-#             "corrected_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+#             "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
 #             "total_deductions": -3,
 #             "score": 97
 #         },
 #         {
 #             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-#             "student_sentence_grades": [
+#             "student_sentence_feedback": [
 #                 {
 #                     "type": "WORD",
 #                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
@@ -268,7 +272,7 @@ Ensure that the number of scores matches the number of corrected sentences provi
 #                     "deduction": -3
 #                 }
 #             ],
-#             "corrected_text": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+#             "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
 #             "total_deductions": -5,
 #             "score": 95
 #         }
@@ -318,9 +322,9 @@ Your feedback should categorize errors under specific tags and subtags, providin
     "total_student_sentences": 4,
     "evaluations": [
         {
-            "index": 0,
+            "unique_index": 0,
             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-            "student_sentence_grades": [
+            "student_sentence_feedback": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
@@ -332,14 +336,14 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -2
                 }
             ],
-            "corrected_text": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+            "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
             "total_deductions": -4,
             "score": 96
         },
         {
-            "index": 1,
+            "unique_index": 1,
             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-            "student_sentence_grades": [
+            "student_sentence_feedback": [
                 {
                     "type": "WORD",
                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
@@ -351,14 +355,14 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
-            "corrected_text": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+            "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
             "total_deductions": -5,
             "score": 95
         },
         {
-            "index": 2,
+            "unique_index": 2,
             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-            "student_sentence_grades": [
+            "student_sentence_feedback": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
@@ -370,14 +374,14 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -1
                 }
             ],
-            "corrected_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+            "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
             "total_deductions": -3,
             "score": 97
         },
         {
-            "index": 3,
+            "unique_index": 3,
             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-            "student_sentence_grades": [
+            "student_sentence_feedback": [
                 {
                     "type": "WORD",
                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
@@ -389,7 +393,7 @@ Your feedback should categorize errors under specific tags and subtags, providin
                     "deduction": -3
                 }
             ],
-            "corrected_text": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+            "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
             "total_deductions": -5,
             "score": 95
         }
@@ -570,35 +574,39 @@ def extract_error_snippet(
     return snippet
 
 
-def trim_to_last_complete_object(json_string: str) -> str:
+def trim_to_last_complete_sequence(
+    json_string: str, end_sequences: List[str] = ["},", "}"]
+) -> str:
     """
-    Trims the given string from the end until it encounters "}, " or "}",
-    indicating the end of a complete JSON object.
+    Trims the given string from the end until it encounters any of the specified end sequences,
+    indicating a point beyond which the string should be trimmed.
 
     Parameters:
-    - json_string: The JSON string to trim.
+    - json_string: The string to trim.
+    - end_sequences: A list of strings indicating the sequences to look for as potential trim points.
 
     Returns:
-    - A trimmed JSON string ending with a complete object.
+    - A trimmed string ending with one of the complete sequences.
     """
-    # Find the last occurrence of either "}," or "}"
-    last_object_end = json_string.rfind("},")
-    last_brace_end = json_string.rfind("}")
+    # Initialize variable to keep track of the earliest trim position found
+    earliest_trim_position = len(json_string)
 
-    if last_object_end == -1 and last_brace_end == -1:
-        # If neither "}," nor "}" is found, return the original string
-        # This case might indicate an issue with the input string
+    # Iterate over each end sequence to find the last occurrence of each
+    for sequence in end_sequences:
+        sequence_position = json_string.rfind(sequence)
+        if sequence_position != -1:
+            # Update the trim position if this sequence occurs later than previous ones found
+            trim_position = sequence_position + len(
+                sequence
+            )  # Include the sequence itself in the trimmed output
+            earliest_trim_position = min(earliest_trim_position, trim_position)
+
+    # If none of the sequences were found, return the original string
+    if earliest_trim_position == len(json_string):
         return json_string
 
-    # Determine which of "}," or "}" occurs last and trim accordingly
-    trim_position = max(last_object_end, last_brace_end)
-
-    # Include the closing brace if trimming to "}"
-    if trim_position == last_brace_end:
-        trim_position += 1
-
-    # Return the substring up to and including the last complete object
-    return json_string[: trim_position + 1]
+    # Return the substring up to and including the last occurrence of one of the sequences
+    return json_string[:earliest_trim_position]
 
 
 def merge_responses(previous_response: str, next_response: str) -> str:
@@ -738,7 +746,11 @@ async def ask_llm(
                 f"[{model_name}] Received incomplete JSON, attempting to repair and continue."
             )
 
-            response = trim_to_last_complete_object(response)
+            response = trim_to_last_complete_sequence(
+                response,
+                #   end_sequences=["},", "}"]
+                end_sequences=['"student_sentence_feedback": ['],
+            )
 
             print("kw1", response)
 
