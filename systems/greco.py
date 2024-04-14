@@ -1120,9 +1120,9 @@ async def execute_workflow(input_string: str):
 
     model_ids: List[dict[str, str]] = [
         {"id": "model1", "name": MOCK_GEC_MODELS[0]},
-        {"id": "model2", "name": MOCK_GEC_MODELS[1]},
-        {"id": "model3", "name": MOCK_GEC_MODELS[2]},
-        {"id": "model4", "name": MOCK_GEC_MODELS[3]},
+        # {"id": "model2", "name": MOCK_GEC_MODELS[1]},
+        # {"id": "model3", "name": MOCK_GEC_MODELS[2]},
+        # {"id": "model4", "name": MOCK_GEC_MODELS[3]},
     ]
 
     # Asynchronously call mock_gec_system for each model_id
