@@ -512,7 +512,7 @@ class InputParser:
         return input_string.strip().split("\n")
 
 
-# TODO: config model_id
+# TODO: refactor; specify parser for each model
 class ModelIOParser:
     @staticmethod
     def parse_model_output(
