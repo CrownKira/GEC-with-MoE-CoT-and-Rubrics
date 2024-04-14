@@ -6,3 +6,5 @@ errant
 tiktoken
 groq
 json_repair
+langchain_experimental 
+langchain_openai

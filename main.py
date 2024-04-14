@@ -16,6 +16,12 @@ from tiktoken import get_encoding
 import subprocess
 import groq
 from clients.greco import AsyncGreco
+from langchain_experimental.text_splitter import (
+    SemanticChunker,
+    BreakpointThresholdType,
+)
+from langchain_openai.embeddings import AzureOpenAIEmbeddings
+from langchain_core.utils.utils import convert_to_secret_str
 
 
 # python3 main.py
@@ -261,11 +267,52 @@ def calculate_avg_chars_per_token(sample_text: str) -> float:
     return total_chars / total_tokens
 
 
+def split_text_into_semantic_chunks(
+    text: str,
+    breakpoint_threshold_type: BreakpointThresholdType = "percentile",
+) -> List[str]:
+    """
+    Uses LangChain's Semantic Chunker to semantically chunk the given text.
+
+    Parameters:
+    - text: str - The input text to be chunked.
+    - breakpoint_threshold_type: str - The method to determine when to split chunks. Options are "percentile",
+      "standard_deviation", or "interquartile". Default is "percentile".
+
+    Returns:
+    - A list of semantically chunked text.
+    """
+
+    # TODO: config breakpoint_threshold_type
+    # Initialize the SemanticChunker with AzureOpenAIEmbeddings
+    text_splitter = SemanticChunker(
+        embeddings=AzureOpenAIEmbeddings(
+            azure_endpoint=AZURE_ENDPOINT,
+            api_version="2023-12-01-preview",
+            api_key=convert_to_secret_str(OPENAI_API_KEY),
+        ),
+        breakpoint_threshold_type=breakpoint_threshold_type,
+    )
+
+    # Create documents (chunks) from the input text
+    docs = text_splitter.create_documents([text])
+
+    # Extract the chunked text from the documents
+    chunks = [doc.page_content for doc in docs]
+
+    return chunks
+
+
 def split_text_into_batches(
     text: str,
     batch_size_in_tokens: int = BATCH_SIZE_IN_TOKENS,
     max_lines: Optional[int] = MAX_LINES_PER_BATCH,
+    use_semantic_chunking: bool = False,
 ) -> List[str]:
+
+    if use_semantic_chunking:
+        return split_text_into_semantic_chunks(text)
+
     lines = text.split("\n")
     batches = []
     current_batch = ""
@@ -548,7 +595,9 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
         )
         if should_write_header:
             await csv_file.write('"Batch Number","Corrected Text"\n')
-        batches = split_text_into_batches(text, BATCH_SIZE_IN_TOKENS)
+        batches = split_text_into_batches(
+            text, BATCH_SIZE_IN_TOKENS, use_semantic_chunking=True
+        )
         total_batches = len(batches)
         tasks = []
         for batch_number, batch_text in enumerate(batches, start=1):
