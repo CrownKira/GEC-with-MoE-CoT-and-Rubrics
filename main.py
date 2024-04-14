@@ -16,7 +16,7 @@ from tiktoken import get_encoding
 import subprocess
 import groq
 from clients.greco import AsyncGreco
-from langchain_experimental.text_splitter import (
+from splitters.text_splitter import (
     SemanticChunker,
     BreakpointThresholdType,
 )
