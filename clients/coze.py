@@ -108,6 +108,7 @@ class AsyncCoze:
 
                 # response = await call_greco_async(model_params["query"], True)
                 response = await call_greco_async(model_params["query"], False)
+                response = response.strip()
 
                 print("coze response:", response)
 
