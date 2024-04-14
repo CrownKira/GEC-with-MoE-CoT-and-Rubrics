@@ -17,7 +17,7 @@ COZE_BOT_ID = os.getenv("COZE_BOT_ID", "")
 
 
 # ENABLE_QUIET = True
-ENABLE_QUIET = False
+ENABLE_QUIET = True
 
 
 def call_greco(sentences: str, quiet: bool = False) -> str:
