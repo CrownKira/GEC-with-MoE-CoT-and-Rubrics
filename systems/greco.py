@@ -1196,22 +1196,8 @@ async def read_input_file(file_path: str) -> str:
 
 
 if __name__ == "__main__":
-    # Parse arguments
-    parser = argparse.ArgumentParser(description="Process some inputs.")
-    parser.add_argument(
-        "input_text",
-        nargs="?",
-        default=None,
-        help="The input text to process. Optional.",
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="Run in quiet mode, producing only the final output.",
-    )
-    args = parser.parse_args()
 
-    # print("input_text", args.quiet)
+    # print("input_text", args.input_text)
     # print("--quiet", args.quiet)
 
     # Determine the input_string based on args.input_text
