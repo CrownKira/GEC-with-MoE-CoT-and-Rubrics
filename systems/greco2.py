@@ -26,6 +26,7 @@ from typing import Any, List, Optional, Callable
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.' --quiet
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.'
 # python3 -m systems.greco2 $'It \'s difficult answer at the question \" what are you going to do in the future ? \" if the only one who has to know it is in two minds .\nWhen I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n\'t know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt \'s difficult because I \'ll have to study hard and a lot , but I think that if you like a subject , you \'ll study it easier .\nMaybe I \'ll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you \'ll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n\'t have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n\'t necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends .'
+# python3 -m systems.greco2 $'When I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n\'t know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt \'s difficult because I \'ll have to study hard and a lot , but I think that if you like a subject , you \'ll study it easier .\nMaybe I \'ll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you \'ll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n\'t have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n\'t necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends .'
 
 
 # Ensure you have loaded the spaCy model at the start of your script
@@ -95,11 +96,10 @@ TEXT_DELIMITER = "~~~"
 # NON-TUNABLE CONFIGS
 
 # CONFIGS: INPUT PREPROCESSING
-# MAX_TOKENS = 1024
-
-
 # The maximum context length for the Azure GPT-3.5-turbo-1106 model is 16,385 tokens, which encompasses both input and output tokens. However, the limit for the output tokens specifically is set at 4,096 tokens. When calling the API, you should ensure that max_tokens <= 4096 and the sum of input_tokens + max_tokens <= 16385​ (OpenAI Developer Forum)​.
-MAX_TOKENS = 4096
+# MAX_TOKENS = 4096
+MAX_TOKENS = 1024
+QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.2
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 VOTE_INCREASE_FACTOR = 0.05
 MAX_SCORE_CAP = 110  # Maximum allowed score
@@ -125,7 +125,7 @@ COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 RETRY_DELAY = 5  # Delay in seconds before retrying an API
 QPM_LIMIT = 5  # Queries per minute limit
 # MAX_RETRIES = 3  # Maximum number of retries for an API call
-MAX_RETRIES = 12  # Maximum number of iterations to attempt to complete JSON or due to other retry conditions
+MAX_RETRIES = 30  # Maximum number of iterations to attempt to complete JSON or due to other retry conditions
 CONTINUE_PROMPT = "Continue to complete the JSON above."
 
 
@@ -598,6 +598,31 @@ def trim_to_last_complete_object(json_string: str) -> str:
     return json_string[: trim_position + 1]
 
 
+def merge_responses(previous_response: str, next_response: str) -> str:
+    """
+    Merges the next JSON response with the previous one, ensuring valid JSON structure.
+    Specifically, it handles cases where individual JSON objects need to be part of a larger array.
+
+    Parameters:
+    - previous_response: The accumulated JSON response so far.
+    - next_response: The latest JSON response fragment to merge.
+
+    Returns:
+    - A string representing the merged JSON response.
+    """
+    # Trim trailing whitespace to accurately check for closing characters
+    trimmed_previous_response = previous_response.rstrip()
+    trimmed_next_response = next_response.lstrip()
+
+    # Check if we need to insert a comma to separate JSON objects
+    if trimmed_previous_response.endswith(
+        "}"
+    ) and trimmed_next_response.startswith("{"):
+        return trimmed_previous_response + "," + trimmed_next_response
+    else:
+        return trimmed_previous_response + trimmed_next_response
+
+
 async def ask_llm(
     prompt: str,
     text: str,
@@ -607,36 +632,42 @@ async def ask_llm(
     output_parser: Callable[[str], List[str]],
     fallback_model_name: Optional[str] = None,
     is_json: bool = True,  # Indicates if the response should be JSON
+    extra_model_params: Optional[dict] = None,
 ) -> List[str]:
     client = get_openai_client(model_name)
     iteration = 0  # Initialize iteration counter
     incomplete_json = False  # Flag to indicate if the previous attempt failed due to incomplete JSON
     response = ""
 
+    # Default model parameters
+    default_model_params = {
+        "temperature": 0,
+        "max_tokens": MAX_TOKENS,
+        "frequency_penalty": 0,
+    }
+
+    # If extra_model_params is provided, update the default_model_params with it
+    if extra_model_params is not None:
+        default_model_params.update(extra_model_params)
+
     while iteration < MAX_RETRIES:
         try:
             logging.info(
                 f"[{model_name}] Sending request for batch {batch_number}/{total_batches}: {text}"
             )
+
+            # TODO: pass in model params, else use default
             model_params = {
+                **default_model_params,  # Spread the default (or updated) model parameters
                 "model": model_name,
                 "messages": [
                     {"role": "system", "content": prompt},
                     {"role": "user", "content": text},
                 ],
-                "temperature": 0,
-                "max_tokens": MAX_TOKENS,
             }
+
             if model_name in OPENAI_JSON_MODE_SUPPORTED_MODELS:
                 model_params["response_format"] = {"type": "json_object"}
-            # if model_name in COZE_BOTS:
-            #     # TODO: extract to .env
-            #     model_params = {
-            #         "bot_id": model_name,
-            #         "user": "KyleToh",
-            #         "query": text,
-            #         "stream": False,
-            #     }
 
             if iteration == 0 or not incomplete_json:
                 # Initial request or a retry not caused by incomplete JSON
@@ -669,7 +700,7 @@ async def ask_llm(
 
             completion = await client.chat.completions.create(**model_params)
             next_response = completion.choices[0].message.content
-            response += next_response
+            response = merge_responses(response, next_response)
 
             print("kw3: ", next_response)
 
@@ -705,15 +736,6 @@ async def ask_llm(
             response = trim_to_last_complete_object(response)
 
             print("kw1", response)
-
-            # last_valid_index = response.rfind("},")
-            # if last_valid_index > 0:
-            #     response = response[: last_valid_index + 2]
-            #     print("kw1", response)
-            # else:
-            #     last_valid_index = response.rfind("}")
-            #     response = response[: last_valid_index + 1]
-            #     print("kw2", response)
 
         except Exception as e:
             logging.error(
@@ -921,6 +943,10 @@ async def quality_estimation_node(
         # Logging information about the model being processed
         logging.info(f"Processing model: {model_id}")
 
+        extra_model_params = {
+            "frequency_penalty": QUALITY_ESTIMATION_FREQUENCY_PENALTY,
+        }
+
         # Making an assumption about the ask_llm function call; adapt as necessary
         quality_scores[model_id] = await ask_llm(
             prompt=prompt,  # Now includes structured instructions for processing JSON input
@@ -931,6 +957,7 @@ async def quality_estimation_node(
             output_parser=lambda response: output_parser(
                 response, expected_num_sentences
             ),
+            extra_model_params=extra_model_params,
         )
 
     # Logging information about the function completion
