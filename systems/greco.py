@@ -58,7 +58,9 @@ LOCAL_LLM_MODELS = [
 TOGETHER_AI_MODELS = [
     "togethercomputer/Llama-2-7B-32K-Instruct",
     "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "mistralai/mixtral-8x22b",
 ]
+
 
 GROQ_MODELS = [
     "gemma-7b-it",
@@ -80,7 +82,9 @@ MOCK_GEC_MODELS = [
 ]
 
 
+# change estimation model
 QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# QUALITY_ESTIMATION_MODEL_NAME = TOGETHER_AI_MODELS[2]
 
 
 # CONFIGS: PROMPT
@@ -1105,14 +1109,9 @@ async def system_combination_node(
 
 
 async def execute_workflow(input_string: str):
-    input_sentences = InputParser.parse_input(input_string)
-    # model_ids: List[dict[str, str]] = [
-    #     {"id": "model1", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
-    #     {"id": "model2", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
-    #     {"id": "model3", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
-    # ]
+    start_time = datetime.datetime.now()  # Start timing the workflow
 
-    # change models here
+    input_sentences = InputParser.parse_input(input_string)
     models: List[dict[str, str]] = [
         {"id": "model1", "name": MOCK_GEC_MODELS[0]},
         {"id": "model2", "name": MOCK_GEC_MODELS[1]},
@@ -1120,68 +1119,62 @@ async def execute_workflow(input_string: str):
         {"id": "model4", "name": MOCK_GEC_MODELS[3]},
     ]
 
-    # Asynchronously call mock_gec_system for each model_id
     tasks = [
         mock_gec_system(input_sentences, model_id["name"], model_id["id"])
         for model_id in models
     ]
-
+    model_responses_start = datetime.datetime.now()
     model_responses = await asyncio.gather(*tasks)
+    model_responses_end = datetime.datetime.now()
+    logging.info(
+        f"Model responses gathered in {model_responses_end - model_responses_start}."
+    )
 
-    # Aggregate model responses
     aggregated_responses = {
         model_id: response for model_id, response in model_responses
     }
 
-    # Initiate Quality Estimation and Edit Extraction concurrently
     quality_estimation_task = quality_estimation_node(
         input_sentences,
         aggregated_responses,
         models,
         QUALITY_ESTIMATION_MODEL_NAME,
     )
-    edit_extraction_task = extract_edits(
-        aggregated_responses, input_sentences
-    )  # Adjust this if extract_edits is async
+    edit_extraction_task = extract_edits(aggregated_responses, input_sentences)
 
-    # Wait for both tasks to complete
+    quality_and_edits_start = datetime.datetime.now()
     quality_estimation, edits_output = await asyncio.gather(
         quality_estimation_task, edit_extraction_task
     )
+    quality_and_edits_end = datetime.datetime.now()
+    logging.info(
+        f"Quality estimation and edit extraction completed in {quality_and_edits_end - quality_and_edits_start}."
+    )
 
-    # Calculate edit votes after edit extraction is done
     edit_votes = calculate_edit_votes(edits_output)
 
-    # Adjust quality scores based on edit votes
+    adjusted_quality_scores_start = datetime.datetime.now()
     adjusted_quality_scores = await quality_adjustment_node(
         quality_estimation, edit_votes, edits_output
     )
+    adjusted_quality_scores_end = datetime.datetime.now()
+    logging.info(
+        f"Adjusted quality scores calculated in {adjusted_quality_scores_end - adjusted_quality_scores_start}."
+    )
 
-    # System combination to select the best sentences
+    best_sentences_start = datetime.datetime.now()
     best_sentences = await system_combination_node(
         adjusted_quality_scores, aggregated_responses
     )
+    best_sentences_end = datetime.datetime.now()
+    logging.info(
+        f"Best sentences selection completed in {best_sentences_end - best_sentences_start}."
+    )
 
-    # Now, after both quality estimation, edit votes calculation, and system combination are done, print out the results
-    logging.info("Edit Extraction:")
-    logging.info(json.dumps(edits_output, indent=2))
+    end_time = datetime.datetime.now()
+    logging.info(f"Total workflow execution time: {end_time - start_time}.")
 
-    logging.info("Voting Bias:")
-    logging.info(json.dumps(edit_votes, indent=2))
-
-    logging.info("Quality Estimation:")
-    logging.info(json.dumps(quality_estimation, indent=2))
-
-    logging.info("Adjusted Quality Scores:")
-    logging.info(json.dumps(adjusted_quality_scores, indent=2))
-
-    logging.info("Best Sentences Selected:")
-    logging.info(json.dumps(best_sentences, indent=2))
-
-    # After all processing is done, create the final output
     final_output = "\n".join(best_sentences)
-
-    # Return the final output instead of printing or logging
     return final_output
 
 
