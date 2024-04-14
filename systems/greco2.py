@@ -18,6 +18,9 @@ from clients.coze import AsyncCoze
 import spacy
 import errant
 import argparse
+import json
+import logging
+from typing import Any, List, Optional, Callable
 
 
 # python3 -m systems.greco2 $'This first sentence is.\nSecond is sentence.\nThird the is sentence.' --quiet
@@ -71,7 +74,7 @@ QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 
 
 # change model here
-MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
 # MODEL_NAME = COZE_BOTS[0]
@@ -83,7 +86,8 @@ GRAMMAR_VARIANT = "British"
 
 
 # TEXT_DELIMITER = "|||"
-TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
+TEXT_DELIMITER = "~~~"
+
 
 # CONFIGS: RAG
 
@@ -91,7 +95,11 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 # NON-TUNABLE CONFIGS
 
 # CONFIGS: INPUT PREPROCESSING
-MAX_TOKENS = 1024
+# MAX_TOKENS = 1024
+
+
+# The maximum context length for the Azure GPT-3.5-turbo-1106 model is 16,385 tokens, which encompasses both input and output tokens. However, the limit for the output tokens specifically is set at 4,096 tokens. When calling the API, you should ensure that max_tokens <= 4096 and the sum of input_tokens + max_tokens <= 16385​ (OpenAI Developer Forum)​.
+MAX_TOKENS = 4096
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 VOTE_INCREASE_FACTOR = 0.05
 MAX_SCORE_CAP = 110  # Maximum allowed score
@@ -114,9 +122,12 @@ TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
-MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 5  # Delay in seconds before retrying an API
 QPM_LIMIT = 5  # Queries per minute limit
+# MAX_RETRIES = 3  # Maximum number of retries for an API call
+MAX_RETRIES = 12  # Maximum number of iterations to attempt to complete JSON or due to other retry conditions
+CONTINUE_PROMPT = "Continue to complete the JSON above."
+
 
 # CONFIGS: OTHERS
 # ANSI escape codes for colors
@@ -148,6 +159,122 @@ Your output should be JSON only, like:
 
 Ensure that the number of scores matches the number of corrected sentences provided.
 """
+
+
+# QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
+
+# ### Rubric for Evaluating Sentence Corrections:
+
+# 1. **Spelling Errors [SPELL]**:
+#    - Minor: -2 points [SPELL-MIN]
+#    - Major: -5 points [SPELL-MAJ]
+
+# 2. **Punctuation Errors [PUNCT]**:
+#    - Minor: -2 points [PUNCT-MIN]
+#    - Major: -5 points [PUNCT-MAJ]
+
+# 3. **Verb Tense and Grammatical Accuracy [GRAM]**:
+#    - Minor: -3 points [GRAM-MIN]
+#    - Major: -7 points [GRAM-MAJ]
+
+# 4. **Preservation of Meaning [MEAN]**:
+#    - Minor deviations: -4 points [MEAN-MIN]
+#    - Major alterations: -10 points [MEAN-MAJ]
+
+# 5. **Language Appropriateness [LANG]**:
+#    - Tone mismatch: -5 points [LANG-TONE]
+#    - Incorrect formality level: -6 points [LANG-FORM]
+#    - Mixing grammar variants: -3 points [LANG-MIX]
+#    - Inappropriate vocabulary: -8 points [LANG-VOCAB]
+
+# 6. **Others [OTHER]**:
+#    - Any errors not covered above: Up to -10 points (at grader's discretion)
+
+# For each identified error, provide feedback using the format: "[Subtag] [Explanation of the error and what would be a correct approach] [-Deduction]."
+
+# # Desired Output JSON Format:
+# Your feedback should categorize errors under specific tags and subtags, providing a detailed explanation for each error detected. Summarize the deductions and final scores in a structured report, formatted as JSON:
+
+# {
+#     "evaluations": [
+#         {
+#             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+#             "student_sentence_grades": [
+#                 {
+#                     "type": "SPELL-MIN",
+#                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
+#                     "deduction": -2
+#                 },
+#                 {
+#                     "type": "GRAM-MIN",
+#                     "description": "'were unphased' should be 'were unfazed' to correct the spelling mistake",
+#                     "deduction": -2
+#                 }
+#             ],
+#             "corrected_text": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+#             "total_deductions": -4,
+#             "score": 96
+#         },
+#         {
+#             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+#             "student_sentence_grades": [
+#                 {
+#                     "type": "WORD",
+#                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
+#                     "deduction": -2
+#                 },
+#                 {
+#                     "type": "GRAM-MIN",
+#                     "description": "'venerable seafarer known for hes bravery' could be rephrased to 'venerable seafarer, known for his bravery,' for better clarity and use of commas",
+#                     "deduction": -3
+#                 }
+#             ],
+#             "corrected_text": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+#             "total_deductions": -5,
+#             "score": 95
+#         },
+#         {
+#             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+#             "student_sentence_grades": [
+#                 {
+#                     "type": "SPELL-MIN",
+#                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
+#                     "deduction": -2
+#                 },
+#                 {
+#                     "type": "PUNCT-MIN",
+#                     "description": "'a gigantic wave, unlike any they had seen before, approached' – consider adding a semicolon before 'unlike' for stylistic emphasis and clarity",
+#                     "deduction": -1
+#                 }
+#             ],
+#             "corrected_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+#             "total_deductions": -3,
+#             "score": 97
+#         },
+#         {
+#             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+#             "student_sentence_grades": [
+#                 {
+#                     "type": "WORD",
+#                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
+#                     "deduction": -2
+#                 },
+#                 {
+#                     "type": "TONE",
+#                     "description": "'We must not underestemate this storm,' he declared – 'underestemate' should be 'underestimate'. Additionally, using 'he declared' after a direct command might be redundant. A more nuanced approach could enhance the dramatic tone; consider 'he proclaimed' for variation",
+#                     "deduction": -3
+#                 }
+#             ],
+#             "corrected_text": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+#             "total_deductions": -5,
+#             "score": 95
+#         }
+#     ]
+# }
+
+# Ensure that the number of scores matches the number of corrected sentences provided.
+# Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
+# """
 
 
 QUALITY_ESTIMATION_PROMPT_V2 = """You are an English teacher who assesses the quality of students' grammatical error corrections. Evaluate each student's corrected sentence based on the criteria outlined in the rubric below:
@@ -185,10 +312,12 @@ For each identified error, provide feedback using the format: "[Subtag] [Explana
 Your feedback should categorize errors under specific tags and subtags, providing a detailed explanation for each error detected. Summarize the deductions and final scores in a structured report, formatted as JSON: 
 
 {
+    "total_student_sentences": 4,
     "evaluations": [
         {
-            "student_text": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-            "student_text_grades": [
+            "index": 0,
+            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "student_sentence_grades": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It's crew' should be 'Its crew' to denote possession, not contraction",
@@ -205,8 +334,9 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 96
         },
         {
-            "student_text": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-            "student_text_grades": [
+            "index": 1,
+            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "student_sentence_grades": [
                 {
                     "type": "WORD",
                     "description": "'hes bravery' should be 'his bravery' to correct the pronoun error",
@@ -223,8 +353,9 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 95
         },
         {
-            "student_text": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-            "student_text_grades": [
+            "index": 2,
+            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "student_sentence_grades": [
                 {
                     "type": "SPELL-MIN",
                     "description": "'It’s size and ferocity' should be 'Its size and ferocity' to correctly use the possessive form",
@@ -241,8 +372,9 @@ Your feedback should categorize errors under specific tags and subtags, providin
             "score": 97
         },
         {
-            "student_text": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-            "student_text_grades": [
+            "index": 3,
+            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "student_sentence_grades": [
                 {
                     "type": "WORD",
                     "description": "'ordered for the sails to be lowered' should be 'ordered the sails to be lowered' to streamline the command",
@@ -435,6 +567,37 @@ def extract_error_snippet(
     return snippet
 
 
+def trim_to_last_complete_object(json_string: str) -> str:
+    """
+    Trims the given string from the end until it encounters "}, " or "}",
+    indicating the end of a complete JSON object.
+
+    Parameters:
+    - json_string: The JSON string to trim.
+
+    Returns:
+    - A trimmed JSON string ending with a complete object.
+    """
+    # Find the last occurrence of either "}," or "}"
+    last_object_end = json_string.rfind("},")
+    last_brace_end = json_string.rfind("}")
+
+    if last_object_end == -1 and last_brace_end == -1:
+        # If neither "}," nor "}" is found, return the original string
+        # This case might indicate an issue with the input string
+        return json_string
+
+    # Determine which of "}," or "}" occurs last and trim accordingly
+    trim_position = max(last_object_end, last_brace_end)
+
+    # Include the closing brace if trimming to "}"
+    if trim_position == last_brace_end:
+        trim_position += 1
+
+    # Return the substring up to and including the last complete object
+    return json_string[: trim_position + 1]
+
+
 async def ask_llm(
     prompt: str,
     text: str,
@@ -443,11 +606,14 @@ async def ask_llm(
     model_name: str,
     output_parser: Callable[[str], List[str]],
     fallback_model_name: Optional[str] = None,
+    is_json: bool = True,  # Indicates if the response should be JSON
 ) -> List[str]:
-
     client = get_openai_client(model_name)
-    retries = 0
-    while retries < MAX_RETRIES:
+    iteration = 0  # Initialize iteration counter
+    incomplete_json = False  # Flag to indicate if the previous attempt failed due to incomplete JSON
+    response = ""
+
+    while iteration < MAX_RETRIES:
         try:
             logging.info(
                 f"[{model_name}] Sending request for batch {batch_number}/{total_batches}: {text}"
@@ -463,67 +629,159 @@ async def ask_llm(
             }
             if model_name in OPENAI_JSON_MODE_SUPPORTED_MODELS:
                 model_params["response_format"] = {"type": "json_object"}
-            if model_name in COZE_BOTS:
-                # TODO: extract to .env
-                model_params = {
-                    "bot_id": model_name,
-                    "user": "KyleToh",
-                    "query": text,
-                    "stream": False,
-                }
+            # if model_name in COZE_BOTS:
+            #     # TODO: extract to .env
+            #     model_params = {
+            #         "bot_id": model_name,
+            #         "user": "KyleToh",
+            #         "query": text,
+            #         "stream": False,
+            #     }
 
-            # TODO: extract to a function
+            if iteration == 0 or not incomplete_json:
+                # Initial request or a retry not caused by incomplete JSON
+                model_params["messages"] = [
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": text},
+                ]
+            else:
+                # Retry due to incomplete JSON, include continuation prompt and partial response
+
+                model_params["messages"] = [
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": text},
+                    {
+                        "role": "assistant",
+                        "content": response,
+                    },  # Include the last partial JSON response
+                    {"role": "user", "content": CONTINUE_PROMPT},
+                ]
+
+                # del model_params["response_format"]next_response
+
+                # logging.info(
+                #     f"[{model_name}] {BLUE}Retrying request for batch due to incomplete JSON {batch_number}/{total_batches}: {model_params}{RESET}"
+                # )
+
+            # logging.info(
+            #     f"[{model_name}] {BLUE}Sending request for batch {batch_number}/{total_batches}: {model_params}{RESET}"
+            # )
+
             completion = await client.chat.completions.create(**model_params)
-            response = completion.choices[0].message.content
+            next_response = completion.choices[0].message.content
+            response += next_response
+
+            print("kw3: ", next_response)
 
             # TODO: debug special character
             logging.info(
                 f"[{model_name}] {YELLOW}Received raw response for batch {batch_number}/{total_batches}: {response}{RESET}"
             )
 
-            # Call the output parser function on the response
-            parsed_output = output_parser(
-                response
-            )  # Assuming the parser accepts the response and text as arguments
-            return parsed_output  # Return the parsed output
+            # Reset the incomplete_json flag for the next iteration
+            incomplete_json = False
+
+            if is_json:
+                # Attempt to parse the JSON to check completeness
+                json.loads(response)
+                logging.info(
+                    f"[{model_name}] Received complete JSON response for batch {batch_number}/{total_batches}"
+                )
+
+            # If successful, process and return the parsed output
+            parsed_output = output_parser(response)
+            return parsed_output
 
         except json.JSONDecodeError as e:
-            error_snippet = extract_error_snippet(e)
-            logging.error(
-                f"[{model_name}] Error processing response for batch {batch_number}/{total_batches}: {error_snippet}"
+            if not is_json:
+                raise e  # If not expecting JSON, re-raise the exception
+
+            # Set the flag indicating that this retry will be due to incomplete JSON
+            incomplete_json = True
+            logging.warning(
+                f"[{model_name}] Received incomplete JSON, attempting to repair and continue."
             )
-        except ValueError as e:
-            logging.error(
-                f"[{model_name}] Error processing response for batch {batch_number}/{total_batches}: {e}"
-            )
+
+            response = trim_to_last_complete_object(response)
+
+            print("kw1", response)
+
+            # last_valid_index = response.rfind("},")
+            # if last_valid_index > 0:
+            #     response = response[: last_valid_index + 2]
+            #     print("kw1", response)
+            # else:
+            #     last_valid_index = response.rfind("}")
+            #     response = response[: last_valid_index + 1]
+            #     print("kw2", response)
+
         except Exception as e:
             logging.error(
-                f"[{model_name}] An error occurred while processing batch {batch_number}/{total_batches}: {e}"
+                f"[{model_name}] An error occurred while processing: {e}"
             )
-        retries += 1
-        if retries < MAX_RETRIES:
-            logging.info(
-                f"{YELLOW}[{model_name}] Retrying for batch {batch_number}/{total_batches} (Attempt {retries}/{MAX_RETRIES}){RESET}"
+
+        # Increment the iteration after handling all exceptions
+        iteration += 1
+        if iteration >= MAX_RETRIES:
+            return await handle_max_retries(
+                model_name,
+                fallback_model_name,
+                prompt,
+                text,
+                batch_number,
+                total_batches,
+                output_parser,
+                is_json,
             )
-            await asyncio.sleep(RETRY_DELAY)
-        else:
-            if fallback_model_name:
-                logging.info(
-                    f"{YELLOW}[{model_name}] Max retries reached, switching to fallback model: {fallback_model_name}{RESET}"
-                )
-                model_name = (
-                    fallback_model_name  # Switch to the fallback model
-                )
-                fallback_model_name = (
-                    None  # Reset fallback_model_name to avoid infinite loops
-                )
-                retries = 0  # Reset retry counter for the fallback model
-            else:
-                logging.error(
-                    f"[{model_name}] Max retries reached for batch {batch_number}/{total_batches} with the fallback model. Exiting the program."
-                )
-                sys.exit(1)  # Exit the program with a non-zero status code
-    raise RuntimeError("Unexpected execution path")
+
+    # If loop exits due to reaching MAX_RETRIES
+    logging.error(
+        f"[{model_name}] Failed to complete JSON or recover from error after maximum iterations."
+    )
+    raise RuntimeError("Maximum iteration limit reached.")
+
+
+async def handle_max_retries(
+    model_name,
+    fallback_model_name,
+    prompt,
+    text,
+    batch_number,
+    total_batches,
+    output_parser,
+    is_json,
+):
+    if fallback_model_name:
+        logging.info(
+            f"[{model_name}] Max retries reached, switching to fallback model: {fallback_model_name}"
+        )
+        # Update the client to use the fallback model
+        # new_client = get_openai_client(fallback_model_name)
+        # Retry the request with the fallback model, starting the iteration process again but keeping the batch context
+        try:
+            fallback_response = await ask_llm(
+                prompt=prompt,
+                text=text,
+                batch_number=batch_number,
+                total_batches=total_batches,
+                model_name=fallback_model_name,
+                output_parser=output_parser,
+                fallback_model_name=None,  # Ensure no further fallback attempts
+                is_json=is_json,
+            )
+            return fallback_response
+        except Exception as e:
+            # If the fallback attempt also fails, log the error and exit
+            logging.error(
+                f"[{fallback_model_name}] Fallback attempt failed: {e}"
+            )
+            sys.exit(1)
+    else:
+        # No fallback model specified, or fallback attempt failed
+        logging.error(
+            f"[{model_name}] Max retries reached with no available fallback. Exiting."
+        )
+        sys.exit(1)
 
 
 async def mock_gec_system(
@@ -637,8 +895,8 @@ async def quality_estimation_node(
 
         # Construct JSON input for the prompt
         text = {
-            "original_text": input_sentences,
-            "student_text": corrected_sentences,
+            "original_sentence": input_sentences,
+            "student_sentence": corrected_sentences,
         }
 
         prompt = QUALITY_ESTIMATION_PROMPT_V2
@@ -773,7 +1031,10 @@ async def system_combination_node(
 
 async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
-    model_ids = [OPENAI_JSON_MODE_SUPPORTED_MODELS[0], TOGETHER_AI_MODELS[1]]
+    model_ids = [
+        OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+        #  , TOGETHER_AI_MODELS[1]
+    ]
 
     # Asynchronously call mock_gec_system for each model_id
     tasks = [

@@ -5,3 +5,4 @@ spacy
 errant
 tiktoken
 groq
+json_repair
