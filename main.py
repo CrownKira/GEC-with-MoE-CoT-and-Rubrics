@@ -8,7 +8,7 @@ import aiofiles
 import csv
 from dotenv import load_dotenv
 import atexit
-from typing import Any, List
+from typing import Any, List, Optional
 import spacy
 import logging
 import datetime
@@ -86,7 +86,8 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 # CONFIGS: INPUT PREPROCESSING
 MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
-MAX_LINES_PER_BATCH = 3
+# MAX_LINES_PER_BATCH = 3
+MAX_LINES_PER_BATCH = None
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 
@@ -263,7 +264,7 @@ def calculate_avg_chars_per_token(sample_text: str) -> float:
 def split_text_into_batches(
     text: str,
     batch_size_in_tokens: int = BATCH_SIZE_IN_TOKENS,
-    max_lines: int = MAX_LINES_PER_BATCH,
+    max_lines: Optional[int] = MAX_LINES_PER_BATCH,
 ) -> List[str]:
     lines = text.split("\n")
     batches = []
