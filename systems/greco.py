@@ -829,8 +829,9 @@ async def handle_max_retries(
 
 async def mock_gec_system(
     input_sentences: List[str],
+    model_name: str,
     model_id: str,
-    fallback_model_id: Optional[str] = None,
+    fallback_model_name: Optional[str] = None,
 ) -> tuple:
     # Simulate processing of input sentences by a mock GEC system
     # Utilize ModelIOParser for preparing input and parsing output
@@ -842,8 +843,8 @@ async def mock_gec_system(
         text=prepared_input,
         batch_number=1,
         total_batches=1,
-        model_name=model_id,
-        fallback_model_name=fallback_model_id,
+        model_name=model_name,
+        fallback_model_name=fallback_model_name,
         output_parser=lambda response: ModelIOParser.parse_model_output(
             response, input_sentences
         ),
@@ -916,7 +917,7 @@ def calculate_edit_votes(edits_output):
 async def quality_estimation_node(
     input_sentences: List[str],
     aggregated_responses: Dict[str, List[str]],
-    model_ids: List[str],
+    models: List[dict[str, str]],
     quality_estimation_model_id: str,
 ):
     """
@@ -927,13 +928,14 @@ async def quality_estimation_node(
     :param client: The client used to communicate with the LLM.
     :return: A dictionary mapping model names to quality scores for each sentence.
     """
-    quality_scores = {}
+    quality_scores: Dict[str, List[float]] = {}
 
     # Logging information about the function start
     logging.info("Starting quality estimation node.")
 
-    for model_id in model_ids:
+    for model in models:
 
+        model_id = model["id"]
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
@@ -969,7 +971,7 @@ async def quality_estimation_node(
         }
 
         # Making an assumption about the ask_llm function call; adapt as necessary
-        quality_scores[model_id] = await ask_llm(
+        scores: List[str] = await ask_llm(
             prompt=prompt,  # Now includes structured instructions for processing JSON input
             text=json.dumps(text),  # Passes the constructed JSON as input
             batch_number=1,
@@ -980,6 +982,7 @@ async def quality_estimation_node(
             ),
             extra_model_params=extra_model_params,
         )
+        quality_scores[model_id] = [float(x) for x in scores]
 
     # Logging information about the function completion
     logging.info("Quality estimation node completed.")
@@ -1079,17 +1082,18 @@ async def system_combination_node(
 
 async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
-    model_ids = [
-        OPENAI_JSON_MODE_SUPPORTED_MODELS[0],
-        OPENAI_JSON_MODE_SUPPORTED_MODELS[0],
-        OPENAI_JSON_MODE_SUPPORTED_MODELS[0],
-        #  , TOGETHER_AI_MODELS[1]
+    model_ids: List[dict[str, str]] = [
+        {"id": "model1", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+        {"id": "model2", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+        {"id": "model3", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
     ]
 
     # Asynchronously call mock_gec_system for each model_id
     tasks = [
-        mock_gec_system(input_sentences, model_id) for model_id in model_ids
+        mock_gec_system(input_sentences, model_id["name"], model_id["id"])
+        for model_id in model_ids
     ]
+
     model_responses = await asyncio.gather(*tasks)
 
     # Aggregate model responses
