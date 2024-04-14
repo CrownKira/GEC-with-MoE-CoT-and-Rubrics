@@ -83,13 +83,6 @@ MOCK_GEC_MODELS = [
 QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 
 
-# change model here
-# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-# MODEL_NAME = TOGETHER_AI_MODELS[1]
-# MODEL_NAME = GROQ_MODELS[2]
-# MODEL_NAME = COZE_BOTS[0]
-
-
 # CONFIGS: PROMPT
 # GRAMMAR_VARIANT = "standard American"
 GRAMMAR_VARIANT = "British"
@@ -786,6 +779,7 @@ async def ask_llm(
             logging.info(f"[{model_name}] Repaired JSON: {response}")
 
         except Exception as e:
+            response = ""
             logging.error(
                 f"[{model_name}] An error occurred while processing: {e}"
             )
@@ -1118,17 +1112,18 @@ async def execute_workflow(input_string: str):
     #     {"id": "model3", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
     # ]
 
-    model_ids: List[dict[str, str]] = [
-        {"id": "model1", "name": MOCK_GEC_MODELS[0]},
+    # change models here
+    models: List[dict[str, str]] = [
+        # {"id": "model1", "name": MOCK_GEC_MODELS[0]},
         # {"id": "model2", "name": MOCK_GEC_MODELS[1]},
-        # {"id": "model3", "name": MOCK_GEC_MODELS[2]},
+        {"id": "model3", "name": MOCK_GEC_MODELS[2]},
         # {"id": "model4", "name": MOCK_GEC_MODELS[3]},
     ]
 
     # Asynchronously call mock_gec_system for each model_id
     tasks = [
         mock_gec_system(input_sentences, model_id["name"], model_id["id"])
-        for model_id in model_ids
+        for model_id in models
     ]
 
     model_responses = await asyncio.gather(*tasks)
@@ -1142,7 +1137,7 @@ async def execute_workflow(input_string: str):
     quality_estimation_task = quality_estimation_node(
         input_sentences,
         aggregated_responses,
-        model_ids,
+        models,
         QUALITY_ESTIMATION_MODEL_NAME,
     )
     edit_extraction_task = extract_edits(
