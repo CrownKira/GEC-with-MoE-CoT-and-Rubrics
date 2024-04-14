@@ -644,6 +644,7 @@ async def ask_llm(
     fallback_model_name: Optional[str] = None,
     is_json: bool = True,  # Indicates if the response should be JSON
     extra_model_params: Optional[dict] = None,
+    json_config: Optional[Dict[str, Any]] = None,
 ) -> List[str]:
     client = get_openai_client(model_name)
     iteration = 0  # Initialize iteration counter
@@ -661,9 +662,22 @@ async def ask_llm(
     if extra_model_params is not None:
         default_model_params.update(extra_model_params)
 
+    # Default JSON configuration
+    default_json_config = {
+        "end_sequences": [
+            "},",
+            "}",
+        ],  # Default end sequences for trimming incomplete JSON
+    }
+
+    # Update the default JSON configuration with any json_config provided
+    if json_config:
+        default_json_config.update(json_config)
+
     logging.info(
         f"[{model_name}] default_model_params : {default_model_params}"
     )
+    logging.info(f"[{model_name}] default_json_config : {default_json_config}")
 
     while iteration < MAX_RETRIES:
         try:
@@ -750,10 +764,12 @@ async def ask_llm(
                 f"[{model_name}] Received incomplete JSON, attempting to repair and continue."
             )
 
+            # Extract relevant configurations from json_config
+            end_sequences = default_json_config["end_sequences"]
+
             response = trim_to_last_complete_sequence(
                 response,
-                #   end_sequences=["},", "}"]
-                end_sequences=['"student_sentence_feedback": ['],
+                end_sequences=end_sequences,
             )
 
             logging.info(f"[{model_name}] Repaired JSON: {response}")
@@ -970,6 +986,8 @@ async def quality_estimation_node(
             "frequency_penalty": QUALITY_ESTIMATION_FREQUENCY_PENALTY,
         }
 
+        json_config = {"end_sequences": ['"student_sentence_feedback": [']}
+
         # Making an assumption about the ask_llm function call; adapt as necessary
         scores: List[str] = await ask_llm(
             prompt=prompt,  # Now includes structured instructions for processing JSON input
@@ -981,6 +999,7 @@ async def quality_estimation_node(
                 response, expected_num_sentences
             ),
             extra_model_params=extra_model_params,
+            json_config=json_config,
         )
         quality_scores[model_id] = [float(x) for x in scores]
 
