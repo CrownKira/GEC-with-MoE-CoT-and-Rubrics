@@ -97,9 +97,12 @@ TEXT_DELIMITER = "~~~"
 
 # CONFIGS: INPUT PREPROCESSING
 # The maximum context length for the Azure GPT-3.5-turbo-1106 model is 16,385 tokens, which encompasses both input and output tokens. However, the limit for the output tokens specifically is set at 4,096 tokens. When calling the API, you should ensure that max_tokens <= 4096 and the sum of input_tokens + max_tokens <= 16385​ (OpenAI Developer Forum)​.
-# MAX_TOKENS = 4096
-MAX_TOKENS = 1024
-QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.2
+DEFAULT_MAX_TOKENS = 4096
+DEFAULT_TEMPERATURE = 0.1
+DEFAULT_FREQUENCY_PENALTY = 0
+# MAX_TOKENS = 1024
+# QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.2
+QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0.1
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 VOTE_INCREASE_FACTOR = 0.05
 MAX_SCORE_CAP = 110  # Maximum allowed score
@@ -641,14 +644,16 @@ async def ask_llm(
 
     # Default model parameters
     default_model_params = {
-        "temperature": 0,
-        "max_tokens": MAX_TOKENS,
-        "frequency_penalty": 0,
+        "temperature": DEFAULT_TEMPERATURE,
+        "max_tokens": DEFAULT_MAX_TOKENS,
+        "frequency_penalty": DEFAULT_FREQUENCY_PENALTY,
     }
 
     # If extra_model_params is provided, update the default_model_params with it
     if extra_model_params is not None:
         default_model_params.update(extra_model_params)
+
+    print("kw2", default_model_params)
 
     while iteration < MAX_RETRIES:
         try:
