@@ -60,17 +60,15 @@ class AsyncMockGECSystem:
                 self.outer = outer
 
             async def create(self, **model_params):
-                print("kw0", model_params)
-
                 original_sentences = json.loads(
                     model_params["messages"][1]["content"]
                 )["input"].split("~~~")
+
+                # TODO: throw error when cant get
                 corrected_sentences = [
                     self.outer.corrections.get(sentence, sentence)
                     for sentence in original_sentences
                 ]
-
-                print("kw1", original_sentences, corrected_sentences)
 
                 response = "~~~".join(corrected_sentences)
 
