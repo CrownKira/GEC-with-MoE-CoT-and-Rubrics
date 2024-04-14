@@ -15,7 +15,7 @@ import datetime
 from tiktoken import get_encoding
 import subprocess
 import groq
-from clients.coze import AsyncCoze
+from clients.greco import AsyncGreco
 
 
 # python3 main.py
@@ -56,7 +56,7 @@ GROQ_MODELS = [
     "mixtral-8x7b-32768",
 ]
 
-# coze bot ids
+# greco bot ids
 COZE_BOTS = [
     "7351253103510978578",
 ]
@@ -197,12 +197,16 @@ def get_openai_client(model_name: str) -> Any:
         return groq.AsyncGroq(api_key=GROQ_API_KEY)
     if model_name in LOCAL_LLM_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(base_url=LOCAL_ENDPOINT, api_key="not-needed")
+        return openai.AsyncOpenAI(
+            base_url=LOCAL_ENDPOINT, api_key="not-needed"
+        )
     if model_name in TOGETHER_AI_MODELS:
         # Point to the local server
-        return openai.AsyncOpenAI(base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY)
+        return openai.AsyncOpenAI(
+            base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
+        )
     if model_name in COZE_BOTS:
-        return AsyncCoze(api_key=COZE_API_KEY)
+        return AsyncGreco(api_key=COZE_API_KEY)
 
     # Initialize the OpenAI client with Azure endpoint and API key
     return openai.AsyncAzureOpenAI(
@@ -238,7 +242,9 @@ async def main():
     rate_limiter = RateLimiter(
         QPM_LIMIT
     )  # Initialize rate_limiter in the async context
-    await process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH, REFERENCE_ANSWERS_PATH)
+    await process_file(
+        client, TEST_FILE_PATH, CSV_OUTPUT_PATH, REFERENCE_ANSWERS_PATH
+    )
 
 
 def format_user_content(text: str) -> str:
@@ -306,14 +312,18 @@ def escape_special_characters(s):
 
 
 def extract_error_snippet(error: json.JSONDecodeError, window=20):
-    start = max(error.pos - window, 0)  # Start a bit before the error, if possible
+    start = max(
+        error.pos - window, 0
+    )  # Start a bit before the error, if possible
     end = min(
         error.pos + window, len(error.doc)
     )  # End a bit after the error, if possible
 
     # Extract the snippet around the error
     snippet_start = error.doc[start : error.pos]
-    snippet_error = error.doc[error.pos : error.pos + 1]  # The erroneous character
+    snippet_error = error.doc[
+        error.pos : error.pos + 1
+    ]  # The erroneous character
     snippet_end = error.doc[error.pos + 1 : end]
 
     # Escape special characters in the erroneous part
@@ -497,7 +507,9 @@ async def process_file(
 
     processed_batches = await get_processed_batches(csv_output_path)
     file_exists = os.path.exists(csv_output_path)
-    should_write_header = not file_exists or os.stat(csv_output_path).st_size == 0
+    should_write_header = (
+        not file_exists or os.stat(csv_output_path).st_size == 0
+    )
 
     async with aiofiles.open(test_file_path, "r") as test_file:
         text = await test_file.read()
@@ -523,7 +535,9 @@ async def process_file(
 
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         if should_write_header:
-            await csv_file.write(",".join(f'"{name}"' for name in fieldnames) + "\n")
+            await csv_file.write(
+                ",".join(f'"{name}"' for name in fieldnames) + "\n"
+            )
 
         assert len(batches) == len(
             answers_batches
@@ -552,11 +566,17 @@ async def process_file(
 
 
 def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
-    with open(csv_output_path, mode="r", newline="", encoding="utf-8") as csv_file:
+    with open(
+        csv_output_path, mode="r", newline="", encoding="utf-8"
+    ) as csv_file:
         csv_reader = csv.DictReader(csv_file)
-        sorted_rows = sorted(csv_reader, key=lambda row: int(row["Batch Number"]))
+        sorted_rows = sorted(
+            csv_reader, key=lambda row: int(row["Batch Number"])
+        )
 
-    with open(output_path, mode="w", newline="", encoding="utf-8") as output_file:
+    with open(
+        output_path, mode="w", newline="", encoding="utf-8"
+    ) as output_file:
         for row in sorted_rows:
             if "Corrected Text" in row:
                 corrected_lines = row["Corrected Text"].split("\n")
@@ -583,7 +603,8 @@ def prompt_for_evaluation():
             print("Evaluating the corrections...")
             # TODO: replace
             subprocess.run(
-                ["python3", "commands/evaluate_model_performance.py"], check=True
+                ["python3", "commands/evaluate_model_performance.py"],
+                check=True,
             )
             print("Evaluation completed successfully.")
         except subprocess.CalledProcessError as e:

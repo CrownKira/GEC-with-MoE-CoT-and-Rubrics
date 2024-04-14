@@ -75,7 +75,7 @@ class Completion:
 
 
 # TODO: change name to greco
-class AsyncCoze:
+class AsyncGreco:
     def __init__(self, api_key: str, timeout=30.0):
         self.api_key = api_key
         self.client = httpx.AsyncClient(timeout=timeout)
@@ -105,13 +105,13 @@ class AsyncCoze:
                 # )
                 # print(f"API Response Received: {response.json()}")
 
-                print("> coze query:", model_params["query"])
+                print("> greco query:", model_params["query"])
 
                 response = await call_greco_async(model_params["query"], True)
                 # response = await call_greco_async(model_params["query"], False)
                 response = response.strip()
 
-                print("> coze response:", response)
+                print("> greco response:", response)
 
                 response_json = {
                     "messages": [
@@ -131,7 +131,7 @@ class AsyncCoze:
 
 
 async def main():
-    client = AsyncCoze(api_key=COZE_API_KEY)
+    client = AsyncGreco(api_key=COZE_API_KEY)
     # query = """I think that the public transport will always be in the future .
     # The rich people will buy a car but the poor people always need to use a bus or taxi .
     # I consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .

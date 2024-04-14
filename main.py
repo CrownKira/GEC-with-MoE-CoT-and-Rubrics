@@ -14,7 +14,7 @@ import datetime
 from tiktoken import get_encoding
 import subprocess
 import groq
-from clients.coze import AsyncCoze
+from clients.greco import AsyncGreco
 
 
 # python3 main.py
@@ -55,7 +55,7 @@ GROQ_MODELS = [
     "mixtral-8x7b-32768",
 ]
 
-# coze bot ids
+# greco bot ids
 COZE_BOTS = [
     "7351253103510978578",
 ]
@@ -208,7 +208,7 @@ def get_openai_client(model_name: str) -> Any:
             base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
         )
     if model_name in COZE_BOTS:
-        return AsyncCoze(api_key=COZE_API_KEY)
+        return AsyncGreco(api_key=COZE_API_KEY)
 
     # Initialize the OpenAI client with Azure endpoint and API key
     return openai.AsyncAzureOpenAI(
