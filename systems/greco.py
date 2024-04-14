@@ -82,11 +82,6 @@ MOCK_GEC_MODELS = [
 ]
 
 
-# change estimation model
-QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
-# QUALITY_ESTIMATION_MODEL_NAME = TOGETHER_AI_MODELS[2]
-
-
 # CONFIGS: PROMPT
 # GRAMMAR_VARIANT = "standard American"
 GRAMMAR_VARIANT = "British"
@@ -396,6 +391,17 @@ Your output should be JSON only, without any explanatory text:
 Ensure that the number of scores matches the number of corrected sentences provided.
 Your comprehensive feedback will guide improvements in grammatical accuracy and narrative consistency. Please ensure that each sentence is evaluated not only on its own merits but also in the context of the surrounding narrative.
 """
+
+
+# change estimation prompt
+QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
+# QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC
+# QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_COT_RUBRIC
+
+
+# change estimation model
+QUALITY_ESTIMATION_MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# QUALITY_ESTIMATION_MODEL_NAME = TOGETHER_AI_MODELS[2]
 
 
 GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
@@ -926,85 +932,6 @@ def calculate_edit_votes(edits_output):
     return edit_votes
 
 
-# async def quality_estimation_node(
-#     input_sentences: List[str],
-#     aggregated_responses: Dict[str, List[str]],
-#     models: List[dict[str, str]],
-#     quality_estimation_model_id: str,
-# ):
-#     """
-#     Sends all original sentences vs. corrected sentences in one prompt to the LLM for quality estimation.
-
-#     :param aggregated_responses: Dictionary with model IDs as keys and lists of corrected sentences as values.
-#     :param model_ids: List of model identifiers.
-#     :param client: The client used to communicate with the LLM.
-#     :return: A dictionary mapping model names to quality scores for each sentence.
-#     """
-#     quality_scores: Dict[str, List[float]] = {}
-
-#     # Logging information about the function start
-#     logging.info("Starting quality estimation node.")
-
-#     for model in models:
-
-#         model_id = model["id"]
-#         corrected_sentences = aggregated_responses[model_id]
-
-#         # Construct JSON input for the prompt
-#         text = {
-#             "original_sentence": input_sentences,
-#             "student_sentence": corrected_sentences,
-#         }
-
-#         prompt = QUALITY_ESTIMATION_PROMPT_V2
-
-#         def output_parser(response: str, expected_num_sentences: int):
-#             try:
-#                 data = json.loads(response)
-#                 evaluations = data.get("evaluations", [])
-#                 if len(evaluations) != expected_num_sentences:
-#                     raise ValueError(
-#                         f"Expected {expected_num_sentences} evaluations, but got {len(evaluations)}."
-#                     )
-
-#                 # Extract the scores from each evaluation
-#                 scores = [evaluation["score"] for evaluation in evaluations]
-#                 return scores
-#             except json.JSONDecodeError as e:
-#                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
-
-#         expected_num_sentences = len(corrected_sentences)
-
-#         # Logging information about the model being processed
-#         logging.info(f"Processing model: {model_id}")
-
-#         extra_model_params = {
-#             "frequency_penalty": QUALITY_ESTIMATION_FREQUENCY_PENALTY,
-#         }
-
-#         json_config = {"end_sequences": ['"student_sentence_feedback": [']}
-
-#         # Making an assumption about the ask_llm function call; adapt as necessary
-#         scores: List[str] = await ask_llm(
-#             prompt=prompt,  # Now includes structured instructions for processing JSON input
-#             text=json.dumps(text),  # Passes the constructed JSON as input
-#             batch_number=1,
-#             total_batches=1,
-#             model_name=quality_estimation_model_id,
-#             output_parser=lambda response: output_parser(
-#                 response, expected_num_sentences
-#             ),
-#             extra_model_params=extra_model_params,
-#             json_config=json_config,
-#         )
-#         quality_scores[model_id] = [float(x) for x in scores]
-
-#     # Logging information about the function completion
-#     logging.info("Quality estimation node completed.")
-
-#     return quality_scores
-
-
 async def quality_estimation_node(
     input_sentences: List[str],
     aggregated_responses: Dict[str, List[str]],
@@ -1029,9 +956,7 @@ async def quality_estimation_node(
             }
         )
 
-        # prompt = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
-        # prompt = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC
-        prompt = QUALITY_ESTIMATION_PROMPT_COT_RUBRIC
+        prompt = QUALITY_ESTIMATION_PROMPT
 
         # Define an output parser for this model, capturing expected_num_scores
         def output_parser(response: str):

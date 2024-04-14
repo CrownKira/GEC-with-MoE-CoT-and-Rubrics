@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import json
 import subprocess
 import shlex
+import datetime
 
 
 # Load environment variables from .env file
@@ -147,9 +148,16 @@ async def main():
         "query": query,
         "stream": False,
     }
+    start_time = datetime.datetime.now()  # Capture start time
     completion = await client.chat.completions.create(**model_params)
+    end_time = datetime.datetime.now()  # Capture end time
+
     response = completion.choices[0].message.content
     print(f"Final Extracted Response: {response}")
+
+    # Calculate and print the duration
+    duration = end_time - start_time
+    print(f"Time taken: {duration.total_seconds()} seconds")
 
 
 if __name__ == "__main__":
