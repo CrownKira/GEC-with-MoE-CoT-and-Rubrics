@@ -1,44 +1,6 @@
-import httpx
-import os
 import asyncio
-from dotenv import load_dotenv
 import json
-import subprocess
-import shlex
 import csv
-
-
-# Load environment variables from .env file
-load_dotenv()
-
-COZE_ENDPOINT = os.getenv("COZE_ENDPOINT", "")
-COZE_API_KEY = os.getenv("COZE_API_KEY", "")
-COZE_BOT_ID = os.getenv("COZE_BOT_ID", "")
-
-
-def call_greco(sentences: str, quiet: bool = False) -> str:
-    base_command = ["python3", "-m", "systems.greco"]
-    if quiet:
-        base_command.append("--quiet")
-
-    command = base_command + [shlex.quote(sentences)]
-
-    try:
-        result = subprocess.run(
-            command, capture_output=True, text=True, check=True
-        )
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        # Here you can log the error, raise a custom exception, or handle it in another way
-        print(f"Error running command: {e}")
-        raise
-
-
-async def call_greco_async(sentences: str, quiet: bool = False) -> str:
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(
-        None, call_greco, sentences, quiet  # Uses default executor
-    )
 
 
 class Message:
