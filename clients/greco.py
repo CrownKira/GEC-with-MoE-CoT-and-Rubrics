@@ -16,6 +16,10 @@ COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 COZE_BOT_ID = os.getenv("COZE_BOT_ID", "")
 
 
+# ENABLE_QUIET = True
+ENABLE_QUIET = False
+
+
 def call_greco(sentences: str, quiet: bool = False) -> str:
     base_command = ["python3", "-m", "systems.greco"]
     if quiet:
@@ -26,8 +30,15 @@ def call_greco(sentences: str, quiet: bool = False) -> str:
 
     try:
         result = subprocess.run(
-            command, capture_output=True, text=True, check=True
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
         )
+        # Optionally, you can log or print stderr if there was an error
+        if result.stderr:
+            print(f"Command Error Output: {result.stderr}")
         return result.stdout
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {e}")
@@ -107,7 +118,9 @@ class AsyncGreco:
 
                 print("> greco query:", model_params["query"])
 
-                response = await call_greco_async(model_params["query"], True)
+                response = await call_greco_async(
+                    model_params["query"], ENABLE_QUIET
+                )
                 # response = await call_greco_async(model_params["query"], False)
                 response = response.strip()
 
@@ -137,27 +150,27 @@ async def main():
     # I consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .
     # Also , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .
     # In my experience when I did n't have a car I used to use the bus to go to the school and go back to my house ."""
-    # query = "It 's difficult answer at the question \" what are you going to do in the future ? \" if the only one who has to know it is in two minds .\nWhen I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n't know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt 's difficult because I 'll have to study hard and a lot , but I think that if you like a subject , you 'll study it easier .\nMaybe I 'll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n't have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n't necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends ."
+    query = "It 's difficult answer at the question \" what are you going to do in the future ? \" if the only one who has to know it is in two minds .\nWhen I was younger I used to say that I wanted to be a teacher , a saleswoman and even a butcher .. I do n't know why .\nI would like to study Psychology because one day I would open my own psychology office and help people .\nIt 's difficult because I 'll have to study hard and a lot , but I think that if you like a subject , you 'll study it easier .\nMaybe I 'll change my mind , maybe not .\nI think that the public transport will always be in the future .\nThe rich people will buy a car but the poor people always need to use a bus or taxi .\nI consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .\nAlso , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .\nIn my experience when I did n't have a car I used to use the bus to go to the school and go back to my house .\nIn my opinion , the car is n't necessary when you have crashed in the street , in that moment you realized the importance of a public transport .\nIn India we have various types of Public transport , like Cycle , Bike , Car , Train & Flight .\nDepending on the distance and duration to the desired place , mode of transport is chosen accordingly .\nBut Generally speaking , travelling by car is much more fun when compared with other modes of transport .\nThis reminds me of a trip that I have recently been to and the place is Agra .\nIt takes around 6 hours by National highway to go from Delhi to Agra .\nWe have stopped at hotels for having food and just in case if any of us feels hungry , we have purchased some snacks just before the trip .\nSince , we have the option to wait anytime we want to when we travel by car ( which is impossible when travelling by train & Flight ) .\nIn addition to it , we can also take a comfortable short nap on the back seat and wake up fresh .\nDue to the above mentioned reasons , I am going to conclude that travelling by car is much more convenient .\nMy name is Sarah .\nI am 17 years old .\nI am looking forward to join you in this year summer camps .\nI love children , and I enjoy looking after them . also , I organized many sports activities before in my school .\nIn addition to that , i enjoy cooking .\nMy family think that my cook is amazing .\nI hope that you give my the chance to join you .\nThanks\nMy favourite sport is volleyball because I love plays with my friends ."
     # query = (
     #     "This first sentence is.\nSecond is sentence.\nThird the is sentence."
     # )
 
-    query = """Fer
-we think that in the future the planet will be in bad conditions and the trees will be dissappearing , after that we will be having wars .
-In 30 years we will have changed our anatomy , also we will be eating fast food , on the other hand , the north pole will have melted totally .
-The temperature will have become crazy by global warming , so some people will have died because the natural disasters will be more aggressive .
-The Technology will have advanced and maybe the cars will be flying by streets and computers will have totally changed .
-Because of this , we have to raise awareness of what is happening and we help the planet .
-Friendship is something very important in my life .
-I ca n't imagine my lifetime without friends .
-How to make friends and meet new people ?
-It is easyier than you think .
-Just ... start talking !
-Communication is the most important point when you 're going to make friends .
-You have to remember , that friends are not supposed to agree on every single thing .
-They just have to calm talk about it .
-If your friendship is real , you will always find point between your opinion and your friend 's one .
-Just try , it wo n't cost you much !"""
+    #     query = """Fer
+    # we think that in the future the planet will be in bad conditions and the trees will be dissappearing , after that we will be having wars .
+    # In 30 years we will have changed our anatomy , also we will be eating fast food , on the other hand , the north pole will have melted totally .
+    # The temperature will have become crazy by global warming , so some people will have died because the natural disasters will be more aggressive .
+    # The Technology will have advanced and maybe the cars will be flying by streets and computers will have totally changed .
+    # Because of this , we have to raise awareness of what is happening and we help the planet .
+    # Friendship is something very important in my life .
+    # I ca n't imagine my lifetime without friends .
+    # How to make friends and meet new people ?
+    # It is easyier than you think .
+    # Just ... start talking !
+    # Communication is the most important point when you 're going to make friends .
+    # You have to remember , that friends are not supposed to agree on every single thing .
+    # They just have to calm talk about it .
+    # If your friendship is real , you will always find point between your opinion and your friend 's one .
+    # Just try , it wo n't cost you much !"""
 
     model_params = {
         "bot_id": COZE_BOT_ID,
