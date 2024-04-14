@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import time
 import openai
 import asyncio
 import aiofiles
@@ -441,6 +442,8 @@ async def correct_grammar_and_write_csv(
     csv_writer: Any,
     model_name: str,
 ) -> str:
+    start_time = time.time()  # Capture start time
+
     async with rate_limiter:
         corrected_text = await ask_llm(
             client,
@@ -458,9 +461,19 @@ async def correct_grammar_and_write_csv(
         stripped_lines = [line.strip() for line in processed_text.split("\n")]
         processed_text = "\n".join(stripped_lines)
 
+        # Right before your existing logging statement
+        end_time = (
+            time.time()
+        )  # Capture end time after processing is completed
+        duration_seconds = (
+            end_time - start_time
+        )  # Calculate the duration in seconds
+
+        # Modified logging statement to include duration
         logging.info(
-            f"{GREEN}Received correction for batch {batch_number}/{total_batches}: {processed_text}{RESET}"
+            f"{GREEN}Received correction for batch {batch_number}/{total_batches} in {duration_seconds:.2f} seconds: {processed_text}{RESET}"
         )
+
         # Write the batch number and corrected text to the CSV
         row = {
             "Batch Number": batch_number,
