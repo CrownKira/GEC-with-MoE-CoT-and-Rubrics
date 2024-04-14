@@ -84,7 +84,9 @@ class AsyncMockGECSystem:
 
 
 async def main():
-    mock_gec_system = AsyncMockGECSystem(csv_path="path/to/your/csv.csv")
+    mock_gec_system = AsyncMockGECSystem(
+        csv_path="clients/mock_data/ABCN.dev.gold.bea19.BART-A.corrected.csv"
+    )
     chat = mock_gec_system.Chat(mock_gec_system)
     model_params = {
         "messages": [
@@ -92,7 +94,9 @@ async def main():
             {
                 "role": "user",
                 "content": json.dumps(
-                    {"input": "I goes to the park.~~~She eat an apple."}
+                    {
+                        "input": "Maybe I 'll change my mind , maybe not .~~~I think that the public transport will always be in the future ."
+                    }
                 ),
             },
         ]
