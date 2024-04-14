@@ -102,7 +102,7 @@ LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
 TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 MAX_RETRIES = 3  # Maximum number of retries for an API call
 RETRY_DELAY = 30  # Delay in seconds before retrying an API
@@ -212,7 +212,7 @@ def get_openai_client(model_name: str) -> Any:
     return openai.AsyncAzureOpenAI(
         azure_endpoint=AZURE_ENDPOINT,
         api_version="2023-12-01-preview",
-        api_key=OPENAI_API_KEY,
+        api_key=AZURE_OPENAI_API_KEY,
     )
 
 

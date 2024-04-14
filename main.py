@@ -20,7 +20,7 @@ from langchain_experimental.text_splitter import (
     SemanticChunker,
     BreakpointThresholdType,
 )
-from langchain_openai.embeddings import AzureOpenAIEmbeddings
+from langchain_openai.embeddings import AzureOpenAIEmbeddings, OpenAIEmbeddings
 from langchain_core.utils.utils import convert_to_secret_str
 
 
@@ -104,6 +104,7 @@ CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19"
 TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
 FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
 CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
+CACHE_FILE_PATH = f"cache/{CEFR_LEVEL_FILENAME}.batches"
 
 
 # CONFIGS: API
@@ -112,6 +113,7 @@ LOCAL_ENDPOINT = os.getenv("LOCAL_ENDPOINT", "")
 TOGETHER_ENDPOINT = os.getenv("TOGETHER_ENDPOINT", "")
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 MAX_RETRIES = 3  # Maximum number of retries for an API call
@@ -223,7 +225,7 @@ def get_openai_client(model_name: str) -> Any:
     return openai.AsyncAzureOpenAI(
         azure_endpoint=AZURE_ENDPOINT,
         api_version="2023-12-01-preview",
-        api_key=OPENAI_API_KEY,
+        api_key=AZURE_OPENAI_API_KEY,
     )
 
 
@@ -285,11 +287,17 @@ def split_text_into_semantic_chunks(
 
     # TODO: config breakpoint_threshold_type
     # Initialize the SemanticChunker with AzureOpenAIEmbeddings
+    # text_splitter = SemanticChunker(
+    #     embeddings=AzureOpenAIEmbeddings(
+    #         azure_endpoint=AZURE_ENDPOINT,
+    #         api_version="2023-12-01-preview",
+    #         api_key=convert_to_secret_str(AZURE_OPENAI_API_KEY),
+    #     ),
+    #     breakpoint_threshold_type=breakpoint_threshold_type,
+    # )
     text_splitter = SemanticChunker(
-        embeddings=AzureOpenAIEmbeddings(
-            azure_endpoint=AZURE_ENDPOINT,
-            api_version="2023-12-01-preview",
-            api_key=convert_to_secret_str(OPENAI_API_KEY),
+        embeddings=OpenAIEmbeddings(
+            api_key=convert_to_secret_str(OPENAI_API_KEY)
         ),
         breakpoint_threshold_type=breakpoint_threshold_type,
     )
@@ -557,47 +565,74 @@ async def get_processed_batches(csv_output_path: str) -> set[int]:
 
 
 async def process_file(client: Any, test_file_path: str, csv_output_path: str):
-
-    # Check for existing output files
-    if os.path.exists(FINAL_OUTPUT_PATH) or os.path.exists(CSV_OUTPUT_PATH):
+    # Check for existing output and cache files
+    existing_files = (
+        os.path.exists(FINAL_OUTPUT_PATH)
+        or os.path.exists(CSV_OUTPUT_PATH)
+        or os.path.exists(CACHE_FILE_PATH)
+    )
+    if existing_files:
         user_input = (
             input(
-                "Existing output files found. Do you want to continue with existing files? Type 'reset' to delete and start fresh: "
+                "Existing output or cache files found. Do you want to continue with existing files? Type 'reset' to delete and start fresh: "
             )
             .strip()
             .lower()
         )
+
         if user_input == "reset":
-            if os.path.exists(FINAL_OUTPUT_PATH):
-                os.remove(FINAL_OUTPUT_PATH)
-            if os.path.exists(CSV_OUTPUT_PATH):
-                os.remove(CSV_OUTPUT_PATH)
+            for file_path in [
+                FINAL_OUTPUT_PATH,
+                CSV_OUTPUT_PATH,
+                CACHE_FILE_PATH,
+            ]:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
             print("Existing files removed. Starting fresh...")
+            # Since we're starting fresh, ensure there's no cached batches
+            cached_batches = []
         else:
-            print("Continuing with existing files...")
+            # Attempt to load cached batches if continuing
+            if os.path.exists(CACHE_FILE_PATH):
+                with open(CACHE_FILE_PATH, "r") as cache_file:
+                    cached_batches = json.load(cache_file)
+                print("Continuing with existing files and cached data...")
+            else:
+                print(
+                    "Error: Cache file not found. Please type 'reset' to start fresh."
+                )
+                sys.exit(1)
+
+    else:
+        cached_batches = []
 
     processed_batches = await get_processed_batches(csv_output_path)
-    # Check if the file exists and has more than just the header
     file_exists = os.path.exists(csv_output_path)
     should_write_header = (
         not file_exists or os.stat(csv_output_path).st_size == 0
     )
+
     async with aiofiles.open(test_file_path, "r") as test_file, aiofiles.open(
         csv_output_path, "a", newline=""
     ) as csv_file:
         text = await test_file.read()
         csv_writer = csv.DictWriter(
-            csv_file,
-            fieldnames=[
-                "Batch Number",
-                "Corrected Text",
-            ],
+            csv_file, fieldnames=["Batch Number", "Corrected Text"]
         )
+
         if should_write_header:
             await csv_file.write('"Batch Number","Corrected Text"\n')
-        batches = split_text_into_batches(
-            text, BATCH_SIZE_IN_TOKENS, use_semantic_chunking=True
-        )
+
+        if not cached_batches:  # Check if we need to generate batches
+            batches = split_text_into_batches(
+                text, BATCH_SIZE_IN_TOKENS, use_semantic_chunking=True
+            )
+            # Save batches to cache file
+            with open(CACHE_FILE_PATH, "w") as cache_file:
+                json.dump(batches, cache_file)
+        else:
+            batches = cached_batches
+
         total_batches = len(batches)
         tasks = []
         for batch_number, batch_text in enumerate(batches, start=1):
