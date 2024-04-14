@@ -40,6 +40,9 @@ class Completion:
 class AsyncMockGECSystem:
     def __init__(self, csv_path: str):
         self.corrections = {}
+
+        # TODO: refactor
+        csv_path = "clients/mock_data/" + csv_path
         with open(csv_path, newline="", encoding="utf-8") as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
@@ -83,28 +86,28 @@ class AsyncMockGECSystem:
                 return Completion.from_response(response_json)
 
 
-async def main():
-    mock_gec_system = AsyncMockGECSystem(
-        csv_path="clients/mock_data/ABCN.dev.gold.bea19.BART-A.corrected.csv"
-    )
-    chat = mock_gec_system.Chat(mock_gec_system)
-    model_params = {
-        "messages": [
-            {"role": "system", "content": "Correct the following sentences:"},
-            {
-                "role": "user",
-                "content": json.dumps(
-                    {
-                        "input": "Maybe I 'll change my mind , maybe not .~~~I think that the public transport will always be in the future ."
-                    }
-                ),
-            },
-        ]
-    }
-    completion = await chat.completions.create(**model_params)
-    for choice in completion.choices:
-        print(choice.message.content)  # Print corrected sentences
+# async def main():
+#     mock_gec_system = AsyncMockGECSystem(
+#         csv_path="ABCN.dev.gold.bea19.BART-A.corrected.csv"
+#     )
+#     chat = mock_gec_system.Chat(mock_gec_system)
+#     model_params = {
+#         "messages": [
+#             {"role": "system", "content": "Correct the following sentences:"},
+#             {
+#                 "role": "user",
+#                 "content": json.dumps(
+#                     {
+#                         "input": "Maybe I 'll change my mind , maybe not .~~~I think that the public transport will always be in the future ."
+#                     }
+#                 ),
+#             },
+#         ]
+#     }
+#     completion = await chat.completions.create(**model_params)
+#     for choice in completion.choices:
+#         print(choice.message.content)  # Print corrected sentences
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())

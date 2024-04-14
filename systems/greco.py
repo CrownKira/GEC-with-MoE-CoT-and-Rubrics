@@ -15,6 +15,7 @@ from tiktoken import get_encoding
 import subprocess
 import groq
 from clients.coze import AsyncCoze
+from clients.mock_gec_system import AsyncMockGECSystem
 import spacy
 import errant
 import argparse
@@ -68,6 +69,14 @@ GROQ_MODELS = [
 # coze bot ids
 COZE_BOTS = [
     "7351253103510978578",
+]
+
+
+MOCK_GEC_MODELS = [
+    "ABCN.dev.gold.bea19.BART-A.corrected.csv",
+    "ABCN.dev.gold.bea19.BART-B.corrected.csv",
+    "ABCN.dev.gold.bea19.T5-small-A.corrected.csv",
+    "ABCN.dev.gold.bea19.T5-small-B.corrected.csv",
 ]
 
 
@@ -496,6 +505,8 @@ def get_openai_client(model_name: str) -> Any:
         )
     if model_name in COZE_BOTS:
         return AsyncCoze(api_key=COZE_API_KEY)
+    if model_name in MOCK_GEC_MODELS:
+        return AsyncMockGECSystem(csv_path=model_name)
 
     # Initialize the OpenAI client with Azure endpoint and API key
     return openai.AsyncAzureOpenAI(
@@ -1101,10 +1112,17 @@ async def system_combination_node(
 
 async def execute_workflow(input_string: str):
     input_sentences = InputParser.parse_input(input_string)
+    # model_ids: List[dict[str, str]] = [
+    #     {"id": "model1", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+    #     {"id": "model2", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+    #     {"id": "model3", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+    # ]
+
     model_ids: List[dict[str, str]] = [
-        {"id": "model1", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
-        {"id": "model2", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
-        {"id": "model3", "name": OPENAI_JSON_MODE_SUPPORTED_MODELS[0]},
+        {"id": "model1", "name": MOCK_GEC_MODELS[0]},
+        {"id": "model2", "name": MOCK_GEC_MODELS[1]},
+        {"id": "model3", "name": MOCK_GEC_MODELS[2]},
+        {"id": "model4", "name": MOCK_GEC_MODELS[3]},
     ]
 
     # Asynchronously call mock_gec_system for each model_id
