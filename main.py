@@ -86,6 +86,7 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
 # CONFIGS: INPUT PREPROCESSING
 MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
+MAX_LINES_PER_BATCH = 3
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 
@@ -261,17 +262,17 @@ def calculate_avg_chars_per_token(sample_text: str) -> float:
 
 def split_text_into_batches(
     text: str,
-    batch_size_in_tokens: int = 10,
+    batch_size_in_tokens: int = BATCH_SIZE_IN_TOKENS,
+    max_lines: int = MAX_LINES_PER_BATCH,
 ) -> List[str]:
     lines = text.split("\n")
     batches = []
     current_batch = ""
     current_batch_tokens = 0
+    current_batch_lines = 0
 
     for line in lines:
-        line_tokens = count_tokens(
-            line + "\n"
-        )  # Include newline character in token count
+        line_tokens = count_tokens(line + "\n")
         if line_tokens > batch_size_in_tokens:
             print(
                 f"Error: Line exceeds the batch size of {batch_size_in_tokens} tokens."
@@ -280,14 +281,18 @@ def split_text_into_batches(
             print("Tokens:", line_tokens)
             sys.exit(1)
 
-        # TODO: better way to not strip?
-        if current_batch_tokens + line_tokens <= batch_size_in_tokens:
+        # If max_lines is None or the current batch size and lines are within limits
+        if current_batch_tokens + line_tokens <= batch_size_in_tokens and (
+            max_lines is None or current_batch_lines < max_lines
+        ):
             current_batch += line + "\n"
             current_batch_tokens += line_tokens
+            current_batch_lines += 1
         else:
             batches.append(current_batch.strip())
             current_batch = line + "\n"
             current_batch_tokens = line_tokens
+            current_batch_lines = 1
 
     if current_batch.strip():
         batches.append(current_batch.strip())
