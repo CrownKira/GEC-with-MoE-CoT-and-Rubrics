@@ -1,5 +1,6 @@
 import subprocess
 import os
+import argparse
 
 
 # NOTE: evaluate on ABCN dev (not test set) since reference m2 for test set is not provided
@@ -9,8 +10,26 @@ import os
 # python3 commands/compare_m2.py -hyp corrected_m2/ABCN.dev.gold.bea19.first100.m2 -ref reference_m2/ABCN.dev.gold.bea19.first100.m2
 
 
+# Set up argparse to dynamically extract command line arguments
+parser = argparse.ArgumentParser(
+    description="Process files for CEFR level evaluation."
+)
+parser.add_argument(
+    "-f",
+    "--filename",
+    required=True,
+    help="CEFR level filename without extension.",
+)
+
+# Extract arguments
+args = parser.parse_args()
+
+# Extract CEFR_LEVEL_FILENAME from the arguments
+CEFR_LEVEL_FILENAME = args.filename
+
+
 # Define the paths to the input, corrected, and reference files
-CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
+# CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
 input_file_path = f"./test/{CEFR_LEVEL_FILENAME}.orig"
 corrected_file_path = f"./corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
 reference_m2_path = (

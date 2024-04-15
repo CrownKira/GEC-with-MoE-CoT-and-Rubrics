@@ -713,7 +713,13 @@ def prompt_for_evaluation():
             # Execute the evaluation script
             print("Evaluating the corrections...")
             subprocess.run(
-                ["python3", "commands/evaluate_correction.py"], check=True
+                [
+                    "python3",
+                    "commands/evaluate_correction.py",
+                    "--filename",
+                    CEFR_LEVEL_FILENAME,
+                ],
+                check=True,
             )
             print("Evaluation completed successfully.")
         except subprocess.CalledProcessError as e:
