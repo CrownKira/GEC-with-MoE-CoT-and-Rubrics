@@ -119,8 +119,8 @@ COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 # MAX_RETRIES = 3  # Maximum number of retries for an API call
 # RETRY_DELAY = 5  # Delay in seconds before retrying an API
 MAX_RETRIES = 5  # Maximum number of retries for an API call
-RETRY_DELAY = 30  # Delay in seconds before retrying an API
-QPM_LIMIT = 3  # Queries per minute limit
+RETRY_DELAY = 15  # Delay in seconds before retrying an API
+QPM_LIMIT = 5  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
@@ -527,9 +527,10 @@ async def correct_grammar_and_write_csv(
     csv_writer: Any,
     model_name: str,
 ) -> str:
-    start_time = time.time()  # Capture start time
 
     async with rate_limiter:
+        start_time = time.time()  # Capture start time
+
         corrected_text = await ask_llm(
             client,
             GRAMMAR_PROMPT,
