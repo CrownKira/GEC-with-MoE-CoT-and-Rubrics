@@ -329,32 +329,17 @@ Your output should be JSON only, without any explanatory text:
         },
         {
             "unique_index": 1,
-            "student_sentence": "The year was 2012 and I had n't written anything until that day - I just had been translating some stories and once even subtitles for a Korean movie from English and Spanish .",
+            "student_sentence": "The year was 2012 , and I had n't written anything until that day - I just had been translating some stories , and once , even subtitles for a Korean movie from English and Spanish .",
             "student_sentence_feedback": [
                 {
-                    "type": "PUNCT-MIN",
-                    "description": "A comma should be added after '2012' to correctly separate clauses.",
-                    "deduction": -2
-                },
-                {
                     "type": "GRAM-MIN",
-                    "description": "The phrase 'had just been' should be reordered to 'had been just' for correct word order.",
+                    "description": "The phrase 'just had been' should be reordered to 'had been just' for correct word order.",
                     "deduction": -3
-                },
-                {
-                    "type": "PUNCT-MIN",
-                    "description": "A comma should be placed before 'and once even subtitles' for clarity and proper separation of clauses.",
-                    "deduction": -2
-                },
-                {
-                    "type": "PUNCT-MIN",
-                    "description": "A comma should be added after 'subtitles for a Korean movie' for correct clause separation.",
-                    "deduction": -2
                 }
             ],
             "corrected_sentence": "The year was 2012 , and I had n't written anything until that day - I had been just translating some stories , and once , even subtitles for a Korean movie , from English and Spanish .",
-            "total_deductions": -9,
-            "score": 91
+            "total_deductions": -3,
+            "score": 97
         },
         {
             "unique_index": 2,
