@@ -183,22 +183,22 @@ Your output should be JSON only, without any explanatory text:
     "evaluations": [
         {
             "unique_index": 0,
-            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "student_sentence": "In the midst of the storm , a ship was sailing in the open sea . It 's crew , seasoned and resilient , were unphased by the brewing tempest .",
             "score": 96
         },
         {
             "unique_index": 1,
-            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "student_sentence": "Their captain , a venerable seafarer known for he s bravery and wisdom , was steering the ship with a steady hand .",
             "score": 95
         },
         {
             "unique_index": 2,
-            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "student_sentence": "Suddenly , a gigantic wave , unlike any they had seen before , approached . It ’s size and ferocity could spell doom for them .",
             "score": 97
         },
         {
             "unique_index": 3,
-            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "student_sentence": "The captain , realizing the gravity of their situation , ordered for the sails to be lowered . ' We must not underestemate this storm , ' he declared .",
             "score": 95
         }
     ]
@@ -247,26 +247,26 @@ Your output should be JSON only, without any explanatory text:
     "evaluations": [
         {
             "unique_index": 0,
-            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
-            "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+            "student_sentence": "In the midst of the storm , a ship was sailing in the open sea . It 's crew , seasoned and resilient , were unphased by the brewing tempest .",
+            "corrected_sentence": "In the midst of the storm , a ship was sailing in the open sea . Its crew , seasoned and resilient , were unfazed by the brewing tempest .",
             "score": 96
         },
         {
             "unique_index": 1,
-            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
-            "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+            "student_sentence": "Their captain , a venerable seafarer known for he s bravery and wisdom , was steering the ship with a steady hand .",
+            "corrected_sentence": "Their captain , a venerable seafarer known for his bravery and wisdom , was steering the ship with a steady hand .",
             "score": 95
         },
         {
             "unique_index": 2,
-            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
-            "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+            "student_sentence": "Suddenly , a gigantic wave , unlike any they had seen before , approached . It ’s size and ferocity could spell doom for them .",
+            "corrected_sentence": "Suddenly , a gigantic wave , unlike any they had seen before , approached ; its size and ferocity could spell doom for them .",
             "score": 97
         },
         {
             "unique_index": 3,
-            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
-            "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+            "student_sentence": "The captain , realizing the gravity of their situation , ordered for the sails to be lowered . ' We must not underestemate this storm , ' he declared .",
+            "corrected_sentence": "The captain , realizing the gravity of their situation , ordered the sails to be lowered . ' We must not underestimate this storm , ' he proclaimed .",
             "score": 95
         }
     ]
@@ -315,7 +315,7 @@ Your output should be JSON only, without any explanatory text:
     "evaluations": [
         {
             "unique_index": 0,
-            "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
+            "student_sentence": "In the midst of the storm , a ship was sailing in the open sea . It 's crew , seasoned and resilient , were unphased by the brewing tempest .",
             "student_sentence_feedback": [
                 {
                     "type": "SPELL-MIN",
@@ -328,13 +328,13 @@ Your output should be JSON only, without any explanatory text:
                     "deduction": -2
                 }
             ],
-            "corrected_sentence": "In the midst of the storm, a ship was sailing in the open sea. Its crew, seasoned and resilient, were unfazed by the brewing tempest.",
+            "corrected_sentence": "In the midst of the storm , a ship was sailing in the open sea . Its crew , seasoned and resilient , were unfazed by the brewing tempest .",
             "total_deductions": -4,
             "score": 96
         },
         {
             "unique_index": 1,
-            "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
+            "student_sentence": "Their captain , a venerable seafarer known for he s bravery and wisdom , was steering the ship with a steady hand .",
             "student_sentence_feedback": [
                 {
                     "type": "WORD",
@@ -347,13 +347,13 @@ Your output should be JSON only, without any explanatory text:
                     "deduction": -3
                 }
             ],
-            "corrected_sentence": "Their captain, a venerable seafarer known for his bravery and wisdom, was steering the ship with a steady hand.",
+            "corrected_sentence": "Their captain , a venerable seafarer known for his bravery and wisdom , was steering the ship with a steady hand .",
             "total_deductions": -5,
             "score": 95
         },
         {
             "unique_index": 2,
-            "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
+            "student_sentence": "Suddenly , a gigantic wave , unlike any they had seen before , approached . It ’s size and ferocity could spell doom for them .",
             "student_sentence_feedback": [
                 {
                     "type": "SPELL-MIN",
@@ -366,13 +366,13 @@ Your output should be JSON only, without any explanatory text:
                     "deduction": -1
                 }
             ],
-            "corrected_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached; its size and ferocity could spell doom for them.",
+            "corrected_sentence": "Suddenly , a gigantic wave , unlike any they had seen before , approached ; its size and ferocity could spell doom for them .",
             "total_deductions": -3,
             "score": 97
         },
         {
             "unique_index": 3,
-            "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
+            "student_sentence": "The captain , realizing the gravity of their situation , ordered for the sails to be lowered . ' We must not underestemate this storm , ' he declared .",
             "student_sentence_feedback": [
                 {
                     "type": "WORD",
@@ -385,7 +385,7 @@ Your output should be JSON only, without any explanatory text:
                     "deduction": -3
                 }
             ],
-            "corrected_sentence": "The captain, realizing the gravity of their situation, ordered the sails to be lowered. 'We must not underestimate this storm,' he proclaimed.",
+            "corrected_sentence": "The captain , realizing the gravity of their situation , ordered the sails to be lowered . ' We must not underestimate this storm , ' he proclaimed .",
             "total_deductions": -5,
             "score": 95
         }
@@ -956,7 +956,7 @@ async def quality_estimation_node(
 
         data = {
             "original_sentences": input_sentences,
-            "student_sentences": corrected_sentences,
+            "tokenized_student_sentences": corrected_sentences,
             # "total_sentences": len(corrected_sentences),
         }
 
@@ -969,7 +969,10 @@ async def quality_estimation_node(
                     "student_sentence": corrected,
                 }
                 for index, (original, corrected) in enumerate(
-                    zip(data["original_sentences"], data["student_sentences"])
+                    zip(
+                        data["original_sentences"],
+                        data["tokenized_student_sentences"],
+                    )
                 )
             ]
         )
