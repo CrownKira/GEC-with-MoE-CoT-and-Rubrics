@@ -213,30 +213,30 @@ QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC = """You are an English teacher who
 
 ### Rubric for Evaluating Sentence Corrections:
 
-1. **Spelling Errors [SPELL]**:
-   - Minor: -2 points [SPELL-MIN]
-   - Major: -5 points [SPELL-MAJ]
+1. **Spelling Errors (SPELL):**
+   - Minor (SPELL-MIN, -2 points): Minor spelling mistakes with minimal impact on readability.
+   - Major (SPELL-MAJ, -5 points): Major spelling errors leading to significant misunderstandings.
 
-2. **Punctuation Errors [PUNCT]**:
-   - Minor: -2 points [PUNCT-MIN]
-   - Major: -5 points [PUNCT-MAJ]
+2. **Punctuation Errors (PUNCT):**
+   - Minor (PUNCT-MIN, -2 points): Minor punctuation inaccuracies.
+   - Major (PUNCT-MAJ, -5 points): Critical punctuation errors affecting the clarity of sentences.
 
-3. **Verb Tense and Grammatical Accuracy [GRAM]**:
-   - Minor: -3 points [GRAM-MIN]
-   - Major: -7 points [GRAM-MAJ]
+3. **Verb Tense & Grammar Accuracy (GRAM):**
+   - Minor (GRAM-MIN, -3 points): Minor tense or grammar mistakes.
+   - Major (GRAM-MAJ, -7 points): Major grammatical errors that change sentence meaning.
 
-4. **Preservation of Meaning [MEAN]**:
-   - Minor deviations: -4 points [MEAN-MIN]
-   - Major alterations: -10 points [MEAN-MAJ]
+4. **Meaning Preservation (MEAN):**
+   - Minor Deviations (MEAN-MIN, -4 points): Minor changes that slightly alter the original meaning.
+   - Major Alterations (MEAN-MAJ, -10 points): Significant modifications that heavily distort the original meaning.
 
-5. **Language Appropriateness [LANG]**:
-   - Tone mismatch: -5 points [LANG-TONE]
-   - Incorrect formality level: -6 points [LANG-FORM]
-   - Mixing grammar variants: -3 points [LANG-MIX]
-   - Inappropriate vocabulary: -8 points [LANG-VOCAB]
+5. **Language Appropriateness (LANG):**
+   - Tone Mismatch (LANG-TONE, -5 points): Use of a tone that is inappropriate for the context.
+   - Incorrect Formality Level (LANG-FORM, -6 points): Incorrect use of formal/informal language.
+   - Mixing Grammar Variants (LANG-MIX, -3 points): Inconsistent grammatical forms.
+   - Inappropriate Vocabulary (LANG-VOCAB, -8 points): Vocabulary that is unsuitable for the context.
 
-6. **Others [OTHER]**:
-   - Any errors not covered above: Up to -10 points (at grader's discretion)
+6. **Other Errors (OTHER):**
+   - (Specify subtag, Up to -10 points): For errors not covered above, at the evaluator's discretion, specifying the subtag.
 
 Please rate each correction on a scale from 0 to 100.
 
@@ -281,30 +281,30 @@ QUALITY_ESTIMATION_PROMPT_COT_RUBRIC = """You are an English teacher who assesse
 
 ### Rubric for Evaluating Sentence Corrections:
 
-1. **Spelling Errors [SPELL]**:
-   - Minor: -2 points [SPELL-MIN]
-   - Major: -5 points [SPELL-MAJ]
+1. **Spelling Errors (SPELL):**
+   - Minor (SPELL-MIN, -2 points): Minor spelling mistakes with minimal impact on readability.
+   - Major (SPELL-MAJ, -5 points): Major spelling errors leading to significant misunderstandings.
 
-2. **Punctuation Errors [PUNCT]**:
-   - Minor: -2 points [PUNCT-MIN]
-   - Major: -5 points [PUNCT-MAJ]
+2. **Punctuation Errors (PUNCT):**
+   - Minor (PUNCT-MIN, -2 points): Minor punctuation inaccuracies.
+   - Major (PUNCT-MAJ, -5 points): Critical punctuation errors affecting the clarity of sentences.
 
-3. **Verb Tense and Grammatical Accuracy [GRAM]**:
-   - Minor: -3 points [GRAM-MIN]
-   - Major: -7 points [GRAM-MAJ]
+3. **Verb Tense & Grammar Accuracy (GRAM):**
+   - Minor (GRAM-MIN, -3 points): Minor tense or grammar mistakes.
+   - Major (GRAM-MAJ, -7 points): Major grammatical errors that change sentence meaning.
 
-4. **Preservation of Meaning [MEAN]**:
-   - Minor deviations: -4 points [MEAN-MIN]
-   - Major alterations: -10 points [MEAN-MAJ]
+4. **Meaning Preservation (MEAN):**
+   - Minor Deviations (MEAN-MIN, -4 points): Minor changes that slightly alter the original meaning.
+   - Major Alterations (MEAN-MAJ, -10 points): Significant modifications that heavily distort the original meaning.
 
-5. **Language Appropriateness [LANG]**:
-   - Tone mismatch: -5 points [LANG-TONE]
-   - Incorrect formality level: -6 points [LANG-FORM]
-   - Mixing grammar variants: -3 points [LANG-MIX]
-   - Inappropriate vocabulary: -8 points [LANG-VOCAB]
+5. **Language Appropriateness (LANG):**
+   - Tone Mismatch (LANG-TONE, -5 points): Use of a tone that is inappropriate for the context.
+   - Incorrect Formality Level (LANG-FORM, -6 points): Incorrect use of formal/informal language.
+   - Mixing Grammar Variants (LANG-MIX, -3 points): Inconsistent grammatical forms.
+   - Inappropriate Vocabulary (LANG-VOCAB, -8 points): Vocabulary that is unsuitable for the context.
 
-6. **Others [OTHER]**:
-   - Any errors not covered above: Up to -10 points (at grader's discretion)
+6. **Other Errors (OTHER):**
+   - (Specify subtag, Up to -10 points): For errors not covered above, at the evaluator's discretion, specifying the subtag.
 
 For each identified error, provide feedback using the format: "[Subtag] [Explanation of the error and what would be a correct approach] [-Deduction]."
 
@@ -398,9 +398,9 @@ Your comprehensive feedback will guide improvements in grammatical accuracy and 
 
 
 # change estimation prompt
-QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
+# QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY
 # QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_SCORES_ONLY_RUBRIC
-# QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_COT_RUBRIC
+QUALITY_ESTIMATION_PROMPT = QUALITY_ESTIMATION_PROMPT_COT_RUBRIC
 
 
 # change estimation model
