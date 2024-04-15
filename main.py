@@ -116,9 +116,11 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COZE_API_KEY = os.getenv("COZE_API_KEY", "")
-MAX_RETRIES = 3  # Maximum number of retries for an API call
-RETRY_DELAY = 5  # Delay in seconds before retrying an API
-QPM_LIMIT = 5  # Queries per minute limit
+# MAX_RETRIES = 3  # Maximum number of retries for an API call
+# RETRY_DELAY = 5  # Delay in seconds before retrying an API
+MAX_RETRIES = 5  # Maximum number of retries for an API call
+RETRY_DELAY = 30  # Delay in seconds before retrying an API
+QPM_LIMIT = 3  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
