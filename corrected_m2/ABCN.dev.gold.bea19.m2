@@ -13626,3 +13626,2011 @@ S The computer could do the same thing .
 A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
 
 S Computers encourage laziness in the general public , why work out something yourself when the computer can do it for you .
+A 7 9|||R:PUNCT|||. Why|||REQUIRED|||-NONE-|||0
+
+S This is very time saving and efficient but it is causing people to forget basic ideas .
+A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S For instance , spelling is no longer as important as it was you can simply use a " spellcheck " to correct your English , which is absurd .
+A 12 13|||M:PUNCT|||. You|||REQUIRED|||-NONE-|||0
+
+S For the youth of today computers offer links around the world and millions of facts and figures .
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This could be argued to be educational .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , this is killing the imagination of children and they spend hours sat at a keyboard tapping away in the doom and gloom of the house .
+A 13 14|||R:VERB:FORM|||sitting|||REQUIRED|||-NONE-|||0
+
+S They should be out enjoying themselves and gaining experiences for themselves instead of reading about them on a flat screen .
+A 3 4|||U:PART||||||REQUIRED|||-NONE-|||0
+
+S It is said that you can meet people through computers and have ' relationships ' .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I find this preposterous and people are losing the ability to communicate and form relationships .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Computers can offer escape from the hum - drum routine of daily life by means of games but they are mind - numbing and un - inventive .
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S There is however a more dangerous threat from computers , it is that they can do the work for man .
+A 16 17|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S This could lead to high unemployment .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Those people who work with computers for long periods of time every day face problems .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The repetion of tapping keys all day and staring at the screen can be harmful and not only that it is highly boring to do the same thing over and over again .
+A 1 2|||R:VERB|||repeated|||REQUIRED|||-NONE-|||0
+A 2 4|||R:WO|||tapping of|||REQUIRED|||-NONE-|||0
+
+S Computers may be the future but what part will man have in this future .
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 14 15|||R:PUNCT|||?|||REQUIRED|||-NONE-|||0
+
+S There will be no need for people to go to school as they could be taught at home , people would hardly ever talk and the only career available would be for computer programmers .
+A 18 20|||R:PUNCT|||. People|||REQUIRED|||-NONE-|||0
+A 20 21|||R:VERB:TENSE|||will|||REQUIRED|||-NONE-|||0
+
+S I agree that computers are helpful but people should not live through their computers and be so reliant on them .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 11 12|||R:PREP|||on|||REQUIRED|||-NONE-|||0
+
+S They should read books and live more in order to regain their lost imagination and sense of adventure .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Also , in schools I feel that work should be done mainly by hand and calculators and computers should only be used minimally in mathematics in order to stop the production of computer addicts and again have normal people .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S There are many beneficial aspects of genetic manipulation .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S These include : the erasion of identification of harmful hereditary genetic disorders and the development of hybrid high - yield crops .
+A 4 6|||U:OTHER||||||REQUIRED|||-NONE-|||0
+
+S There can be no doubt that genetic manipulation and genetic engineering have had highly beneficial effects on many areas of society .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , many people dislike or are prejudiced against , genetic manipulation .
+A 9 10|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S Partly this is a ' Fear of the unknown ' ; something which tampers with the intrinsic components of plant and animal life is beyond comprehension for most people , and therefore provokes fear .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S What people have also become aware of , is the immense power which genetic manipulation can give to certain individuals .
+A 12 13|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S This has been very good to feed popular culture ( the film ' Jurassic Park ' being an obvious reference point ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There is also however , the very real possibility that the power of genetic manipulation could become the possession of uncontrolled unregulated individuals who could use it for ' evil ' purposes .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This then , is an argument against scientists bearing moral responsibility for their work .
+A 1 1|||M:NOUN|||argument|||REQUIRED|||-NONE-|||0
+
+S Anything in life can be misused .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Whether it be a kitchen - knife used to stab someone , a car used to run someone over , or something as harmeless as a pillow used to suffocate .
+A 23 24|||R:SPELL|||harmless|||REQUIRED|||-NONE-|||0
+
+S Everything in life , if misused , can have harmful effects and genetic engineering and genetic manipulation are no exception .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Though the possible effects of genetic manipulation may be far larger than a kitchen - knife or car , this is purely a subjective view by present - day standards .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Certainly we would not hold the makers of a car or kitchen - knife responsible for their misuse , and there is no reason why scientists should bear the major burden or responsibility if genetic manipulation is put to misuse .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The fundamental flaw in saying scientists must bear the major burden or moral responsibility for their work , is that if this had been applied universally for centuries , scientific research would never have taken place , and mankind would be without electricity , radios , quite simply , anything above the mud hut ' existence .
+A 54 55|||R:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
+
+S Scientific research is not a corrupt , but an essential and natural part of the human condition for bettering itself .
+A 4 5|||U:DET||||||REQUIRED|||-NONE-|||0
+A 18 19|||R:VERB|||improving|||REQUIRED|||-NONE-|||0
+
+S The other fundamental flaw is assuming that individual scientists have responsibility , Science is a process of discovery rather than creation , ie .
+A 11 12|||R:PUNCT|||.|||REQUIRED|||-NONE-|||0
+
+S no - one created genetic manipulation , the power of it was there to be discovered .
+A 0 1|||R:ORTH|||No|||REQUIRED|||-NONE-|||0
+A 6 8|||R:PUNCT|||. The|||REQUIRED|||-NONE-|||0
+
+S If one scientist does not make a discovery then another one will .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 10 11|||R:NOUN|||scientist|||REQUIRED|||-NONE-|||0
+
+S It is unfair to hold responsible the scientist on the fore front of human knowledge , who discovers something when another scientist in another part of the world may make the discovery independently afterwards .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The only argument for making scientists responsible for their work , is that quite often , and particularly in the case of genetic manipulation , it would need a scientist to misuse knowledge , and therefore they should be responsible .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S While genetic manipulation is relatively new , it takes a scientist to carry it out , and therefore an individual scientist could be held responsible .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S But , once genetic manipulation becomes common - place in the future , and it is not only the domain of scientists , the originals scientist who discovered genetic manipulation can not be held responsible for other 's misuse of it .
+A 24 25|||R:MORPH|||original|||REQUIRED|||-NONE-|||0
+
+S There are many problems facing the Monarchy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some of them are listed below :
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The divisions in their family and the fight between prince and the princes of Wales and the possibility of the divorce .
+A 9 9|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 19 20|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S The other problem is that people say ( or think ) that they do not do anything but they are rich and also they do not pay any taxes .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Another problem is that people think that Monarchy is abolishing in many countries and many countries are republic so Monarchy should be abolished in this country too .
+A 17 18|||R:NOUN:NUM|||republics|||REQUIRED|||-NONE-|||0
+A 18 18|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S There are also arguments against abolishing the Monarchy too .
+A 6 7|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S For example many people like the royal family or they are honest people not like the politisions that always lay .
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 16 17|||R:SPELL|||politeties|||REQUIRED|||-NONE-|||0
+
+S I think the royal family and Monarchy is a a tradition in UK and anywhere in the world , UK is known by its royal family , so I do not think it should be abolished .
+A 8 9|||U:DET||||||REQUIRED|||-NONE-|||0
+A 12 12|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 19 19|||M:DET|||the|||REQUIRED|||-NONE-|||0
+
+S In the end I think if many people want the Monarchy to be ablished a general election should be called and then see if Monarchy should be abolished .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S " In Vitro fertilisation " is the fertilisation of an egg in the laboratory ie . in a testube .
+A 2 3|||R:ORTH|||vitro|||REQUIRED|||-NONE-|||0
+A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The egg is taken from the mother and placed in an environment which will optimise the chances of fertilisation by the sperm from the father .
+A 20 21|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Once fertilisation has occured the fertilised egg is implanted back into the mothers womb and from there on the pregnancy will be normal .
+A 3 4|||R:VERB:INFL|||occurred|||REQUIRED|||-NONE-|||0
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Normally more than 1 egg is taken from the mother so that the eggs can be stored and used later if the pregnancy is unsuccesful or so that more than one can be fertilised at the same time to increase the chance of a succesful pregnancy .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 24 25|||R:SPELL|||unsuccessful|||REQUIRED|||-NONE-|||0
+A 44 45|||R:SPELL|||successful|||REQUIRED|||-NONE-|||0
+
+S This usually leads to multiple births ie .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S twins , triplets etc .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There are people who are agains this , saying it is not natural and is it fair to the child having started life in a test tube , as they believe life starts from the moment of conception .
+A 4 9|||R:OTHER|||say|||REQUIRED|||-NONE-|||0
+
+S There are ethics involved whereby who is given the treatment and who is n't ?
+A 4 5|||R:OTHER|||, such as|||REQUIRED|||-NONE-|||0
+
+S , at what age should the treatment not be given and is it justifiable to spend so much money on in vitro fertilisation for one person when the same amount of money could be used to saves hundereds of lives by vaccinating people against measles for example .
+A 0 2|||U:PUNCT|||At|||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 36 37|||R:VERB:FORM|||save|||REQUIRED|||-NONE-|||0
+A 37 38|||R:SPELL|||hundreds|||REQUIRED|||-NONE-|||0
+A 45 45|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The people who are for this can argue by saying that it is the right of every person to have their own child .
+A 0 2|||U:DET|||People|||REQUIRED|||-NONE-|||0
+
+S Women who would not normally be able to have children can now do so with invitro fertilisation .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Through no fault of her own she could have a blocked fallopian tube causing her to be unable to allow eggs down to the womb and it is only fair in helping her to have children .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 30 31|||R:PART|||to|||REQUIRED|||-NONE-|||0
+A 31 32|||R:VERB:FORM|||help|||REQUIRED|||-NONE-|||0
+
+S Technology has progressed quickly and in doing so ethics and practical guidelines have been left behind .
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S I therefore think it is necessary to have certain regulations ie .
+A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S 1 . Fertility treatment should not be given to post - menopausal women .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The menopause is the body 's way of telling you that you are to old and your body is no long capable of bearing a baby .
+A 13 14|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 20 21|||R:MORPH|||longer|||REQUIRED|||-NONE-|||0
+
+S Last year there was a case of a post menopausal woman who by lying about her age was given in vitro fertilisation ( IVF ) .
+A 19 23|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 24 25|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S I do n't think this is fair or morally correct to the child since her mother would be claiming her pension when she was at primary school and her mother would probably die while the child was in her teens .... there should be a test that is given before ( IVF ) is carried out to check the mother is not past the menopause .
+A 10 11|||R:PREP|||for|||REQUIRED|||-NONE-|||0
+A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 41 42|||R:ORTH|||There|||REQUIRED|||-NONE-|||0
+A 50 51|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 52 53|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S 2 .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Eggs should not be taken from aborted foetuses .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The foetuses will have been aborted for a reason for example : if it was the result of a rape or if it had congenital deformities .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 11 12|||R:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S There should be a guideline or law stating that eggs should only be taken from the mother and not from dead , foetuses .
+A 21 22|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S Science has moved on dramatically since the C19th .
+A 7 8|||R:OTHER|||19th|||REQUIRED|||-NONE-|||0
+A 8 8|||M:NOUN|||century|||REQUIRED|||-NONE-|||0
+
+S Many new things have been invented and many things medically have changed .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S People in our modern times are now able to have liver , heart and even lung transplants , there are many complications but many are succesful .
+A 17 19|||R:PUNCT|||. There|||REQUIRED|||-NONE-|||0
+A 25 26|||R:SPELL|||successful|||REQUIRED|||-NONE-|||0
+
+S People are able to have a whole new blood supply if theirs lacks the sufficient requirements or , a bone marrow transplant if the blood lacks white cells .
+A 11 12|||R:DET|||their|||REQUIRED|||-NONE-|||0
+A 12 12|||M:NOUN|||blood|||REQUIRED|||-NONE-|||0
+A 13 14|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S All the above are carried out on living people , but nowadays biological operations can be carried out on humans which are not even born .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Bodies can start their days in a test tubes .
+A 6 7|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S This is called ' in vitro fertilisation ' .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This is when an egg is removed from a woman placed in a test tube and then sperm is placed in to the test tube and the egg and sperm fuse together .
+A 21 22|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S The test tube is then incubated for a few weeks and when the fetous is formed , the baby is then inserted back in to the mother .
+A 13 14|||R:SPELL|||fetus|||REQUIRED|||-NONE-|||0
+A 23 25|||R:ORTH|||into|||REQUIRED|||-NONE-|||0
+
+S The fetous is left to grow and develop naturally .
+A 1 2|||R:SPELL|||fetus|||REQUIRED|||-NONE-|||0
+
+S This idea is extremely benificial to married couples who have been trying for a baby but have been unsuccesful are able to have children .
+A 4 5|||R:SPELL|||beneficial|||REQUIRED|||-NONE-|||0
+A 16 16|||M:PRON|||who|||REQUIRED|||-NONE-|||0
+A 18 19|||R:SPELL|||unsuccessful|||REQUIRED|||-NONE-|||0
+
+S An in vitro fertilisation allows the baby to grow inside , which allows the mother and baby to bond and it would feel apart of her , this would not happen if the couple adopted .
+A 0 2|||U:DET|||In|||REQUIRED|||-NONE-|||0
+A 26 28|||R:PUNCT|||. This|||REQUIRED|||-NONE-|||0
+
+S What I do feel is ethically incorrect is when a woman who is post - menopausal decides she wants a baby .
+A 4 5|||U:VERB||||||REQUIRED|||-NONE-|||0
+
+S Nature has already taken its course to tell her she is too old to have any children so why should she have one implanted into her .
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 26 27|||R:PUNCT|||?|||REQUIRED|||-NONE-|||0
+
+S It is not fair on the child because when it grows up and all its friends are playing with their 30 - 40 year old parents , its mother could be drawing her pension and I am sure she would not feel like playing with her child .
+A 4 5|||R:PREP|||for|||REQUIRED|||-NONE-|||0
+
+S Also the mother may die of old age before the child has led a full life and this would be unfair to the child .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The child may also have to look after the mother in her old age .
+A 10 11|||R:PREP|||at|||REQUIRED|||-NONE-|||0
+
+S As the fetous begins its life in a test tube , and the sperm is selected , this means that the sex of the sperm could also be selected .
+A 2 3|||R:SPELL|||fetus|||REQUIRED|||-NONE-|||0
+
+S The way the sex can be chosen is by using genetics .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The women has 2 X chromosomes and the man has one X and a Y - chromosomes .
+A 2 3|||R:VERB:SVA|||have|||REQUIRED|||-NONE-|||0
+A 16 17|||R:NOUN:NUM|||chromosome|||REQUIRED|||-NONE-|||0
+
+S The way in which the sex can be selected is that the egg is always X and the sperms nucleus can either contain an X or a Y chromosome .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The X chromosome sperm is slightly heavier than the Y so they can be separated .
+A 3 4|||U:NOUN||||||REQUIRED|||-NONE-|||0
+A 10 10|||M:OTHER|||chromosome ,|||REQUIRED|||-NONE-|||0
+
+S If the mother wants a boy Y sperm is selected and if a girl X is selected .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This may lead to an increase in one sex , and a decline in the other .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As a result this would reduce the population as there would be less couples .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 12 13|||R:ADJ|||fewer|||REQUIRED|||-NONE-|||0
+
+S Also what happens if most people the year you are born are men and you are a woman , this would be the unpopular sex .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 6 6|||M:VERB|||born|||REQUIRED|||-NONE-|||0
+A 18 20|||R:PUNCT|||? This|||REQUIRED|||-NONE-|||0
+
+S Science is progressing all the time , but is it for the best ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The main reason for the people of Britain to stop eating beef at the moment is the threat of BSB .
+A 4 5|||U:DET||||||REQUIRED|||-NONE-|||0
+A 6 7|||R:PREP|||in|||REQUIRED|||-NONE-|||0
+
+S This is a viral disease that attacks the central nervous system which can be passed on through consumsuming the animal .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In cows it is commonly know as mad cow disease and by law any cow showing these signs must be destroyed and not sold for meat .
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 5 6|||R:VERB:FORM|||known|||REQUIRED|||-NONE-|||0
+A 11 11|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The problem is however the signs are not shown for a long time , this being a viral disease .
+A 3 4|||R:OTHER|||that|||REQUIRED|||-NONE-|||0
+
+S It can be passed on to humans through eating parts of the animal such as the brain which is affected and these parts are usually sold and put into fast foods such as beef burgers .
+A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 20 20|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The rest of the meat however is relatively safe and eating , e.g. a steak offers very little chance of the disease being passed on .
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S However the British press has ignored this fact and blown the situation out of proportion considering only a very small number of people have died of the disease after a lifetime of eating beef .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Another reason for the British people to stop eating beef is the push for vegetarianism , although this is a much smaller threat to the trade than the former point abut BSB .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S These factors could have a considerable impact on the agricultural industry preventing the sale of British dairy livestock not only in Britain but for export aswell .
+A 22 22|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 25 26|||R:ORTH|||as well|||REQUIRED|||-NONE-|||0
+
+S With global communications as good as they are now , it could send a scare across the world about British Beef - indeed France and Germany already have restricted and someplaces banned the sale or import of British beef for fear of it 's safety .
+A 21 23|||R:PUNCT|||. Indeed|||REQUIRED|||-NONE-|||0
+A 23 23|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 29 32|||U:OTHER||||||REQUIRED|||-NONE-|||0
+
+S Although British farmers have learned to diversits , Dairy farming and the sale of Beef products still forms the backbone of British agriculture and would completely change the face of farming in Britain .
+A 6 7|||R:SPELL|||diversify|||REQUIRED|||-NONE-|||0
+
+S Wether they switch to sheep or vegetable crops were made , substantial changes would be needed to change the situation .
+A 0 1|||R:OTHER|||If|||REQUIRED|||-NONE-|||0
+A 2 3|||R:VERB:TENSE|||switched|||REQUIRED|||-NONE-|||0
+A 8 10|||U:VERB||||||REQUIRED|||-NONE-|||0
+
+S People throughout the United Kingdom were , doubtless shocked and perhaps upset by images in the national press and television news of cows who had contracted the disease bovine spungiform encephalapthy , or BSE .
+A 6 7|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S The so - called ' mad cow disease ' seemed to make the cows lose all sense of balance and direction , stumbling around drunkenly .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Herds where this disease was found were put down before the symptoms progressed further .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Those cows which had been put down were not used for food .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The disease infects the cow , and is then present in the spinal fluid within the spine and the brain , and as the spinal fluid is usually spilt in the slaughter of cattle for meat , the risk of contamination of the meat was one the industry was not willing to take .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The human disease , Crentzfeld - Jacob disease , or CJD , is believed to be a human form of BSE , although no clear link has yet been established between the two .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It is unclear whether incidence of CJD is on the rise , or whether awareness of the condition is heightened , but more cases , from all ages have been diagnosed recently , and the disease is always fatal .
+A 4 4|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 24 25|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S The government insists , perhaps correctly , that British beef is perfectly safe to eat .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , people are genuinely scared of the presence of the disease in the U.K. , and many are abstaining from eating beef .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Many schools have removed beef from their menus , substituting pork and chicken , and sales of beef have shown a decline .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The implications for the beef industry could be rather serious , where everybody to boycott beef products .
+A 13 14|||R:VERB:TENSE|||would|||REQUIRED|||-NONE-|||0
+
+S To compensate , beef prices have dropped , in attempts to sell more meat , but the public remains sceptical .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S If beef continues to fall from favour , then the beef industry 's future would be unclear .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Beef products are present in many foodstuffs such as jellies , fruit gums , and of course stock cubes .
+A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 17|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Would all these products have to find synthetic or substitute ingredients ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Even if the entire beef industry were to grind to a halt , the numerous heads of beef cattle worldwide would no longer be needed , but , being bred as they are , for beef , they would be useless for milk products .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Not all beef can be infected , though , and the situation has become a waiting game .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S For beef to be repreived or condemned , we are forced to turn to the scientists to establish whether or not BSE and CJD are linked , and , more importantly , whether the latter can be contracted by eating meat contaminated with the former .
+A 14 15|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S The nation awaits the verdict on tenterhooks , and it is in the majority 's interests that there be no proven link .
+A 18 19|||R:VERB:SVA|||is|||REQUIRED|||-NONE-|||0
+
+S Watch this space .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Personally , I believe that it is merely that man is better at diagnosing CJD now than ever before .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some reports say that it can take up to 20 years to develop , so we could all already have it .
+A 18 19|||U:ADV||||||REQUIRED|||-NONE-|||0
+
+S Whatever you believe , I shall continue to enjoy my roast beef and Yorkshire pudding , thankyou .
+A 5 6|||R:VERB:TENSE|||will|||REQUIRED|||-NONE-|||0
+A 16 17|||R:ORTH|||thank you|||REQUIRED|||-NONE-|||0
+
+S There has been a big scare in Britain recently that some beef may contain BSE ( bovine spongiform encephalopathy ) which may lead to the human equivalent of CJD ( Creutzfeldts - Jacob disease ) .
+A 30 31|||R:SPELL|||Creutzfeldt|||REQUIRED|||-NONE-|||0
+
+S BSE is a disease in cows that effects their brain and spiral tissue ( or offal as it is sometimes known ) .
+A 7 8|||R:VERB|||affects|||REQUIRED|||-NONE-|||0
+
+S After a few reported cases of CJD , a similar form of the disease found in humans , it is know thought that ' mad - cow disease ' ( BSE ) is the cause .
+A 20 21|||R:VERB:FORM|||known|||REQUIRED|||-NONE-|||0
+A 21 22|||U:VERB||||||REQUIRED|||-NONE-|||0
+
+S Researchers believe that eating beef containing offal will transmit the fatal disease to humans .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This claim has devestated the British beef industry as people are now too scared to eat beef in case they contract the illness .
+A 3 4|||R:VERB|||demonized|||REQUIRED|||-NONE-|||0
+
+S Already the sales of beef in America have dropped by about 15 % and in Britain they have dropped about 6 % - 7 % .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Although scientists say that to contract CJD part of the cows offal must be contained within the beef .
+A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S customers are still reluctant to eat the meat incase it has come from some ' dodgy ' butcher trying to cut costs .
+A 0 1|||R:ORTH|||Customers|||REQUIRED|||-NONE-|||0
+A 8 9|||R:ORTH|||in case|||REQUIRED|||-NONE-|||0
+
+S As you can imagine this has had a tremendous inffluence on sales in places such as fast food restaurants where beefburgers are the main item on the menu .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 9 10|||R:SPELL|||influence|||REQUIRED|||-NONE-|||0
+
+S An example of one is MacDonalds where they have immediately brought out a notice stating that their beefburgers are made from 100% of the finest , pure beef and contain no offal .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 8 9|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+A 21 22|||R:ORTH|||100 %|||REQUIRED|||-NONE-|||0
+
+S In my views no half decent restaurant with a good reputation would risk buying poor beef in case a customer caught CJD and they managed to trace it back to the restaurant .
+A 2 3|||R:NOUN:NUM|||view|||REQUIRED|||-NONE-|||0
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 21 22|||R:SPELL|||CJ|||REQUIRED|||-NONE-|||0
+
+S An outcome like this would mean they would be sued for several thousands of pounds and would probably have to sell up .
+A 16 17|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+
+S As a result of a lower beef demand in places of food production there would be a lower need for beef cows .
+A 13 13|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This means that there would be an excess of beef ( or a beef mountain ) that could not be sold .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Because of this the prices of beef would have to decrease in order to attract more customers .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S So , as a result of the claim that beef containing contaminated offal may cause CJD in humans , farmers ( in particular beef farmers ) are losing out as they will have to sell their meat for a lower price due to the low demand .
+A 12 13|||R:NOUN|||ingredients|||REQUIRED|||-NONE-|||0
+
+S As a result they may have to diversify towards other areas such as crops , milking cows , etc . or even have to get a government subsidy .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S I feel that the evidence that BSE causes CJD was not strong enough before the claims were released .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It has therefore caused an unnecessary , deleterious effect on the agricultural industry and beef market .
+A 14 14|||M:DET|||the|||REQUIRED|||-NONE-|||0
+
+S The question of compensation for services rendered is never so simple as remitting a predetermined salary based on qualifications and a person 's dedication to the task at hand .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S If one has preconceived notions concerning one 's salary , one will certainly be disappointed since some employers are sure to value their skills and abilities less than others . "
+A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 30 31|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S Contribution to society " is subjective and therefore impossible to compensate " equally ' .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In the 1920s in American , it became very popular to disdain people who did not actually work for a living , but merely lived off the interest of their investments .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The stock market was experiencing a boom , and several formerly working - class citizens became wealthy and relished the idea of retiring early .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S But several great authors of that period questioned the right of these investors to effectively live as parasites ; they received money , but they contributed nearly nothing to society .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S People who inherit money or live off the interest of investors often seem to spend their time in search of a new thrill , some sort of excitement that money can not buy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Having almost unlimited wealth changes people , both those who are born into wealth and those who earn their own money early on .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S But do they have the right to live this way ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S What about people who work very hard yet they seem to be paid miserably .
+A 8 9|||U:PRON||||||REQUIRED|||-NONE-|||0
+
+S A migrant work may slave away in a field all day long and make less money in a day than a wealthy person spends on a tip at lunch .
+A 2 3|||R:MORPH|||worker|||REQUIRED|||-NONE-|||0
+
+S The answer this question lies in one 's feelings about Democracry .
+A 2 2|||M:PREP|||to|||REQUIRED|||-NONE-|||0
+A 10 11|||R:SPELL|||democracy|||REQUIRED|||-NONE-|||0
+
+S Some would argue that if a person is smart enough or lucky enough to earn money for an early retirement ( or for their children 's inheritance ) he or she is entitled to it .
+A 28 28|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S A rather hard view would be that if someone who works on a menial or physically taxing job does not make a fair or moderate salary then it is his or her own fault ( or bad luck ) .
+A 11 12|||R:PREP|||in|||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S These opinions are based on a rather faulty American premise that all people are given an equal chance in life and what they make of it is their own responsibly .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Apparently , most people believe that they are underpaid and that others are overpaid .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S For instance , everyone seems to think that doctors make much too money for the work they do , yet none of the doctors are lowering their fees ( they must think that it 's a fair price ) .
+A 12 12|||M:ADJ|||much|||REQUIRED|||-NONE-|||0
+
+S So , unless we wish to impose on the personal lives of wealthy people by making them work harder , or give people who are not wealthy money that society does not believe they deserve , we can not give pay equal to contribution to society .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I agree that in the past women have had problems with societies role of what they are expected to do in the work place and at home .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 11 12|||R:OTHER|||the|||REQUIRED|||-NONE-|||0
+
+S Women have been looked down on if they try to get ahead and pay has differed with the same job for a man verses a woman doing the same job .
+A 23 24|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
+
+S Gone is the age that the woman is required to stay home .
+A 0 1|||R:OTHER|||It|||REQUIRED|||-NONE-|||0
+
+S Now a lot of women work and the ones that want to stay home do it because they want to .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S A lot of what has changed women 's roles is the feminists .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S These are groups of people that have defended women over the years .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S These people have shown the modern world what women in the work place can do .
+A 11 13|||R:ORTH|||workplace|||REQUIRED|||-NONE-|||0
+
+S The problem is that these feminists have not looked at all women .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some women were happy with old traditions , some wanted a bit more in their lives , some wanted a lot more in their lives .
+A 17 18|||R:OTHER|||others|||REQUIRED|||-NONE-|||0
+
+S What happens is that all women have to go along with these feminists rules .
+A 12 13|||R:MORPH|||feminist|||REQUIRED|||-NONE-|||0
+
+S This makes it hard , because if they do n't , they are looked down upon by their piers .
+A 14 15|||R:PART|||at|||REQUIRED|||-NONE-|||0
+A 15 16|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S An example is military women wanting to serve in combat positions when at war .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Feminists argued this a lot when the Iraq war was going on .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S They felt that women should have been given the chance to fight .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I felt that these people were crazy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Women just ca n't fight in a war very well .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The are not strong enough and if captured could be raped .
+A 0 1|||R:PRON|||They|||REQUIRED|||-NONE-|||0
+A 8 8|||M:PRON|||they|||REQUIRED|||-NONE-|||0
+
+S They feel that it is not fair that men are the only ones .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Other women , though , are glad that the rule in the United States stands as it does .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Feminists have talked about promotions in the work place as not being fair .
+A 7 9|||R:ORTH|||workplace|||REQUIRED|||-NONE-|||0
+A 11 12|||U:VERB||||||REQUIRED|||-NONE-|||0
+
+S Also sexual harassment is involved in a lot of suits .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Many women believe that they are the victims .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I agree that five to ten years ago this might have been true , but now many employers are the victims .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S They are scared of what a woman can do and sometimes women get looked at differently .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There are some things that women can do better than men and there are some things that men can do better than women .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S God would have created us all the same if this was not true .
+A 10 11|||R:VERB:SVA|||were|||REQUIRED|||-NONE-|||0
+
+S Feminists are trying to make everyone equal and that is impossible to do because nature can not be changed .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S More and more office jobs are being filled by the woman but a lot of the physical jobs are still filled by men .
+A 9 10|||U:DET||||||REQUIRED|||-NONE-|||0
+A 10 11|||R:NOUN:NUM|||women|||REQUIRED|||-NONE-|||0
+A 11 11|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S I think that the traditional roles were a good thing , but the modernization has changed everyone 's habits .
+A 3 4|||U:DET||||||REQUIRED|||-NONE-|||0
+A 12 13|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Divorce is at fifty percent and rising , women are having more heart attacks , being more stressful , and kids are being more neglected .
+A 2 3|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 7 9|||R:PUNCT|||. Women|||REQUIRED|||-NONE-|||0
+
+S Modernization is good , but I think that women should not be pressured into this if this is not for them .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There will be a woman in the presidency , and running a lot more companies .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Women should be created equal , but they can only do what nature intended they to do ...
+A 14 15|||R:PRON|||them|||REQUIRED|||-NONE-|||0
+
+S Whenever a movement is began whether it be political , religious , or artistic , stereotypes are quick to form .
+A 3 5|||R:VERB:TENSE|||begins|||REQUIRED|||-NONE-|||0
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S People normally associated with politics , religion , or art are quickly lumped into categories regardless of individual differences .
+A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This tragedy is worsened by the tendency of those outside the movement to remember the radical and ignore the common or ordinary .
+A 19 21|||U:OTHER||||||REQUIRED|||-NONE-|||0
+
+S This is especially true of the Women 's Liberation Movement in America .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Since its beginnings in the late nineteenth century , Women 's Liberation has been met with adamant , and often obstinate oppostion .
+A 21 22|||R:NOUN|||criticism|||REQUIRED|||-NONE-|||0
+
+S Some of the first radicals , Susan B. Anthony and George Sand ( although French ) were noticed and ridiculed , thus defeating their cause , because of their aggressive action .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S At the same time other feminists such as Emily Dickinson were virtually ignored during their lifetime and only acknowledged posthumously as being part of the movement .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This ignorance of other less aggressive feminists , made it seem as though the feminist movement was headed only by wild , disgruntled zealots and was therfore , detrimental to the good of society .
+A 7 8|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 26 27|||R:SPELL|||therefore|||REQUIRED|||-NONE-|||0
+A 30 33|||U:OTHER||||||REQUIRED|||-NONE-|||0
+
+S Although " radicals " such as Sand and Anthony seem docile and backward in modern standards , the problem still exists .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S From the very beginning the Women 's Movement in America has been fighting a losing battle .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S However , I contend that the fault does not lie with the radical members of the movement , but rather , in the perception of those observing the movement .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S When Women 's Lib really took off again in the late 1960s , it was again destined for failure .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Immediately , the focus was on radicals like Stein , instead of the housewife who returned to college and made a career for herself .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Those outside the movement could only see the differences between " normality " and Women 's Lib .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This is still true twenty - five years later .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Women supporting equal pay for women and and other " liberal " causes like affirmative action are only seen in the shadow of the bra - burning , anti - shaving leaders of the 1970s .
+A 6 7|||U:CONJ||||||REQUIRED|||-NONE-|||0
+
+S The good of their cause is undermined by the perception of the radicals .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S So what am I getting at ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Only that so - called feminists have not in and of themselves harmed the Women 's movement .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , the popular perception of them has .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S For so many years the good that feminists have promote for women has fallen by the wayside in lieu of other more interesting , i.e. radical ideas .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 9 10|||R:VERB:FORM|||promoted|||REQUIRED|||-NONE-|||0
+
+S Like many other aspects and movements in life , they would be more readiliy received if the public it was being aimed was not so jaded .
+A 13 14|||R:ADV|||well|||REQUIRED|||-NONE-|||0
+A 18 18|||M:PREP|||in|||REQUIRED|||-NONE-|||0
+A 18 19|||R:OTHER|||which they|||REQUIRED|||-NONE-|||0
+A 19 20|||R:VERB:SVA|||were|||REQUIRED|||-NONE-|||0
+
+S Within this century there have been many technological advances which have resulted in a drastically different society than that of a hundred years ago .
+A 0 1|||R:PREP|||In|||REQUIRED|||-NONE-|||0
+
+S Clearly , of the inventions of this century , the one that has made the most impact on world views and lifestyle is the television .
+A 21 22|||R:NOUN:NUM|||lifestyles|||REQUIRED|||-NONE-|||0
+A 23 24|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S This instrument has brought other worlds right into the living room , making it possible to see life in other countries in a way that was never before possible .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , the invention of television also gave society an easy way to waste time ; one has only to turn it on to tune out reality .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Television has potential to offer wonderful things to its viewers , such as educational programming for children , cultural programs about far away places , and a closer look at current events than can not be given by newspaper .
+A 2 2|||M:DET|||the|||REQUIRED|||-NONE-|||0
+A 38 38|||M:DET|||a|||REQUIRED|||-NONE-|||0
+
+S Television has the power to bring war into the home as well as artistic expressions of those involved in the program production , giving society the opportunity to understand their own culture more fully .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , this is not the way in which television has influenced society .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S On the contrary , television has become the escape route of the masses , a way for people to flee from the conflicts they experience in their culture , rather than confront them and try to understand them .
+A 10 11|||R:PREP|||for|||REQUIRED|||-NONE-|||0
+
+S In the minds of most Americans , television is regarded as a diversion rather than an educational tool , as free entertainment instead of easily accessible knowledge .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Millions of Americans can be found to be staring at the T.V. at any one time , watching sit - coms , soap - operas , and cartoons .
+A 11 12|||R:NOUN|||television|||REQUIRED|||-NONE-|||0
+
+S The T.V. has become the center of many households ; in many families , the only time that everyone is together is when they are watching television .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S T.V. is a major cause of lack of togetherness found in many American families , and has also resulted in an increase in laziness .
+A 6 6|||M:DET|||the|||REQUIRED|||-NONE-|||0
+
+S The more time one spends watching TV , the less motivated he becomes ; there is no need to seek worthwhile activities when it is much easier to sit on the couch , pick up the remote control , and stare at a box .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Television , therefore , has changed society in ways that could hardly have been dreamed of 00 years ago .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It has given society another creative vein , a look at worlds which could be seen in no other way , and an opportunity to better educate itself .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , throughout the years , television has lost much of its integrety ; the programs offered are usually cheap entertainment rather than education .
+A 12 13|||R:SPELL|||integrity|||REQUIRED|||-NONE-|||0
+
+S The entertainment aspect of television has offered society an easy escape from its problems and dificulties .
+A 15 16|||R:NOUN|||limitations|||REQUIRED|||-NONE-|||0
+
+S Therefore , since the invention of television , society has becomed more informed but too lazy to think about this new information , and has distanced itself from family life .
+A 10 11|||R:VERB:INFL|||become|||REQUIRED|||-NONE-|||0
+
+S A discovery that has significantly changed many peoples lives and their ways of thinking is the epidemic , known as AIDS .
+A 17 20|||R:OTHER|||of|||REQUIRED|||-NONE-|||0
+
+S Though it has probably been around for awhile , it 's presence hasn't really been known untill fairly recently , and it 's consequences have been devistating .
+A 12 13|||R:ORTH|||has n't|||REQUIRED|||-NONE-|||0
+A 16 17|||R:SPELL|||until|||REQUIRED|||-NONE-|||0
+A 26 27|||R:ADJ|||enormous|||REQUIRED|||-NONE-|||0
+
+S AIDS has definately had an impact on people in the United States and probably all over the world because it always leads to death and there is no cure .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It has caused a lot of prejudice and paranoia among people which has torn them apart .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S For example , there is more of stigma attached to being a homosexual male , not only because of their sexual preference , but they probably have AIDS too .
+A 6 7|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S This kind of ignorant thinking is breaking us apart .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Also , when Ryan White , a boy who contracted AIDS through a blood transfusion was diagnosed , the people of his town and his school treated him like a complete outcast and would n't allow him to attend school .
+A 15 15|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S With new discoveries of AIDS , paranoia is at an all time high .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Doctors are discovering that some undetectable strands of AIDS do exist .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This has really scared people because they may have AIDS and not even know it .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I feel this has really made people think about their actions .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In the early eighties " casual sex " in the United States was a widely accepted idea , now it is something people really take into consideration and rarely occurs .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 19|||R:PUNCT|||. Now|||REQUIRED|||-NONE-|||0
+
+S Relationships seemed to be valued more than one night stands .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S People are starting to realize that they really do have to be careful , and with more education on this disease , I 'm sure more changes will come about .
+A 23 24|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+
+S The twentieth century has seen more wars than any other previous bloc of time .
+A 10 12|||R:OTHER|||period|||REQUIRED|||-NONE-|||0
+
+S Though advances in communication , transportation , and information sharing , the world as a body of people living in close proximity , has rapidly shrunk .
+A 0 1|||R:PREP|||Despite|||REQUIRED|||-NONE-|||0
+A 22 23|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S In the second of the world wars , the race was on to create the most devastating , most powerful , and most frightening weapon our people had ever known .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In my opinion , the discovery and harness of atom and its energy and the corresponding invention of nuclear weapons have been the most significant factors of change in our lifetime , if not , perhaps , in several lifetimes .
+A 4 5|||U:DET||||||REQUIRED|||-NONE-|||0
+A 7 8|||R:MORPH|||harnessing|||REQUIRED|||-NONE-|||0
+
+S As missile technology and nuclear fusion capacities increased and improved , fear began to replace nationalism , and our small world erected barriers between its members .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S From my experience as an American , I can remember associating communism with nuclear threat , Soviet citizens with anti - Christ , and bomb shelters , secret cities for underground , and weapons orbiting our planet , with daily , normal life .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Perhaps this increasingly common mentality is the worst effect of our nuclear , cold war age .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In a planet which desperately needs our focus on environmental and humanitarian issues , my country has spent uncountable trillions of dollars on nuclear weapons testing , improvement , and implementation .
+A 0 1|||R:PREP|||On|||REQUIRED|||-NONE-|||0
+
+S As a commonplace goal and testimonial landmark to 9 presidential administrations , the cold war has manifested its awesome power and control over nearly every facet of Americana ; from survival kits and basement bombshelters to an ever circulating cheif Executive commandpost from the air .
+A 7 8|||R:PREP|||for|||REQUIRED|||-NONE-|||0
+A 39 40|||U:NOUN||||||REQUIRED|||-NONE-|||0
+A 40 41|||R:ORTH|||executive|||REQUIRED|||-NONE-|||0
+
+S In just the past three years our family of nations has seen the dismantling of the Berlin Wall and hundreds of other smaller symbols of freedom , and an end to oppression in many circumstances .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S With this , the walls , barbed wire , and mental barriers are falling , bringing more change than our planet has seen since its genesis .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Although the old habits die hard , they are indeed dying .
+A 1 2|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S In America the military has been reduced by several thousand troops , and the production of nuclear warheads has virtually arrived a standstill .
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 21 21|||M:PREP|||at|||REQUIRED|||-NONE-|||0
+
+S Hopefully , with continued efforts , our use of nuclear fusion and fission will turn from mediums of strategy , destruction , and waste to matters of energy production , medicine , and other humanitarian goals .
+A 16 17|||R:NOUN|||matters|||REQUIRED|||-NONE-|||0
+
+S With this thawing of attitudes , our frigid planet and cold neighbors may once again be a warm and friendly people .
+A 16 17|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S The discovery of penicillin as an antibiotic was one of the greatest advances in medicinal chemistry .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As a natural antibiotic , penicillin was discovered to have many uses in stopping and preventing the spread of infections .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This " wonder - drug " also led to the discovery of a variety of other naturally - occurring antibiotics that could also be cultured " in vitro " in a laboratory .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This sudden burst of useful compounds not only improved the chances of a patient 's survival in a hospital but also caused a great need for medical chemists to study and classify each new drug as it was discovered .
+A 19 19|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S As discoveries of new antibiotics decreased , chemists began to wonder if certain variations of these drugs could be synthesized and also used as medicine .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It was also attemped to increase the production of the naturally - occurring antibiotics through synthesis .
+A 9 10|||U:DET||||||REQUIRED|||-NONE-|||0
+A 11 12|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S Both of these new attempts caused a need for more research , more companies , and more medical chemists , and the industry increased tremendously .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It was discovered that the older drugs could be synthesized efficiently while still remaining biologically active .
+A 4 5|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S New drugs were also synthesized ; some were found to be medically useful while others were not .
+A 18 18|||M:PUNCT|||;|||REQUIRED|||-NONE-|||0
+
+S A variety of new drugs continuously appeared on the market and changed the way people thought about taking medicine .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It was now much easier to obtain antibiotics for simple illnesses , such as the common cold .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Huge enterprises , such as Upjohn , were formed and grew , and universities had research teams devoted to producing efficient synthesis routes for the production of all kinds of antibiotics .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The discovery of one compound led to the increase of health of millions of people , to the discovery of more and more antibiotics , and to a booming industry comprised of research teams and large companies .
+A 10 10|||M:DET|||the|||REQUIRED|||-NONE-|||0
+
+S The synthesis of antibiotics and research of their uses still continues today as thousands of universities and companies around the world continue the work of a small bacteria -- the producer of penicillin .
+A 9 10|||U:ADV||||||REQUIRED|||-NONE-|||0
+
+S The modern microcomputer ( PC ) has evolved at an incredibly fast pace : from the very first modern computer in the 1940 's to the computers of today , there have been many technological advances and also there has been a tremendous impact on society .
+A 22 24|||R:OTHER|||1940s|||REQUIRED|||-NONE-|||0
+
+S The computer has eliminated many jobs through automation of factories ; accounting , engineering , and other scientific programs , etc .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The effects of the computer have been tremendous ; however , the phenomenon is a catch-22 .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The computer has made life easier from a physical standpoint and harder from a mental standpoint .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The physical effects of the computer are numerous and easily seen .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In offices , the computer is everywhere .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S From word processors to spreadsheet / database programs , computers have made office work easier and faster .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Automation of factories has also eliminated many manual jobs .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Also almost everyone has at least one simple computer , e.g. a calculator .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S There are of course many other things computers are used for , but a lengthy list is not necessary as everyone already knows ( except for people in 2nd and 3rd world countries ) how abundant computers are .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The mental effect of computers is two - fold .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Firstly , computers have made mathematical computations so easy to do , many people do not fully understand how or why their computer works .
+A 11 13|||R:PUNCT|||. Many|||REQUIRED|||-NONE-|||0
+
+S This has created a surplus of " needless " computations , figures , etc .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S People can easily do calculus or other type functions with a computer .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S What many people do not realize is that computers make errors all the time .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Granted , it is the person who " told " the computer what to do that truly made the error ; however if that person knew what he should do , or better stated " was able to do with a computer " , he would not have erroneous answers .
+A 22 22|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 35 35|||M:PRON|||what he|||REQUIRED|||-NONE-|||0
+
+S Mathematical models , theories , etc .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S are absolutely riddled with errors simply because there are many things people do n't know or ca n't predict .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Due to this errors frequently exist in the world of computers simply because humans are ignorant- for whatever reason - of many " variables " .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 15 16|||R:ORTH|||ignorant -|||REQUIRED|||-NONE-|||0
+
+S Secondly , computers have sometimes become more reliable than people .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S A computer 's circuits do n't get tired and , if programmed 100% correctly ( another perhaps impossible computation ) , never make errors .
+A 12 13|||R:ORTH|||100 %|||REQUIRED|||-NONE-|||0
+
+S This supposed reliability has left many workers out of work .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The effects of this are unpredictable .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Anger , frustration , fear , and many other negative feelings have sprung up simultaneously with the rise of computer usage .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Clearly , there is evidence of good and bad results from the advent of the modern computer .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It would be practically impossible to throw the computer away or never use it again .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Yet there are practical solutions .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Better mathematical education is needed for everyone who uses a computer other than a simple calculator .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Also , curtailing some theoretical programming could eliminate alarming predictions or erroneous results .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The key is probably in the classroom .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S People should learn more about the ramifications about what they are doing .
+A 7 8|||R:PREP|||of|||REQUIRED|||-NONE-|||0
+
+S ( This probably would require understanding of philosophy and psychology as well as mathematics and science . )
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In either case , if computers are good or bad , it would be difficult to dispute their impact on people 's lives .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S A large , 1/2 egg , sometimes as large as a small FIAT , with a metal arrow in it 's center has changed the size of the world , and communication amongst the countries within it .
+A 32 33|||R:PREP|||between|||REQUIRED|||-NONE-|||0
+A 33 34|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S The satellite dish , created in the last 0 years , has changed the meaning of telecommunication .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In part , it has created The Information Age , as the latter part of the 20th ctry , is often labelled .
+A 17 18|||R:SPELL|||century|||REQUIRED|||-NONE-|||0
+
+S Not certain about the date of its invention , it must be recognized as one of the more vital tools used in society today , amongst world leaders , trading companies , and the media , as well as the entertainment world .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Ted Turner revolutionized the use of the satellite , with his creation of CNN , the round - the - clock , round - the - world news station .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Presidents and dictators alike switch the channel to recieve first hand information from the network , such as impeachments , coup d'etats or civil wars .
+A 8 9|||R:SPELL|||receive|||REQUIRED|||-NONE-|||0
+
+S Decisions , of governmental autonomy , are being made , based on that nights news CNN commentator .
+A 1 2|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 2 3|||R:PREP|||about|||REQUIRED|||-NONE-|||0
+A 5 6|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 13 14|||R:NOUN:POSS|||night 's|||REQUIRED|||-NONE-|||0
+
+S The leaders and presidents of enterprises such as panasonic and CORE refer to CNN , created by satellite dish , on a daily bases .
+A 23 24|||R:NOUN:NUM|||basis|||REQUIRED|||-NONE-|||0
+
+S Stocks are an integral part of their livelihood .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The entertainment world has taken full advantage of the satellite dish , subtitling the Information Age , with the MTV age .
+A 16 17|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S The creation of MTV in 1980 , has dramatically changed the entertainment business .
+A 6 7|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S The money poured into creating videos , and the profits from viewership- have had a strong affect on the world economy .
+A 11 12|||R:ORTH|||viewership -|||REQUIRED|||-NONE-|||0
+A 16 17|||R:NOUN|||impact|||REQUIRED|||-NONE-|||0
+
+S 40% of U.S. millionares are entertainers .
+A 0 1|||R:ORTH|||40 %|||REQUIRED|||-NONE-|||0
+
+S The Satellite dish has also created distinct advantages for Cable TV and naval programs as well .
+A 1 2|||R:ORTH|||satellite|||REQUIRED|||-NONE-|||0
+
+S The intelligence of an average teenager is lowering itself due to cable viewing , created by the satellite dish .
+A 13 14|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S Naval programs have wasted exceeding amounts of money in the United States , due to the satellite dish .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S And one must not forget space programs such a STARWARS .
+A 8 9|||R:SPELL|||as|||REQUIRED|||-NONE-|||0
+
+S The creation of the satellite dish in the past 20 years , has altered the average intelligence of the human being for the better and sometimes worse .
+A 11 12|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S It has created an information age , which could be dangerous , and heightened an entertainer 's salary .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The pro 's and con 's of the satellite dish are numerous .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The only observation which can be made , is that : It has altered people lives significantly .
+A 7 8|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 10 12|||U:PUNCT|||it|||REQUIRED|||-NONE-|||0
+A 15 15|||M:NOUN:POSS|||'s|||REQUIRED|||-NONE-|||0
+
+S It is up to the average person to decide if this alteration will be for the better or worse .
+A 18 18|||M:PREP|||for|||REQUIRED|||-NONE-|||0
+
+S The discovery of the Atomic energy , is undoubtedly the the most awesome as well as terrible invention not only of the 20th century but of all time .
+A 6 7|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 9 10|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S In 1945 , J. Robert Oppenheimer unveiled to the world his invention in the form that is still most familiar to us today : The Atomic bomb .
+A 24 25|||R:ORTH|||the|||REQUIRED|||-NONE-|||0
+
+S The reason behind the fear that this energy causes is routed in its incredible power to destroy .
+A 10 11|||R:OTHER|||due|||REQUIRED|||-NONE-|||0
+A 11 12|||R:PREP|||to|||REQUIRED|||-NONE-|||0
+
+S Never before had the world seen something with such a capacity to kill .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Never before had one object of such small size been able to take so many lives .
+A 7 7|||M:DET|||a|||REQUIRED|||-NONE-|||0
+
+S For this reason , It is considered the most awe - inspiring and dangerous weapon in the world .
+A 4 5|||R:ORTH|||it|||REQUIRED|||-NONE-|||0
+
+S Unfortunately , with each progressive day , the world 's need for this dangerous energy augments .
+A 14 15|||R:NOUN|||weapon|||REQUIRED|||-NONE-|||0
+A 15 16|||R:NOUN|||increases|||REQUIRED|||-NONE-|||0
+
+S For not only does it have the capacity to kill ,
+A 0 2|||U:PREP|||Not|||REQUIRED|||-NONE-|||0
+
+S but also the capability to supply and energize the world .
+A 0 1|||R:ORTH|||But|||REQUIRED|||-NONE-|||0
+
+S The drawback is the danger .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In utilizing this power in plants and factories we run the risk of contaminating our land , blowing holes in our sky , rendering our seas useless , and killing our species as well as all the species of the earth .
+A 0 1|||R:PREP|||By|||REQUIRED|||-NONE-|||0
+A 1 2|||R:VERB|||using|||REQUIRED|||-NONE-|||0
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 32 32|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Although we have many other power source alternatives , we still continue to use this dangerous invention .
+A 6 7|||R:NOUN:NUM|||sources|||REQUIRED|||-NONE-|||0
+
+S It is illogical to think that with continued nuclear use , we can escape harm .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Already as a result of pollution and other various factors , we have holes in our ozone layer and problems with our soil in many parts of the world .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S It would be logical to think that the leaders of the world would confer and aspire to put a stop to nuclear use in an effort to avoid any further damage to the earth and its inhabitants .
+A 17 19|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 20 21|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S The saddest part of this tragedy is that there have been very few efforts to do so .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The lack of sight from our leaders is almost appalling .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S With the lack of respect for the planet that is the general attitude of today , what is to become of our children .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The current situation of the world 's environment is a sad one .
+A 3 4|||R:PREP|||in|||REQUIRED|||-NONE-|||0
+
+S It is also however , a problem of which nuclear energy is only a small piece .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Unfortunately , the day will soon come when the damage caused by this apathy will be irreversable .
+A 16 17|||R:SPELL|||irreversible|||REQUIRED|||-NONE-|||0
+
+S This is why it is imperative to act today .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It starts with you .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Write your local congressman .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S An invention of the 20th century which I think has significantly changed people 's lives is the invention of the airplane .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The extend to which this invention has altered people 's lives is astronomical .
+A 1 2|||R:NOUN|||extent|||REQUIRED|||-NONE-|||0
+
+S The airplane opened doors to traveling and also broadened people 's perceptions of the entire world .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It also introduced what seemed a completely impossible concept which no human is capable of doing without a machine : the concept of flying .
+A 3 5|||U:OTHER||||||REQUIRED|||-NONE-|||0
+
+S Before the invention of the airplane , long distance traveling was a very difficult , time consuming task .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S For this reason people did not travel extremely long distances and missed the opportunity of visiting countries with cultures very different from their own .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 4 5|||R:VERB:TENSE|||do|||REQUIRED|||-NONE-|||0
+A 11 12|||R:VERB:TENSE|||miss|||REQUIRED|||-NONE-|||0
+
+S One could travel by boat but this was inconvenient and often dangerous because of various things like disease , hunger , and threatening weather ; also as noted above , it was extremely time consuming .
+A 5 5|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Because of the lack of long distance travel people often had a very ethnocentric and limited concept of the world .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 10 11|||R:VERB:TENSE|||have|||REQUIRED|||-NONE-|||0
+
+S I have learned a lot about my own culture just from being in Spain and that is the only foreign country I have ever visited .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I can admit that before I came to Spain I was very ignorant about other cultures .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Even though I would watch the news and read about other cultures I still did not have the opportunity to witness it first hand .
+A 3 5|||R:VERB:TENSE|||watched|||REQUIRED|||-NONE-|||0
+A 12 12|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The invention of the airplane has opened many doors and one other door is international relations .
+A 5 6|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+
+S Since the invention of the airplane the world has increased close contact between political systems , and international business endeavors .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The frequency that which foreign countries are able to communicate and negotiate face to face has improved drastically the establishment of international trade .
+A 2 3|||R:OTHER|||at|||REQUIRED|||-NONE-|||0
+A 18 18|||M:PREP|||with|||REQUIRED|||-NONE-|||0
+
+S The airplane has also basically speeded up the whole postal communication system also .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Life with airplanes is more rapid paced .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Cars , telephones , and nuclear energy are just three examples of inventions and discoveries that have had profound effects on modern day life .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S We must remember , however , that the field of technology is not the only one in which significant advances have been made in the 0th century .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Another " discovery " of this past century has been feminism , which has had a significant impact on the lives of both men and women .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Of course , the issue of feminism is not a new one , but it is just within the past century that much progress has been made towards the equality of women ( with the important exception of women winning the right to vote in the 1800s ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As recently as the 1950s , it was still the most typical as well as the ideal to have the woman in the home , housekeeping and tending the children .
+A 19 20|||R:DET|||a|||REQUIRED|||-NONE-|||0
+A 28 28|||M:PREP|||to|||REQUIRED|||-NONE-|||0
+
+S The first significant equal rights movement in the U.S. was in the 70s with the Equal Rights Amendment , which failed .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Even today , the woman is still only earning something like 60 cents for every dollar that a man earns .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Feminism does not only have to do with work and money , but also with the image of women .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It 's only recently that we 've " discovered " , or begun to think about rather , how much things as varying as pornography or the language we use helps to form the image of women .
+A 6 7|||R:ORTH|||' ve|||REQUIRED|||-NONE-|||0
+A 16 17|||U:ADV||||||REQUIRED|||-NONE-|||0
+A 30 31|||R:MORPH|||help|||REQUIRED|||-NONE-|||0
+
+S A recognition of such influences on the image of women is the first step in breaking it down , so that women are seen for who they truly are .
+A 16 17|||R:PRON|||them|||REQUIRED|||-NONE-|||0
+
+S Feminism is better described as a " discovery in progress " ; it 's a movement , an attitude that has not yet become mainstream .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Only when women have achieved equality with men , will there cease to be a need for feminism , and the discovery will have been completed .
+A 8 9|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S The idea I feel that has most significantly changed people 's lives in the 20th century is that of caring for the environment .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Today , people have become aware of the importance of environment to our future .
+A 10 10|||M:DET|||the|||REQUIRED|||-NONE-|||0
+
+S People are concerned with nuclear weapons .
+A 3 4|||R:PREP|||about|||REQUIRED|||-NONE-|||0
+
+S We realize that countries that which have many weapons have the power to destroy the world .
+A 5 6|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Also related to this topic is nuclear waste .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Nuclear waste is not only harmful to humans ; it also kills animals and plants .
+A 16 16|||M:PUNCT|||;|||REQUIRED|||-NONE-|||0
+
+S We are now fighting for acts to clean up our lakes and rivers .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Companies are no longer able to freely dump their wastes w / o being heavily fined .
+A 10 13|||R:OTHER|||without|||REQUIRED|||-NONE-|||0
+
+S People have also become concerned with nature .
+A 5 6|||R:PREP|||about|||REQUIRED|||-NONE-|||0
+
+S We used to assume our natural resources were never ending .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Now , though , we realize what we use , needs to be replaced .
+A 9 10|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S For example deforestation is a very big issue , many groups have formed to plant more trees .
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 8 10|||R:PUNCT|||. Many|||REQUIRED|||-NONE-|||0
+
+S We also realize our fossil fuels need to be used more conservatively .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Another important topic we are all aware of is recycling .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This links 2 issues , one of not producing much nonbiodegradable products and the other of reusing what we have .
+A 16 17|||R:VERB|||recycling|||REQUIRED|||-NONE-|||0
+
+S ( Recycling in a small way also helps those w / o homes b / c they receive money for their collections ) .
+A 9 10|||U:NOUN||||||REQUIRED|||-NONE-|||0
+A 10 11|||R:OTHER|||in|||REQUIRED|||-NONE-|||0
+A 11 12|||R:OTHER|||their|||REQUIRED|||-NONE-|||0
+
+S Many countries realize that recycling is not only beneficial to their economy it also is beneficial to their environment .
+A 12 12|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Another important issue is that of conserving energy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In the past , once again , we assumed our energy was never ending .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Now though people are more inclined to turn off their lights when they 're not in their rooms , to not leave taps running and basically not to waste our natural resources .
+A 0 1|||R:ADV|||Nowadays|||REQUIRED|||-NONE-|||0
+A 1 2|||R:OTHER|||,|||REQUIRED|||-NONE-|||0
+
+S We realize that conserving is not beneficial to our environment but it is also saves money .
+A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 12 13|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+
+S We have also become more considerable of our animal life .
+A 5 6|||R:ADJ|||aware|||REQUIRED|||-NONE-|||0
+
+S We are no longer able to kill animals freely .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S We do still raise some for food but hunting is limited and we are all aware of the possibilities of extinction .
+A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S One realizes that animals have rights too .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In conclusion , the idea of caring for the environment is still a new one .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S We are slowly becoming more aware and are beginning to take more precautions .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The ideas above are just a few of the topics we are now concerned with .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S But we are heading in the right direction and hopeful by the 21st century we will have fixed everything we have destroyed !
+A 9 10|||U:ADJ||||||REQUIRED|||-NONE-|||0
+
+S Computers have definitely effected peoples lives .
+A 3 4|||R:VERB|||affected|||REQUIRED|||-NONE-|||0
+
+S I have a computer and my life has change because of it .
+A 8 9|||R:VERB:FORM|||changed|||REQUIRED|||-NONE-|||0
+
+S I 'm able to store almost all the information I need for school and for other things in my computer whereas before I had a computer my desk was cluttered w/ paper and records of all sorts , I no longer need to keep these records but only to transfer them to my computer .
+A 1 2|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+A 17 18|||R:PREP|||on|||REQUIRED|||-NONE-|||0
+A 26 26|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 30 31|||R:OTHER|||with|||REQUIRED|||-NONE-|||0
+A 37 38|||R:PUNCT|||.|||REQUIRED|||-NONE-|||0
+
+S This means I 'm able to store more information in an organized fashion .
+A 3 4|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+
+S Though I have only used a fraction of my computer 's ability , I 'm still aware of the tremendous opportunities which I have or will have .
+A 14 15|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+
+S Aside from being able to store great amounts of info , I 'm also able to process and to edit things quickly .
+A 9 10|||R:NOUN|||information|||REQUIRED|||-NONE-|||0
+A 12 13|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+
+S For example , without the use of a computer I had to balance my checkbook once a month and had to this w/ a calculator , a pen and a piece of paper .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 21 21|||M:VERB|||do|||REQUIRED|||-NONE-|||0
+
+S Of course , this was very time consuming and open to error . W/ the use of a computer I have programmed the computer to make the calculations which I once had to make .
+A 19 19|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 20 21|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+A 25 26|||R:VERB|||do|||REQUIRED|||-NONE-|||0
+A 33 34|||R:VERB|||do|||REQUIRED|||-NONE-|||0
+
+S Also , w/ the use of the Word Processor I 'm able to edit and rearrange documents w / out altering the entire document , and furthermore , though I have yet to use the Communications program in my computer , this program seems to be extraordinarily helpful .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 10 11|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+A 37 38|||R:PREP|||on|||REQUIRED|||-NONE-|||0
+
+S My father has the same program in his computer and is able to buy on line tickets w / out leaving the house and moreover w / out picking up the phone .
+A 6 7|||R:PREP|||on|||REQUIRED|||-NONE-|||0
+A 25 25|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Also , I realize that my experience w/ computers is limited and that the power of computers , for me , is incomprehensible .
+A 7 8|||R:OTHER|||with|||REQUIRED|||-NONE-|||0
+
+S I 'm now here in Madrid .
+A 1 2|||R:ORTH|||' m|||REQUIRED|||-NONE-|||0
+
+S How did I get there ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Well , I applied to the this program , was accepted , and flew here form the US .
+A 4 5|||R:PREP|||for|||REQUIRED|||-NONE-|||0
+A 5 6|||U:DET||||||REQUIRED|||-NONE-|||0
+A 15 16|||R:SPELL|||from|||REQUIRED|||-NONE-|||0
+
+S But , w / out the use of computers I would still be struggling w/ the secretary in the International Programs Office at Boston University , no doubt .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Instead , once I applied to the program- the application for which was probably computer generated- I assume my info was processed by a computer .
+A 7 8|||R:ORTH|||program -|||REQUIRED|||-NONE-|||0
+A 15 16|||R:ORTH|||generated -|||REQUIRED|||-NONE-|||0
+A 17 18|||R:VERB:TENSE|||assumed|||REQUIRED|||-NONE-|||0
+
+S W / out this luxury , the International Programs Office would inevitably inundated w/ paperwork and things would therefore be lost or at least misplaced .
+A 12 12|||M:VERB:TENSE|||be|||REQUIRED|||-NONE-|||0
+A 13 14|||R:OTHER|||with|||REQUIRED|||-NONE-|||0
+
+S When booking my flight , though I did not do this myself , the transaction would seem impossible minus the aid of computers .
+A 18 19|||R:PREP|||without|||REQUIRED|||-NONE-|||0
+
+S Computers have had a most significant impact on the people in the latter 1/2 of the 20th century .
+A 8 9|||U:DET||||||REQUIRED|||-NONE-|||0
+A 13 14|||R:OTHER|||half|||REQUIRED|||-NONE-|||0
+
+S An invention of the 20th century that I think has significantly changed people 's lives is television .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S TV allows the instantaneous communication of ideas , images , news , etc .
+A 2 3|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Now , if something is happening in any part of the world- from across town all the way to Beijing -- every person in the world can watch this event as it is happening .
+A 11 12|||R:ORTH|||world -|||REQUIRED|||-NONE-|||0
+A 20 21|||R:PUNCT|||-|||REQUIRED|||-NONE-|||0
+
+S While previously people had to wait days , or even weeks for news ( which consisted of second - or third - hand accounts , which always involved much interpretation and distortion ) now they can see it happening , for themselves , as it is happening , this allows them to make their own , informed judgment about the event ; and if a reaction is necessary- such as the gathering of opposition to a certain law -- it can be made immediately , while the emotions are still strong , and before the action is finalized .
+A 55 56|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 67 68|||R:OTHER|||necessary|||REQUIRED|||-NONE-|||0
+A 68 68|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 78 79|||R:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S As well , the fact that so many people ( especially in the US ) have television sets means that everybody ( well , at least everybody who watches ) receives the same inflow of information and ideas .
+A 33 34|||R:NOUN|||flow|||REQUIRED|||-NONE-|||0
+
+S So , for example , people in Spain can be informed about how people in California or Japan speak and act , this allows people from different cultures to come together and discuss ideas .
+A 21 23|||R:PUNCT|||. This|||REQUIRED|||-NONE-|||0
+
+S In my opinion , this is one part of the process of making the world a " smaller " , more unified place , or a " global village " as one journalist has called this world of the Information Age .
+A 30 30|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Not only the news , but also entertainment is an important practical function of television , through television entertainment , as through literature and drama , people learn different messages about life .
+A 15 17|||R:PUNCT|||. Through|||REQUIRED|||-NONE-|||0
+
+S They can see various actions acted out to their ends , and understand the consequences of these actions , without having to perform the same actions and experience the consequences for themselves .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Unfortunately these TV shows are not always accurate portrayals of real life and have a tendency to glorify violence , as well as making life seem the good guy always wins , and always lives thru dangerous situations .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 35 36|||R:PREP|||through|||REQUIRED|||-NONE-|||0
+
+S However , this sense of reality is not so distorted , and so hidden that people are going around acting like Superman .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As long as one has a well - developed sense of reality , TV can be an excellent tool for understanding the world we live in .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The waters of the culunary seas have been calm and consistant for centuries .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Progress has move slow like the tides and the constant rythm of the waves have showed little changed .
+A 2 3|||R:OTHER|||been|||REQUIRED|||-NONE-|||0
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 15 16|||R:VERB:FORM|||shown|||REQUIRED|||-NONE-|||0
+A 17 18|||R:MORPH|||change|||REQUIRED|||-NONE-|||0
+
+S However with the daybreak of the twentyth century a storm has brewed .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S With this storm the waters have churned and spawned a wave that has crashed upon the rocks of every kitchen .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S This wave is the microwave .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Never before has such an invention revolutionized a science like this .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S A complete break has been forged in the way food is prepared .
+A 5 6|||R:VERB|||made|||REQUIRED|||-NONE-|||0
+
+S At the dawn of time , cave men cooked animal flesh over open fires .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As History progressed , spits and barbeques emerged .
+A 1 2|||R:ORTH|||history|||REQUIRED|||-NONE-|||0
+
+S Technology saw the advent of the wood stove , and later ones fueled by coal .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Modern times saw gas and electric ranges as to staple .
+A 8 9|||U:PREP||||||REQUIRED|||-NONE-|||0
+A 9 10|||R:NOUN:NUM|||staples|||REQUIRED|||-NONE-|||0
+
+S All these things had one thing in common : FIRE .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Flame , the source of life , always used to prepare the fool of mankind throughout History .
+A 16 17|||R:ORTH|||history|||REQUIRED|||-NONE-|||0
+
+S However , the microwave uses radiation to excite water particles in food , thus creating friction , which creates heat .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This is a prime example of thinking that does not follow in old footsteps but breaks away from convention and forges new routes .
+A 11 12|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S If this were not amazing enough , the microwave cuts cooking time in half .
+A 2 3|||R:VERB:SVA|||was|||REQUIRED|||-NONE-|||0
+
+S If you had told someone 100 yrs ago that you could cut cooking time in half , and not use fire , they would have thought you crazy , or bewitched , or under the influence of heavy drugs .
+A 6 7|||R:NOUN|||years|||REQUIRED|||-NONE-|||0
+
+S In an age where time is the scarcest comodity , our society has embraced this eliminator of wasted hours in the kitchen .
+A 8 9|||R:SPELL|||commodity|||REQUIRED|||-NONE-|||0
+
+S A mother who works , can come home can whip up something in minutes in the microwave , whereas before she would have been slaving in the kitchen .
+A 8 9|||R:OTHER|||and|||REQUIRED|||-NONE-|||0
+
+S The microwave is excellent for re - heating making it easier for people to make excess food to be eaten later .
+A 5 7|||U:NOUN||||||REQUIRED|||-NONE-|||0
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Again time is conserved -- Children are able to use this simple device without parental fear of fires starting .
+A 1 1|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 17 19|||R:WO|||starting fires|||REQUIRED|||-NONE-|||0
+
+S For As I have said before , there is no fire !
+A 0 1|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S This marvel of technology has helped propel people into the dizzing pace of life that most of us lead in the 20th century .
+A 10 11|||R:SPELL|||dizzying|||REQUIRED|||-NONE-|||0
+
+S Throughout History one can see that great revelations in all areas come from breaks in tradition , new insights , and differents perspectives .
+A 1 2|||R:ORTH|||history|||REQUIRED|||-NONE-|||0
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+A 21 22|||R:MORPH|||different|||REQUIRED|||-NONE-|||0
+
+S All these were needed to create the microwave which is essential nowadays .
+A 8 8|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Eating is something everyone must do .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This device has sped up one of our most important activities and thus revolutionized life in the fast paced 20th century .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S When I was in tenth grade a teacher said that the 2 most important inventions that made possible the idea of a repressive government were the machine gun and the radio .
+A 6 6|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S A machine gun can be used to keep civil peace , enforce Marshall Law .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The radio can be used to communicate ideas and under a dictatorship , propaganda .
+A 9 9|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S In the 20th Century the machine gun has not changed all that many lives ( except for those that it ' s killed ) , but the invention of radio has made a tremendous impact .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The idea behind the radio is simple .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There is one transmitter and it sends its signals through the air , waves , with potential for millions of receivers .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In the 20th Century radio has become a source of information and entertainment .
+A 4 4|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Radio keeps people informed .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S I don ' t think any people of my generation can even comprehend now our lives would be different .
+A 13 13|||M:PREP|||that|||REQUIRED|||-NONE-|||0
+
+S Every morning I listen for the weather forcast and dress accordingly .
+A 7 8|||U:ADJ||||||REQUIRED|||-NONE-|||0
+
+S At night one can sit by the radio and hear how the events of the day unfolded .
+A 2 2|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Radio , hence , gives people the option of becoming passive observers rather than active participants in the news making process .
+A 2 3|||R:ADV|||therefore|||REQUIRED|||-NONE-|||0
+
+S Newspapers had been around for many years but it was not until the invention of radio that the power of the media became evident .
+A 1 2|||R:VERB:TENSE|||have|||REQUIRED|||-NONE-|||0
+A 7 7|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Radio gives the ability to reach many more people , instantly .
+A 9 10|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S As a form of entertainment , radio and its most important and now more common offshoot , television , has changed people 's lives .
+A 18 19|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+
+S A typical day for a child in today 's world , consists of going to school and coming home to watch T.V.
+A 10 11|||U:PUNCT||||||REQUIRED|||-NONE-|||0
+A 21 22|||R:OTHER|||television .|||REQUIRED|||-NONE-|||0
+
+S There have even been forms of entertainment , for example videogames , made for this other form of entertainment .
+A 10 11|||R:ORTH|||video games|||REQUIRED|||-NONE-|||0
+
+S Nowadays everybody watches T.V.
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S My señora , for example , is over 100 years old , and for her T.V. is the greatest thing in the world .
+A 1 2|||R:SPELL|||seora|||REQUIRED|||-NONE-|||0
+
+S She sits in front of it all day and it keeps her happy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Television offers soap operas , game shows , sit - coms , sporting events , movies and much more to keep us entertained 24 hours a day .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In short , I don ' t know what life was like before radio , but its invention has changed the way we see and do things .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S A current ideology in the United States today is for one to be successful , one must follow all of the written and unwritten rules of society ,
+A 14 16|||R:PUNCT|||. One|||REQUIRED|||-NONE-|||0
+A 27 28|||R:PUNCT|||.|||REQUIRED|||-NONE-|||0
+
+S everyone has an equal opportunity to succeed and when one does not do this one fails .
+A 0 1|||R:ORTH|||Everyone|||REQUIRED|||-NONE-|||0
+A 2 3|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S One can see these ideas in popular media everyday .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S T.V. comercials and T.V. programs project models of how one should be .
+A 1 2|||R:SPELL|||commercials|||REQUIRED|||-NONE-|||0
+
+S In the 20th cen , the values of / that the United States was founded on have changed in meaning and sense when applied to modern day America , nothing was ever equal .
+A 3 4|||R:NOUN|||century|||REQUIRED|||-NONE-|||0
+A 7 9|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 28 30|||R:PUNCT|||. Nothing|||REQUIRED|||-NONE-|||0
+
+S And today , since the invention and utilization of modern technologies such as computers life for americans moves at a much faster pace .
+A 14 14|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S People are more mobile , can work more , and buy more things , but time for relaxation and family are often substitued with T.V. In America , this growing individualistic society , one nolonger sees the realitive humanness between people , instead one sees the differences , the unlucky , the unsuccessfull , and attribute thier inadequacy to achieve to a lack of effort .
+A 34 35|||R:ORTH|||no longer|||REQUIRED|||-NONE-|||0
+A 52 53|||R:SPELL|||unsuccessful|||REQUIRED|||-NONE-|||0
+A 55 56|||R:VERB:SVA|||attributes|||REQUIRED|||-NONE-|||0
+A 56 57|||R:SPELL|||their|||REQUIRED|||-NONE-|||0
+A 58 60|||U:VERB||||||REQUIRED|||-NONE-|||0
+
+S With everyone moving at such a fast pace , the gaps are easy to miss , the voices of the mass media easily replace those voices that struggle to be heard .
+A 15 17|||R:PUNCT|||. The|||REQUIRED|||-NONE-|||0
+
+S The parts of the new machine that need oiled and regulated .
+A 8 8|||M:VERB:TENSE|||to be|||REQUIRED|||-NONE-|||0
+
+S When Voltaire wrote Candide , a literary style known as Neoclassicism was at its peak .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S There was a group of scholars in France , l'Academie Français , that set guidelines for French literature .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S According to l'Academie Français , all literature of the Neoclassic period must follow the rules of propriety which regulated the author should avoid certain topics , including sex , violence , church , and state issues .
+A 21 21|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Another standard upheld by the Academie is the idea of verisimilitude , making literature as realistic as possible by keeping the time , setting and plot true to life .
+A 20 21|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Voltaire , as a Neoclassicist , knew all these regulations and followed them in his literature .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , when writing Candide , Voltaire defied the Academie 's rules .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Candide is a parody on the guidelines of Neoclassicism .
+A 4 5|||R:PREP|||of|||REQUIRED|||-NONE-|||0
+
+S Neoclassicists liked for literature to have good manners : they did not want to step on anyone 's toes by mentioning sex , violence , church , or state issues .
+A 2 3|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S In Candide Voltaire did not seem to mind stepping on toes - in fact , he did not mind smashing feet !
+A 0 1|||U:PREP||||||REQUIRED|||-NONE-|||0
+
+S Voltaire went beyond the comfort level when he mentioned sex .
+A 3 4|||R:DET|||his|||REQUIRED|||-NONE-|||0
+
+S He told of the two girls of Orellion who were lovers of monkeys , and of the Baron who bathed with the Musselman and was punished for his homosexual act .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Sex turned into violence when Cunegonde was being raped by a Barber , and witnessed his murder while he was on top of her .
+A 7 8|||U:VERB:TENSE||||||REQUIRED|||-NONE-|||0
+
+S The wise old woman underwent the removal of a buttock by pirates , as well as experiencing rape .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S After the Baron is caught bathing with the Mussalman , he receives 100 lashes for his sin .
+A 7 8|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S Candide stabs the Baron , a Jesuit Priest , after the Baron forbids Candides marriage to Cunegonde .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Ironically , although Voltaire mentions many acts of violence , each act is treated lightly : Cunegonde and the old woman both tell their tales of being defiled like an entertaining story in their conversations about their travels ; the Baron also continues his tale with style after telling of his beating ; and after Candide " kills " the Baron , he leaves to search for Cunegonde with no second thought until he reencounters the Baron later in his travels .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The light attitude in which these acts of sex and violence are written shows the parody form in which Voltaire writes Candide .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Voltaire chooses not to stay away from the church and state issues .
+A 7 8|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S He attracts the hippocracy of the Church in the old woman 's father being the Pope .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S When Candide visits the land of Eldorado , Voltaire shows the people 's perfect relationship to God : they only praise God because there is nothing they want from God .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Voltaire uses this perfect relationship to God in an unrealistic situation to foil society 's imperfect relationship with God in the real world .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Voltaire makes fun of aristocracy in his description of the Baron , who came from 71 generations of nobility but still lacks gentilesse .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Candide and his companions dine with 6 dethroned kings who represent the overimportance society places on hierarchy .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In his portrayal of the utopian society of Eldorado , Voltaire toils the imperfections of our society .
+A 11 12|||R:VERB|||exposes|||REQUIRED|||-NONE-|||0
+
+S According the Lunde , 35% of homicide victims are killed by someone they know .
+A 1 1|||M:PREP|||to|||REQUIRED|||-NONE-|||0
+A 4 5|||R:ORTH|||35 %|||REQUIRED|||-NONE-|||0
+
+S Statistics from 56 are greater than Lundes ' thesis .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Frustration is the main factor most implicated in these tragedies .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Most cases are those of the " trigger puling the finger " .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Today , racial prejudice still exists , but less action has taken place than 30 years ago .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Thirty years ago , minorities could n't ride a bus , vote , or go to school with white people .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Desegragation reduced some prejudice , but it still exists .
+A 0 1|||R:SPELL|||Desegregation|||REQUIRED|||-NONE-|||0
+
+S The difference is , today social prejudice is not openly expressed as it was 30 years ago .
+A 3 3|||M:PREP|||that|||REQUIRED|||-NONE-|||0
+A 3 5|||R:WO|||today ,|||REQUIRED|||-NONE-|||0
+
+S I would tell the client to be extremely nice to that person and do favors for that person .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S That person would then feel obligated to do nice things back and return favors .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S This is based on eauity theory .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It would be better for the client to do nice things for the person that it would be to ask a favor of the person .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Someone who live in the north who comes to live in the south may not be prejudice toward Blacks at first .
+A 2 3|||R:VERB:SVA|||lives|||REQUIRED|||-NONE-|||0
+A 17 18|||R:PREP|||towards|||REQUIRED|||-NONE-|||0
+
+S After living in the south for a while , they may adopt southern attitudes toward Blacks and feel prejudice toward them .
+A 19 20|||R:PREP|||towards|||REQUIRED|||-NONE-|||0
+
+S This is conformity .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The same goes for Southerners who move north .
+A 2 3|||R:VERB|||applies|||REQUIRED|||-NONE-|||0
+A 3 4|||R:PREP|||to|||REQUIRED|||-NONE-|||0
+
+S They come to feel prejudice toward Jews .
+A 5 6|||R:PREP|||towards|||REQUIRED|||-NONE-|||0
+
+S I know someone who has lived all over the world .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S He is prejudice toward Jews , Blacks , and Mexicans .
+A 3 4|||R:PREP|||against|||REQUIRED|||-NONE-|||0
+
+S He adopted white attitudes against minorities in the different regions he has lived in .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Our country has been coined a " melting - pot " inferring that we all come from different that we all come from different background but have joined or melted together to produce homogeneous Americans .
+A 11 13|||R:OTHER|||in|||REQUIRED|||-NONE-|||0
+A 13 15|||R:OTHER|||which|||REQUIRED|||-NONE-|||0
+A 15 19|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 24 25|||R:NOUN:NUM|||backgrounds|||REQUIRED|||-NONE-|||0
+A 25 25|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S But a persons heritage , as we are realizing , is important to their sense of self and community .
+A 2 3|||R:NOUN:POSS|||person 's|||REQUIRED|||-NONE-|||0
+
+S Ethnic American cultures have been reviving and trying to reestablish roots that were once lopped off to a model U.S. citizen .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The differences they are rediscovering only add more color , flavor and excitement to that brewing " pot " of our people .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S However , some individuals and even groups of Americans are reacting negatively to this ethnic explosion ( seen most clearly through the arts ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S They do n't want to accept these differences .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S They choose to remain indifferent to the plights of their fellow Americans .
+A 7 8|||R:NOUN:NUM|||plight|||REQUIRED|||-NONE-|||0
+
+S As Ellie Weisel , author of such books as Night says about indifference : it is the opposite of everything good .
+A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The opposite of love , beauty , intelligence , light , joy , life and growth are not their familiar ontonyms but indifference .
+A 21 21|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Ethnic American literature tries to fight this indifference by vividly and uniquely expressing certain aspects of different American culture .
+A 3 4|||R:VERB|||attempts|||REQUIRED|||-NONE-|||0
+
+S The gamut of ethnic American literature is without bounds .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Each group has its own peculiarities and attributes that make it 's writing unique .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S In many cases the words used in ethnic American literature reflect a knowledge of a different " mother tongue " .
+A 3 3|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S For instance , Native Americans poetry is more expressive and visual partly because their language is deeply rooted in the observation of the natural environment .
+A 11 11|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Chinese American Literature is philisophical / literal because their native language is so .
+A 2 3|||R:ORTH|||literature|||REQUIRED|||-NONE-|||0
+
+S African American literature is often melodious and rhythmic mirroring their similar achievements in Jazzy and Blues music .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S All these examples ( and more ) give us some insight to other cultures we would otherwise never know .
+A 11 12|||R:PREP|||into|||REQUIRED|||-NONE-|||0
+
+S The stories told in this genre of literature , however , are likely the most important aspect of Ethnic American literature .
+A 18 19|||R:ORTH|||ethnic|||REQUIRED|||-NONE-|||0
+
+S It is through the experiences of the characters that we learn about the different cultures in the United States .
+A 12 13|||U:DET||||||REQUIRED|||-NONE-|||0
+
+S When we learn of the trials and hardships that they went through we can sympethize with their emotions and try to accept that diversity .
+A 12 12|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S The stories of black American slaves and of concentration camp victems are necessary to avoid indifference .
+A 9 11|||R:NOUN|||camps|||REQUIRED|||-NONE-|||0
+
+S Without learning about the past ( and present ) horrors there is no way to ensure future humanity .
+A 10 10|||M:PUNCT|||,|||REQUIRED|||-NONE-|||0
+
+S Ethnic American literature benefits U.S. citizens in many ways .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It opens our eyes to the reality of the suffering of others .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It gives us a fresh and new perspective on the world around us .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S It helps us to understand our personal relationships better .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Most of all , it gives us more common ground on which to live , and grow , and prosper .
+A 15 16|||U:CONJ||||||REQUIRED|||-NONE-|||0
+
+S Hopefully we will someday fulfill Elie Weisel 's goal and end indifference ; this literature is a step in the right direction towards acceptance in the diversity of our country .
+A 12 14|||R:PUNCT|||. This|||REQUIRED|||-NONE-|||0
+
+S Different is beautiful !
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Violence on television can be seen throughout the many channels that cable has to offer .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S With an average national TV viewing time of 7 1/4 hours daily , the prevalence of violence in broadcasts is a serious concern .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Television programming in the United States is considered the most violent in advanced industrialized nations ( Hepburn 1 ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Many children watch violent tv shows because the action thrills them and can sometimes cause the child to become violent .
+A 4 5|||R:NOUN|||television|||REQUIRED|||-NONE-|||0
+
+S Violence is common in TV entertainment-- the dramas that portray stories about crime , psychotic murderers , police cases , emergency services , international terrorism , and war ( Hepburn 1 ) .
+A 5 6|||R:OTHER|||entertainment -|||REQUIRED|||-NONE-|||0
+
+S Television violence is prevalent in the United States and some people disagree with its effects on children .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The V - chip is an electrical device that blocks out violent television shows .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some people , such as the Senate Commerce Committee , are not satisfied with it .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The Senate Commerce Committee approved bills creating a partial ban on TV violence and a so - called report card that would identify stations carrying violent programming and the advertisers sponsoring it .
+A 11 12|||R:NOUN|||television|||REQUIRED|||-NONE-|||0
+
+S The bills would apply to broadcasting and cable ( Stern 1 ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some of the proposals to antiviolence are as follows : the Senate V - chip , the House V - chip , a Technology Fund , a Violence Safe Harbor , and a Violence Report Card .
+A 5 5|||M:VERB|||promote|||REQUIRED|||-NONE-|||0
+
+S These proposals could work if Congress had some support .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The National Association of Broadcasters accused the Senate of " piling on a stream of proposals to build up an unprecedented federal censorship bureaucracy " .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The NAB also insisted that broadcasters already have responded to concerns over violence on television ( Stern 1 ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some television shows show violence because it appeals to adult viewers .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S If a certain plot involves a murder , then the murder must happen .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Some people may not want the actual murder to be shown , but that is up to whomever is writing the television show .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S Many made for television movies say that it may contain violent scenes and that viewer discretion is advised , but how many parents actually watch television with their teenager ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S An exhaustive examination of the broadcast networks ' programming during the 1995 - 1995 season has concluded that sinister combat violence ' pervades a significant number of Saturday - morning cartoons ( Jensen 1 ) .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S How much violence is there ?
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S The most violent cartoons are ' Teenage Mutant Ninja Turtles ' , ' Spider Man ' , and some ' Bugs Bunny ' episodes with Elmer Fudd .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
+S As for the shows containing sinister combat violence , well that is strictly up to the viewer to decide .
+A 9 10|||U:OTHER||||||REQUIRED|||-NONE-|||0
+A 10 11|||R:PRON|||it|||REQUIRED|||-NONE-|||0
+
+S The cause for television violence is to add texture to the show and not to poison children 's minds .
+A 2 3|||R:PREP|||of|||REQUIRED|||-NONE-|||0
+
+S The infamous V - chip may stop some shows from being shown to children , but one day that child will see violence and they will have to deal with it , rationally or not .
+A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||0
+
