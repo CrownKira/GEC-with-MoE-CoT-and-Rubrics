@@ -93,7 +93,7 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in GRECO_SYSTEMS else "\n"
 MAX_TOKENS = 1024
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 # MAX_LINES_PER_BATCH = 3
-MAX_LINES_PER_BATCH = None
+MAX_LINES_PER_BATCH: Optional[int] = None
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
 
@@ -311,6 +311,24 @@ def split_text_into_semantic_chunks(
     return chunks
 
 
+def process_text_with_semantic_and_batch_splitting(
+    text: str, batch_size_in_tokens: int, max_lines: Optional[int]
+) -> List[str]:
+    semantic_chunks = split_text_into_semantic_chunks(text)
+    all_batches = []
+
+    for chunk in semantic_chunks:
+        chunk_batches = split_text_into_batches(
+            chunk,
+            batch_size_in_tokens=batch_size_in_tokens,
+            max_lines=max_lines,
+            use_semantic_chunking=False,
+        )
+        all_batches.extend(chunk_batches)
+
+    return all_batches
+
+
 def split_text_into_batches(
     text: str,
     batch_size_in_tokens: int = BATCH_SIZE_IN_TOKENS,
@@ -319,7 +337,11 @@ def split_text_into_batches(
 ) -> List[str]:
 
     if use_semantic_chunking:
-        return split_text_into_semantic_chunks(text)
+        return process_text_with_semantic_and_batch_splitting(
+            text,
+            batch_size_in_tokens,
+            max_lines,
+        )
 
     lines = text.split("\n")
     batches = []
