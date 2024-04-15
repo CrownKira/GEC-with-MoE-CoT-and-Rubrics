@@ -63,8 +63,8 @@ GROQ_MODELS = [
 ]
 
 # greco bot ids
-COZE_BOTS = [
-    "7351253103510978578",
+GRECO_SYSTEMS = [
+    "greco-1",
 ]
 
 
@@ -72,7 +72,7 @@ COZE_BOTS = [
 # MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
-MODEL_NAME = COZE_BOTS[0]
+MODEL_NAME = GRECO_SYSTEMS[0]
 
 
 # CONFIGS: PROMPT
@@ -81,7 +81,7 @@ GRAMMAR_VARIANT = "British"
 
 
 # TEXT_DELIMITER = "|||"
-TEXT_DELIMITER = "~~~" if MODEL_NAME not in COZE_BOTS else "\n"
+TEXT_DELIMITER = "~~~" if MODEL_NAME not in GRECO_SYSTEMS else "\n"
 
 
 # CONFIGS: RAG
@@ -218,7 +218,7 @@ def get_openai_client(model_name: str) -> Any:
         return openai.AsyncOpenAI(
             base_url=TOGETHER_ENDPOINT, api_key=TOGETHER_API_KEY
         )
-    if model_name in COZE_BOTS:
+    if model_name in GRECO_SYSTEMS:
         return AsyncGreco(api_key=COZE_API_KEY)
 
     # Initialize the OpenAI client with Azure endpoint and API key
@@ -429,7 +429,7 @@ async def ask_llm(
             }
             if model_name in OPENAI_JSON_MODE_SUPPORTED_MODELS:
                 model_params["response_format"] = {"type": "json_object"}
-            if model_name in COZE_BOTS:
+            if model_name in GRECO_SYSTEMS:
                 # TODO: extract to .env
                 model_params = {
                     "bot_id": model_name,

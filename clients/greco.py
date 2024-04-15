@@ -17,7 +17,7 @@ COZE_BOT_ID = os.getenv("COZE_BOT_ID", "")
 
 
 # ENABLE_QUIET = True
-ENABLE_QUIET = True
+ENABLE_QUIET = False
 
 
 def call_greco(sentences: str, quiet: bool = False) -> str:
@@ -36,6 +36,9 @@ def call_greco(sentences: str, quiet: bool = False) -> str:
             text=True,
             check=True,
         )
+
+        print("> result stdout:", result.stdout)
+
         # Optionally, you can log or print stderr if there was an error
         if result.stderr:
             print(f"Command Error Output: {result.stderr}")
@@ -174,7 +177,9 @@ async def main():
 
     # query = "Fer\nwe think that in the future the planet will be in bad conditions and the trees will be disappearing, after that we will be having wars.\nIn 30 years we will have changed our anatomy, also we will be eating fast food, on the other hand, the north pole will have melted totally.\nThe temperature will have become crazy by global warming, so some people will have died because the natural disasters will be more aggressive.\nThe Technology will have advanced and maybe the cars will be flying by streets and computers will have totally changed.\nBecause of this, we have to raise awareness of what is happening and we help the planet.\nFriendship is something very important in my life.\nI can't imagine my lifetime without friends.\nHow to make friends and meet new people?\nIt is easier than you think.\nJust ... start talking!\nCommunication is the most important point when you're going to make friends.\nYou have to remember, that friends are not supposed to agree on every single thing.\nThey just have to calm talk about it.\nIf your friendship is real, you will always find point between your opinion and your friend's one.\nJust try, it won't cost you much!"
 
-    query = "Fer\nwe think that in the future the planet will be in bad conditions and the trees will be dissappearing , after that we will be having wars .\nIn 30 years we will have changed our anatomy , also we will be eating fast food , on the other hand , the north pole will have melted totally .\nThe temperature will have become crazy by global warming , so some people will have died because the natural disasters will be more aggressive .\nThe Technology will have advanced and maybe the cars will be flying by streets and computers will have totally changed .\nBecause of this , we have to raise awareness of what is happening and we help the planet .\nFriendship is something very important in my life .\nI ca n't imagine my lifetime without friends .\nHow to make friends and meet new people ?\nIt is easyier than you think .\nJust ... start talking !\nCommunication is the most important point when you 're going to make friends .\nYou have to remember , that friends are not supposed to agree on every single thing .\nThey just have to calm talk about it .\nIf your friendship is real , you will always find point between your opinion and your friend 's one .\nJust try , it wo n't cost you much !"
+    # query = "Fer\nwe think that in the future the planet will be in bad conditions and the trees will be dissappearing , after that we will be having wars .\nIn 30 years we will have changed our anatomy , also we will be eating fast food , on the other hand , the north pole will have melted totally .\nThe temperature will have become crazy by global warming , so some people will have died because the natural disasters will be more aggressive .\nThe Technology will have advanced and maybe the cars will be flying by streets and computers will have totally changed .\nBecause of this , we have to raise awareness of what is happening and we help the planet .\nFriendship is something very important in my life .\nI ca n't imagine my lifetime without friends .\nHow to make friends and meet new people ?\nIt is easyier than you think .\nJust ... start talking !\nCommunication is the most important point when you 're going to make friends .\nYou have to remember , that friends are not supposed to agree on every single thing .\nThey just have to calm talk about it .\nIf your friendship is real , you will always find point between your opinion and your friend 's one .\nJust try , it wo n't cost you much !"
+
+    query = "Also , people go out to collect the trash that there is on the kiosk , the church or in the principal places on the village .\nDear Sir ,\nI am interested to improve my English , so I am writing to request further information about the English course .\nFirstly , I would like to know how long the course lasts , and if it is possible the date exactly , because I need to book my flights .\nSecondly , I do n't live in Cork , so it would be grateful if you could send me details of accommodation that you offer in this course .\nAnd also , can you give me an idea of how much it would be cost every different options ? .\nIt would be useful if I can live with other students , because it is a good way to learning a language as well .\nLastly , Let me know if I need to pass any level test before starting .\nI look forward to hearing from you ."
 
     model_params = {
         "bot_id": COZE_BOT_ID,
