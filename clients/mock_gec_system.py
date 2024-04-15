@@ -48,7 +48,7 @@ class AsyncMockGECSystem:
             reader = csv.reader(csvfile)
             for row in reader:
                 original, corrected = row
-                self.corrections[original] = corrected
+                self.corrections[original.strip()] = corrected.strip()
 
     class Chat:
         def __init__(self, outer):
@@ -66,7 +66,7 @@ class AsyncMockGECSystem:
 
                 # TODO: throw error when cant get
                 corrected_sentences = [
-                    self.outer.corrections.get(sentence, sentence)
+                    self.outer.corrections.get(sentence.strip(), sentence)
                     for sentence in original_sentences
                 ]
 
