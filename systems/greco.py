@@ -180,25 +180,24 @@ Please rate each correction on a scale from 0 to 100.
 # Desired Output JSON Format:
 Your output should be JSON only, without any explanatory text:
 {
-    "total_sentences": 4,
     "evaluations": [
         {
-            "student_sentences_index": 0,
+            "unique_index": 0,
             "student_sentence": "In the midst of the storm, a ship was sailing in the open sea. It's crew, seasoned and resilient, were unphased by the brewing tempest.",
             "score": 96
         },
         {
-            "student_sentences_index": 1,
+            "unique_index": 1,
             "student_sentence": "Their captain, a venerable seafarer known for hes bravery and wisdom, was steering the ship with a steady hand.",
             "score": 95
         },
         {
-            "student_sentences_index": 2,
+            "unique_index": 2,
             "student_sentence": "Suddenly, a gigantic wave, unlike any they had seen before, approached. It’s size and ferocity could spell doom for them.",
             "score": 97
         },
         {
-            "student_sentences_index": 3,
+            "unique_index": 3,
             "student_sentence": "The captain, realizing the gravity of their situation, ordered for the sails to be lowered. 'We must not underestemate this storm,' he declared.",
             "score": 95
         }
@@ -954,12 +953,25 @@ async def quality_estimation_node(
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
+
+        data = {
+            "original_sentences": input_sentences,
+            "student_sentences": corrected_sentences,
+            # "total_sentences": len(corrected_sentences),
+        }
+
+        # Create an array based on the input and corrected sentences
         text = json.dumps(
-            {
-                "original_sentences": input_sentences,
-                "student_sentences": corrected_sentences,
-                "total_sentences": len(corrected_sentences),
-            }
+            [
+                {
+                    "unique_index": index,
+                    "original_sentence": original,
+                    "student_sentence": corrected,
+                }
+                for index, (original, corrected) in enumerate(
+                    zip(data["original_sentences"], data["student_sentences"])
+                )
+            ]
         )
 
         prompt = QUALITY_ESTIMATION_PROMPT
