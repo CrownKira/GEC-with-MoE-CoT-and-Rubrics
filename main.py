@@ -659,6 +659,13 @@ async def correct_grammar_and_write_csv(
         stripped_lines = [line.strip() for line in processed_text.split("\n")]
         processed_text = "\n".join(stripped_lines)
 
+        doc = nlp(corrected_text_augmented_pool.strip())
+        processed_text_augmented_pool = " ".join(token.text for token in doc)
+        stripped_lines = [
+            line.strip() for line in processed_text_augmented_pool.split("\n")
+        ]
+        processed_text_augmented_pool = "\n".join(stripped_lines)
+
         # Right before your existing logging statement
         end_time = (
             time.time()
@@ -676,7 +683,7 @@ async def correct_grammar_and_write_csv(
         row = {
             "Batch Number": batch_number,
             "Corrected Text": processed_text,
-            "Augmented Pool Text": corrected_text_augmented_pool,  # New column for augmented pool text
+            "Augmented Pool Text": processed_text_augmented_pool,
         }
         await csv_writer.writerow(row)
         return processed_text

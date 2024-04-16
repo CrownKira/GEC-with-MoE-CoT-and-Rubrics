@@ -24,7 +24,6 @@ A 8 9|||U:DET||||||REQUIRED|||-NONE-|||0
 
 S I consider that is more convenient to drive a car because you carry on more things in your own car than travelling by car .
 A 3 3|||M:PRON|||it|||REQUIRED|||-NONE-|||0
-A 13 14|||U:PART||||||REQUIRED|||-NONE-|||0
 
 S Also , you 'll meet friendly people who usually ask to you something to be friends and change your telephone number .
 A 10 11|||U:PREP||||||REQUIRED|||-NONE-|||0
