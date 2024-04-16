@@ -69,10 +69,10 @@ GRECO_SYSTEMS = [
 
 
 # change model here
-# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
-MODEL_NAME = GRECO_SYSTEMS[0]
+# MODEL_NAME = GRECO_SYSTEMS[0]
 
 
 # CONFIGS: PROMPT
@@ -90,7 +90,8 @@ TEXT_DELIMITER = "~~~" if MODEL_NAME not in GRECO_SYSTEMS else "\n"
 # NON-TUNABLE CONFIGS
 
 # CONFIGS: INPUT PREPROCESSING
-MAX_TOKENS = 1024
+# MAX_TOKENS = 1024
+MAX_TOKENS = 4096
 BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 # MAX_LINES_PER_BATCH = 3
 MAX_LINES_PER_BATCH: Optional[int] = None
@@ -119,8 +120,10 @@ COZE_API_KEY = os.getenv("COZE_API_KEY", "")
 # MAX_RETRIES = 3  # Maximum number of retries for an API call
 # RETRY_DELAY = 5  # Delay in seconds before retrying an API
 MAX_RETRIES = 5  # Maximum number of retries for an API call
-RETRY_DELAY = 15  # Delay in seconds before retrying an API
-QPM_LIMIT = 5  # Queries per minute limit
+# RETRY_DELAY = 15  # Delay in seconds before retrying an API
+RETRY_DELAY = 30  # Delay in seconds before retrying an API
+# QPM_LIMIT = 5  # Queries per minute limit
+QPM_LIMIT = 15  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
@@ -158,7 +161,7 @@ grammar_variant
 consistency_reminder
 detailed_correction_focus
 """
-GRAMMAR_PROMPT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
+GRAMMAR_PROMPT_DEFAULT = """You are a language model assistant specializing in grammatical error correction. Your tasks are to:
 1. Identify and correct grammatical errors in the user-provided text. Ensure the text adheres to {0} English grammar rules.
 2. Maintain consistency in grammar correction (e.g., past or present tense) in adjacent lines of the input text that you think are contextually related.
 3. Crucially, splitting the corrected text using the specified text delimiter, "{1}", whenever it appears in the input text. This division must be reflected in your output.
@@ -174,6 +177,41 @@ Your output should be JSON only:
 Note: The output will be evaluated using the ERRANT scorer, which focuses on the grammatical accuracy of the corrections.""".format(
     GRAMMAR_VARIANT, TEXT_DELIMITER
 )
+
+
+# TODO: better name: all_sentences ?
+
+
+GRAMMAR_PROMPT_WITH_INDEX = """As an English teacher, your task is to revise the provided student text to ensure it is clear, grammatically correct, and maintains the original meaning as closely as possible. Your corrections should include fixing spelling mistakes, punctuation errors, verb tense inconsistencies, inappropriate word choices, and other grammatical errors.
+
+# Desired Output Format:
+Your output should be JSON only, without any explanatory text:
+{
+    "total_sentences": 3,
+    "all_sentences": [
+        {
+            "unique_index": 0,
+            "student_sentence": "Has you told me that I will win some literary competitions and that some people will speak well of me , I would n't have believe you .",
+            "corrected_sentence": "Had you told me that I would win some literary competitions and that some people would speak well of me , I would n't have believed you .",
+        },
+        {
+            "unique_index": 1,
+            "student_sentence": "The year was 2012 and I had n't written anything until that day - I just had been translating some stories and once even subtitles for a Korean movie from English and Spanish .",
+            "corrected_sentence": "The year was 2012 , and I had n't written anything until that day - I had been just translating some stories , and once , even subtitles for a Korean movie , from English and Spanish .",
+        },
+        {
+            "unique_index": 2,
+            "student_sentence": "But that day - it was on spring and I believe it was Thursday - my English teacher told us about a literary competition .",
+            "corrected_sentence": "But that day - it was in spring and I believe it was Thursday - my English teacher told us about a literary competition .",
+        }
+    ]
+}
+
+Please ensure that the number of corrected sentences matches the number of sentences provided. Also, make sure to correct each sentence in the context of the surrounding sentences to maintain narrative consistency."""
+
+
+# change grammar prompt here
+GRAMMAR_PROMPT = GRAMMAR_PROMPT_WITH_INDEX
 
 
 # Generate a unique identifier for this run based on the current timestamp
@@ -254,6 +292,18 @@ rate_limiter = RateLimiter(QPM_LIMIT)
 
 def format_user_content(text: str) -> str:
     # TODO: better way?
+
+    if GRAMMAR_PROMPT == GRAMMAR_PROMPT_WITH_INDEX:
+        return json.dumps(
+            [
+                {
+                    "unique_index": index,
+                    "student_sentence": student_sentence,
+                }
+                for index, student_sentence in enumerate(text.split("\n"))
+            ]
+        )
+
     text_with_next_token = text.replace("\n", TEXT_DELIMITER)
     return json.dumps({"input": text_with_next_token})
 
@@ -416,6 +466,19 @@ def process_response_text(
     response: str, delimiter: str, model_name: str
 ) -> List[str]:
     response_text = response
+
+    if GRAMMAR_PROMPT == GRAMMAR_PROMPT_WITH_INDEX:
+        try:
+            data = json.loads(response)
+            # TODO: check length here
+
+            corrected_sentences = [
+                evaluation["corrected_sentence"]
+                for evaluation in data["all_sentences"]
+            ]
+            return corrected_sentences
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to decode JSON response: {str(e)}")
 
     # if model_name not in COZE_BOTS:
     content_json = json.loads(response)
@@ -734,7 +797,7 @@ def prompt_for_evaluation():
 if __name__ == "__main__":
     logging.info("=" * 80)
     logging.info(f"Model selected: {MODEL_NAME}")
-    logging.info(f"{BLUE}Using prompt: {(GRAMMAR_PROMPT)}{RESET}")
+    logging.info(f"{BLUE}Using prompt: {GRAMMAR_PROMPT}{RESET}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
     logging.info("Generating the corrected file from CSV...")

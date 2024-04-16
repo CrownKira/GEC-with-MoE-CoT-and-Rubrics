@@ -922,7 +922,7 @@ async def quality_estimation_node(
 
         data = {
             "original_sentences": input_sentences,
-            "tokenized_student_sentences": corrected_sentences,
+            "student_sentences": corrected_sentences,
             # "total_sentences": len(corrected_sentences),
         }
 
@@ -937,7 +937,7 @@ async def quality_estimation_node(
                 for index, (original, corrected) in enumerate(
                     zip(
                         data["original_sentences"],
-                        data["tokenized_student_sentences"],
+                        data["student_sentences"],
                     )
                 )
             ]
