@@ -1,0 +1,18 @@
+2024-04-16 16:25:49,645 - INFO - File processing completed.
+Do you want to evaluate the result? (yes/no): yes
+Evaluating the corrections...
+Loading resources...
+Processing parallel files...
+Converted files to M2 format: ./corrected_m2/ABCN.dev.gold.bea19.m2
+Evaluation Results:
+
+=========== Span-Based Correction ============
+TP      FP      FN      Prec    Rec     F0.5
+3900    6720    3561    0.3672  0.5227  0.3905
+==============================================
+
+
+Extracted corrected text to: ./reference_output/ABCN.dev.gold.bea19.corrected
+To compare the extracted corrected text with the system's corrected text, run the following command:
+diff ./reference_output/ABCN.dev.gold.bea19.corrected ./corrected_output/ABCN.dev.gold.bea19.corrected
+Evaluation completed successfully.
