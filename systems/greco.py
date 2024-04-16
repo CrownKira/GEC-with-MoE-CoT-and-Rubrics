@@ -906,6 +906,40 @@ def calculate_edit_votes(edits_output):
     return edit_votes
 
 
+# Define an output parser for this model, capturing expected_num_scores
+def quality_estimation_output_parser(
+    response: str,
+    corrected_sentences: List[str],
+    teacher_corrected_sentences: Dict[str, List[str]],
+    model_id: str,
+):
+    try:
+        data = json.loads(response)
+
+        evaluations = data.get("evaluations", [])
+
+        if len(evaluations) != len(corrected_sentences):
+            raise ValueError(
+                f"Mismatch between expected number of sentences ({len(corrected_sentences)}) and provided scores ({len(data.get('evaluations', []))})."
+            )
+
+        scores: List[str] = []
+
+        for evaluation in evaluations:
+            scores.append(evaluation["score"])
+
+            teacher_model_id = model_id + TEACHER_CORRECTION_SUFFIX
+            if teacher_model_id not in teacher_corrected_sentences:
+                teacher_corrected_sentences[teacher_model_id] = []
+
+            teacher_corrected_sentences[teacher_model_id].append(
+                evaluation["corrected_sentence"]
+            )
+        return scores
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Failed to decode JSON response: {str(e)}")
+
+
 async def quality_estimation_node(
     input_sentences: List[str],
     aggregated_responses: Dict[str, List[str]],
@@ -922,7 +956,6 @@ async def quality_estimation_node(
 
     for model in models:
         model_id = model["id"]
-        teacher_model_id = model_id + TEACHER_CORRECTION_SUFFIX
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
@@ -952,33 +985,6 @@ async def quality_estimation_node(
 
         prompt = QUALITY_ESTIMATION_PROMPT
 
-        # Define an output parser for this model, capturing expected_num_scores
-        def output_parser(response: str):
-            try:
-                data = json.loads(response)
-
-                evaluations = data.get("evaluations", [])
-
-                if len(evaluations) != len(corrected_sentences):
-                    raise ValueError(
-                        f"Mismatch between expected number of sentences ({len(corrected_sentences)}) and provided scores ({len(data.get('evaluations', []))})."
-                    )
-
-                scores: List[str] = []
-
-                for evaluation in evaluations:
-                    scores.append(evaluation["score"])
-
-                    if teacher_model_id not in teacher_corrected_sentences:
-                        teacher_corrected_sentences[teacher_model_id] = []
-
-                    teacher_corrected_sentences[teacher_model_id].append(
-                        evaluations["corrected_sentence"]
-                    )
-                return scores
-            except json.JSONDecodeError as e:
-                raise ValueError(f"Failed to decode JSON response: {str(e)}")
-
         # Create and store the ask_llm task using the specific output parser for this model
 
         # Logging information about the model being processed
@@ -996,7 +1002,12 @@ async def quality_estimation_node(
             batch_number=1,
             total_batches=1,
             model_name=quality_estimation_model_id,
-            output_parser=output_parser,
+            output_parser=lambda response, model_id=model_id: quality_estimation_output_parser(
+                response,
+                corrected_sentences,
+                teacher_corrected_sentences,
+                model_id,
+            ),
             is_json=True,
             extra_model_params=extra_model_params,
             json_config=json_config,
@@ -1007,14 +1018,15 @@ async def quality_estimation_node(
     # Execute all ask_llm tasks concurrently and gather the results
     results = await asyncio.gather(*[task for _, task in ask_llm_tasks])
 
+    # TODO: refactor type
     # Associate each result with its model_id
     for (model_id, _), scores in zip(ask_llm_tasks, results):
         quality_scores[model_id] = scores
 
         teacher_model_id = model_id + TEACHER_CORRECTION_SUFFIX
-        teacher_quality_scores[teacher_model_id] = (
-            scores + TEACHER_CORRECTION_BIAS
-        )
+        teacher_quality_scores[teacher_model_id] = [
+            (score + TEACHER_CORRECTION_BIAS) for score in scores
+        ]
 
     logging.info("Quality estimation node completed.")
 
@@ -1169,7 +1181,7 @@ async def execute_workflow(input_string: str) -> str:
 
     quality_and_edits_end = datetime.datetime.now()
     logging.info(
-        f"Quality estimation and edit extraction completed in {quality_and_edits_end - quality_and_edits_start}."
+        f"Quality estimation completed in {quality_and_edits_end - quality_and_edits_start}."
     )
 
     quality_estimation_augmented = combine_dicts(
@@ -1179,10 +1191,17 @@ async def execute_workflow(input_string: str) -> str:
         aggregated_responses, teacher_aggregated_responses
     )
 
-    student_best_sentences = select_best_sentences(
+    # print("kw1", teacher_quality_estimation)
+    # print("kw2", teacher_aggregated_responses)
+    # print("kw3", quality_estimation_augmented)
+    # print("kw4", aggregated_responses_augmented)
+    # print("kw5", quality_estimation)
+    # print("kw6", aggregated_responses)
+
+    best_sentences = await select_best_sentences(
         quality_estimation, aggregated_responses, input_sentences
     )
-    best_sentences_augmented = select_best_sentences(
+    best_sentences_augmented = await select_best_sentences(
         quality_estimation_augmented,
         aggregated_responses_augmented,
         input_sentences,
@@ -1193,12 +1212,13 @@ async def execute_workflow(input_string: str) -> str:
 
     return json.dumps(
         {
-            "student_best_sentences": student_best_sentences,
+            "best_sentences": best_sentences,
             "best_sentences_augmented": best_sentences_augmented,
         }
     )
 
 
+# TODO: remove await ?
 async def select_best_sentences(
     quality_estimation: Dict[str, List[float]],
     aggregated_responses: Dict[str, List[str]],
