@@ -1184,26 +1184,26 @@ async def execute_workflow(input_string: str) -> str:
         f"Quality estimation completed in {quality_and_edits_end - quality_and_edits_start}."
     )
 
-    quality_estimation_augmented = combine_dicts(
+    quality_estimation_augmented_pool = combine_dicts(
         quality_estimation, teacher_quality_estimation
     )
-    aggregated_responses_augmented = combine_dicts(
+    aggregated_responses_augmented_pool = combine_dicts(
         aggregated_responses, teacher_aggregated_responses
     )
 
     # print("kw1", teacher_quality_estimation)
     # print("kw2", teacher_aggregated_responses)
-    # print("kw3", quality_estimation_augmented)
-    # print("kw4", aggregated_responses_augmented)
+    # print("kw3", quality_estimation_augmented_pool)
+    # print("kw4", aggregated_responses_augmented_pool)
     # print("kw5", quality_estimation)
     # print("kw6", aggregated_responses)
 
     best_sentences = await select_best_sentences(
         quality_estimation, aggregated_responses, input_sentences
     )
-    best_sentences_augmented = await select_best_sentences(
-        quality_estimation_augmented,
-        aggregated_responses_augmented,
+    best_sentences_augmented_pool = await select_best_sentences(
+        quality_estimation_augmented_pool,
+        aggregated_responses_augmented_pool,
         input_sentences,
     )
 
@@ -1213,7 +1213,7 @@ async def execute_workflow(input_string: str) -> str:
     return json.dumps(
         {
             "best_sentences": best_sentences,
-            "best_sentences_augmented": best_sentences_augmented,
+            "best_sentences_augmented_pool": best_sentences_augmented_pool,
         }
     )
 

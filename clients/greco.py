@@ -128,13 +128,24 @@ class AsyncGreco:
                 response = response.strip()
 
                 print("> greco response:", response)
+                content_json = json.loads(response)
+                best_sentences = "\n".join(content_json.get("best_sentences"))
+                best_sentences_augmented_pool = "\n".join(
+                    content_json.get("best_sentences_augmented_pool")
+                )
 
                 response_json = {
                     "messages": [
                         {
                             "role": "assistant",
                             "type": "answer",
-                            "content": json.dumps({"text": response}),
+                            "content": json.dumps(
+                                {
+                                    # TODO: change key name
+                                    "text": best_sentences,
+                                    "best_sentences_augmented_pool": best_sentences_augmented_pool,
+                                }
+                            ),
                             "content_type": "text",
                         }
                     ],

@@ -8,7 +8,7 @@ import aiofiles
 import csv
 from dotenv import load_dotenv
 import atexit
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Dict
 import spacy
 import logging
 import datetime
@@ -69,10 +69,10 @@ GRECO_SYSTEMS = [
 
 
 # change model here
-MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
+# MODEL_NAME = OPENAI_JSON_MODE_SUPPORTED_MODELS[0]
 # MODEL_NAME = TOGETHER_AI_MODELS[1]
 # MODEL_NAME = GROQ_MODELS[2]
-# MODEL_NAME = GRECO_SYSTEMS[0]
+MODEL_NAME = GRECO_SYSTEMS[0]
 
 
 # CONFIGS: PROMPT
@@ -123,7 +123,8 @@ MAX_RETRIES = 5  # Maximum number of retries for an API call
 # RETRY_DELAY = 15  # Delay in seconds before retrying an API
 RETRY_DELAY = 30  # Delay in seconds before retrying an API
 # QPM_LIMIT = 5  # Queries per minute limit
-QPM_LIMIT = 15  # Queries per minute limit
+# QPM_LIMIT = 15  # Queries per minute limit
+QPM_LIMIT = 3  # Queries per minute limit
 
 
 # CONFIGS: OTHERS
@@ -212,6 +213,7 @@ Please ensure that the number of corrected sentences matches the number of sente
 
 # change grammar prompt here
 GRAMMAR_PROMPT = GRAMMAR_PROMPT_WITH_INDEX
+# GRAMMAR_PROMPT = GRAMMAR_PROMPT_DEFAULT
 
 
 # Generate a unique identifier for this run based on the current timestamp
@@ -462,12 +464,12 @@ def extract_and_strip_lines(text: str, delimiter: str) -> List[str]:
 
 
 # TODO: define parser for each model
-def process_response_text(
+def parse_response_text(
     response: str, delimiter: str, model_name: str
-) -> List[str]:
+) -> Dict[str, List[str]]:
     response_text = response
 
-    if GRAMMAR_PROMPT == GRAMMAR_PROMPT_WITH_INDEX:
+    if model_name not in GRECO_SYSTEMS:
         try:
             data = json.loads(response)
             # TODO: check length here
@@ -476,17 +478,38 @@ def process_response_text(
                 evaluation["corrected_sentence"]
                 for evaluation in data["all_sentences"]
             ]
-            return corrected_sentences
+
+            # TODO: refactor
+            return {
+                "best_sentences": corrected_sentences,
+                "best_sentences_augmented_pool": corrected_sentences,
+            }
         except json.JSONDecodeError as e:
             raise ValueError(f"Failed to decode JSON response: {str(e)}")
 
+    # the returned json contains 'text'
+    # TODO: refactor
     # if model_name not in COZE_BOTS:
     content_json = json.loads(response)
+
+    # TODO: better name
     response_text = content_json.get("text")
     if response_text is None:
         raise ValueError("'text' field not found in response JSON")
 
-    return extract_and_strip_lines(response_text, delimiter)
+    response_text_augmented_pool = content_json.get(
+        "best_sentences_augmented_pool", ""
+    )
+
+    best_sentences = extract_and_strip_lines(response_text, delimiter)
+    best_sentences_augmented_pool = extract_and_strip_lines(
+        response_text_augmented_pool, delimiter
+    )
+
+    return {
+        "best_sentences": best_sentences,
+        "best_sentences_augmented_pool": best_sentences_augmented_pool,
+    }
 
 
 async def ask_llm(
@@ -496,7 +519,7 @@ async def ask_llm(
     batch_number: int,
     total_batches: int,
     model_name: str,
-) -> str:
+) -> Dict[str, str]:
     retries = 0
     while retries < MAX_RETRIES:
         try:
@@ -534,12 +557,22 @@ async def ask_llm(
                 f"{YELLOW}Received raw response for batch {batch_number}/{total_batches}: {response}{RESET}"
             )
 
-            corrected_lines = process_response_text(
+            # TODO: rename vars
+            parsed_response = parse_response_text(
                 response, TEXT_DELIMITER, model_name
             )
 
-            final_text = "\n".join(corrected_lines)
+            corrected_lines = parsed_response["best_sentences"]
+            corrected_lines_augmented_pool = parsed_response[
+                "best_sentences_augmented_pool"
+            ]
 
+            corrected_text = "\n".join(corrected_lines)
+            corrected_text_augmented_pool = "\n".join(
+                corrected_lines_augmented_pool
+            )
+
+            # TODO: check corrected_text_augmented_pool
             # TODO: extract \n
             corrected_lines_length = len(corrected_lines)
             text_lines_length = len(text.split("\n"))
@@ -554,7 +587,10 @@ async def ask_llm(
                     "Number of lines in response_text does not match the number of lines in text"
                 )
 
-            return final_text
+            return {
+                "corrected_text": corrected_text,
+                "corrected_text_augmented_pool": corrected_text_augmented_pool,
+            }
         except json.JSONDecodeError as e:
             error_snippet = extract_error_snippet(e)
             logging.error(
@@ -594,7 +630,7 @@ async def correct_grammar_and_write_csv(
     async with rate_limiter:
         start_time = time.time()  # Capture start time
 
-        corrected_text = await ask_llm(
+        response = await ask_llm(
             client,
             GRAMMAR_PROMPT,
             text,
@@ -602,6 +638,11 @@ async def correct_grammar_and_write_csv(
             total_batches,
             model_name,
         )
+
+        corrected_text = response["corrected_text"]
+        corrected_text_augmented_pool = response[
+            "corrected_text_augmented_pool"
+        ]
 
         # TODO: better way?
         # Process the corrected text with spaCy
