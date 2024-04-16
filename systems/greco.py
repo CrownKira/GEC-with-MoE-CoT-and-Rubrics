@@ -92,6 +92,8 @@ GRAMMAR_VARIANT = "British"
 # TEXT_DELIMITER = "|||"
 TEXT_DELIMITER = "~~~"
 
+TEACHER_CORRECTION_SUFFIX = "-T"
+
 
 # CONFIGS: RAG
 
@@ -113,6 +115,8 @@ QUALITY_ESTIMATION_FREQUENCY_PENALTY = 0
 # BATCH_SIZE_IN_TOKENS = int(MAX_TOKENS * 0.6)
 # VOTE_INCREASE_FACTOR = 0.05
 VOTE_INCREASE_FACTOR = 2
+# TODO: tune this value
+TEACHER_CORRECTION_BIAS = 0.5
 MAX_SCORE_CAP = 110  # Maximum allowed score
 # CHUNK_OVERLAP_IN_TOKENS = 50
 
@@ -909,6 +913,8 @@ async def quality_estimation_node(
     quality_estimation_model_id: str,
 ):
     quality_scores: Dict[str, List[float]] = {}
+    teacher_quality_scores: Dict[str, List[float]] = {}
+    teacher_corrected_sentences: Dict[str, List[str]] = {}
 
     logging.info("Starting quality estimation node.")
 
@@ -916,6 +922,7 @@ async def quality_estimation_node(
 
     for model in models:
         model_id = model["id"]
+        teacher_model_id = model_id + TEACHER_CORRECTION_SUFFIX
         corrected_sentences = aggregated_responses[model_id]
 
         # Construct JSON input for the prompt
@@ -949,16 +956,25 @@ async def quality_estimation_node(
         def output_parser(response: str):
             try:
                 data = json.loads(response)
-                if len(data.get("evaluations", [])) != len(
-                    corrected_sentences
-                ):
+
+                evaluations = data.get("evaluations", [])
+
+                if len(evaluations) != len(corrected_sentences):
                     raise ValueError(
                         f"Mismatch between expected number of sentences ({len(corrected_sentences)}) and provided scores ({len(data.get('evaluations', []))})."
                     )
 
-                scores = [
-                    evaluation["score"] for evaluation in data["evaluations"]
-                ]
+                scores: List[str] = []
+
+                for evaluation in evaluations:
+                    scores.append(evaluation["score"])
+
+                    if teacher_model_id not in teacher_corrected_sentences:
+                        teacher_corrected_sentences[teacher_model_id] = []
+
+                    teacher_corrected_sentences[teacher_model_id].append(
+                        evaluations["corrected_sentence"]
+                    )
                 return scores
             except json.JSONDecodeError as e:
                 raise ValueError(f"Failed to decode JSON response: {str(e)}")
@@ -995,9 +1011,14 @@ async def quality_estimation_node(
     for (model_id, _), scores in zip(ask_llm_tasks, results):
         quality_scores[model_id] = scores
 
+        teacher_model_id = model_id + TEACHER_CORRECTION_SUFFIX
+        teacher_quality_scores[teacher_model_id] = (
+            scores + TEACHER_CORRECTION_BIAS
+        )
+
     logging.info("Quality estimation node completed.")
 
-    return quality_scores
+    return quality_scores, teacher_quality_scores, teacher_corrected_sentences
 
 
 # TODO: fix this node
@@ -1090,7 +1111,25 @@ async def system_combination_node(
     return best_sentences
 
 
-async def execute_workflow(input_string: str):
+def combine_dicts(
+    dict1: Dict[str, List[Any]], dict2: Dict[str, List[Any]]
+) -> Dict[str, List[Any]]:
+    combined_dict = (
+        dict1.copy()
+    )  # Make a copy of the first dictionary to preserve it
+    for key, value in dict2.items():
+        if key in combined_dict:
+            combined_dict[key].extend(
+                value
+            )  # If the key already exists, extend the list
+        else:
+            combined_dict[
+                key
+            ] = value  # If the key doesn't exist, add it with its list
+    return combined_dict
+
+
+async def execute_workflow(input_string: str) -> str:
     start_time = datetime.datetime.now()  # Start timing the workflow
 
     input_sentences = InputParser.parse_input(input_string)
@@ -1112,26 +1151,60 @@ async def execute_workflow(input_string: str):
         f"Model responses gathered in {model_responses_end - model_responses_start}."
     )
 
-    aggregated_responses = {
+    aggregated_responses: Dict[str, List[str]] = {
         model_id: response for model_id, response in model_responses
     }
 
-    quality_estimation_task = quality_estimation_node(
+    quality_and_edits_start = datetime.datetime.now()
+    (
+        quality_estimation,
+        teacher_quality_estimation,
+        teacher_aggregated_responses,
+    ) = await quality_estimation_node(
         input_sentences,
         aggregated_responses,
         models,
         QUALITY_ESTIMATION_MODEL_NAME,
     )
-    edit_extraction_task = extract_edits(aggregated_responses, input_sentences)
 
-    quality_and_edits_start = datetime.datetime.now()
-    quality_estimation, edits_output = await asyncio.gather(
-        quality_estimation_task, edit_extraction_task
-    )
     quality_and_edits_end = datetime.datetime.now()
     logging.info(
         f"Quality estimation and edit extraction completed in {quality_and_edits_end - quality_and_edits_start}."
     )
+
+    quality_estimation_augmented = combine_dicts(
+        quality_estimation, teacher_quality_estimation
+    )
+    aggregated_responses_augmented = combine_dicts(
+        aggregated_responses, teacher_aggregated_responses
+    )
+
+    student_best_sentences = select_best_sentences(
+        quality_estimation, aggregated_responses, input_sentences
+    )
+    best_sentences_augmented = select_best_sentences(
+        quality_estimation_augmented,
+        aggregated_responses_augmented,
+        input_sentences,
+    )
+
+    end_time = datetime.datetime.now()
+    logging.info(f"Total workflow execution time: {end_time - start_time}.")
+
+    return json.dumps(
+        {
+            "student_best_sentences": student_best_sentences,
+            "best_sentences_augmented": best_sentences_augmented,
+        }
+    )
+
+
+async def select_best_sentences(
+    quality_estimation: Dict[str, List[float]],
+    aggregated_responses: Dict[str, List[str]],
+    input_sentences: List[str],
+):
+    edits_output = await extract_edits(aggregated_responses, input_sentences)
 
     edit_votes = calculate_edit_votes(edits_output)
 
@@ -1153,9 +1226,6 @@ async def execute_workflow(input_string: str):
         f"Best sentences selection completed in {best_sentences_end - best_sentences_start}."
     )
 
-    end_time = datetime.datetime.now()
-    logging.info(f"Total workflow execution time: {end_time - start_time}.")
-
     # Now, after both quality estimation, edit votes calculation, and system combination are done, print out the results
     # logging.info("Edit Extraction:")
     # logging.info(json.dumps(edits_output, indent=2))
@@ -1172,8 +1242,7 @@ async def execute_workflow(input_string: str):
     logging.info("Best Sentences Selected:")
     logging.info(json.dumps(best_sentences, indent=2))
 
-    final_output = "\n".join(best_sentences)
-    return final_output
+    return best_sentences
 
 
 async def read_input_file(file_path: str) -> str:
