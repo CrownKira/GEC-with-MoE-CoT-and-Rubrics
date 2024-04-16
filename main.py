@@ -101,10 +101,14 @@ MAX_LINES_PER_BATCH: Optional[int] = 20
 # CONFIGS: PATHS
 # ABCN dev set
 # CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
-CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19"
+CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first30"
+# CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19"
 TEST_FILE_PATH = f"test/{CEFR_LEVEL_FILENAME}.orig"
 FINAL_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
 CSV_OUTPUT_PATH = f"corrected_output/{CEFR_LEVEL_FILENAME}.corrected.csv"
+FINAL_OUTPUT_PATH_AUGMENTED_POOL = (
+    f"corrected_output/{CEFR_LEVEL_FILENAME}.augmented_pool.corrected"
+)
 CACHE_FILE_PATH = f"cache/{CEFR_LEVEL_FILENAME}.batches"
 
 
@@ -644,6 +648,10 @@ async def correct_grammar_and_write_csv(
             "corrected_text_augmented_pool"
         ]
 
+        print(
+            "> corrected_text_augmented_pool:", corrected_text_augmented_pool
+        )
+
         # TODO: better way?
         # Process the corrected text with spaCy
         doc = nlp(corrected_text.strip())
@@ -668,6 +676,7 @@ async def correct_grammar_and_write_csv(
         row = {
             "Batch Number": batch_number,
             "Corrected Text": processed_text,
+            "Augmented Pool Text": corrected_text_augmented_pool,  # New column for augmented pool text
         }
         await csv_writer.writerow(row)
         return processed_text
@@ -746,11 +755,18 @@ async def process_file(client: Any, test_file_path: str, csv_output_path: str):
     ) as csv_file:
         text = await test_file.read()
         csv_writer = csv.DictWriter(
-            csv_file, fieldnames=["Batch Number", "Corrected Text"]
+            csv_file,
+            fieldnames=[
+                "Batch Number",
+                "Corrected Text",
+                "Augmented Pool Text",
+            ],  # Updated fieldnames
         )
 
         if should_write_header:
-            await csv_file.write('"Batch Number","Corrected Text"\n')
+            await csv_file.write(
+                '"Batch Number","Corrected Text","Augmented Pool Text"\n'
+            )
 
         if not cached_batches:  # Check if we need to generate batches
             batches = split_text_into_batches(
@@ -799,6 +815,27 @@ def generate_corrected_file_from_csv(csv_output_path: str, output_path: str):
                     output_file.write(corrected_line + "\n")
 
 
+def generate_augmented_pool_file_from_csv(
+    csv_output_path: str, output_path: str
+):
+    with open(
+        csv_output_path, mode="r", newline="", encoding="utf-8"
+    ) as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        sorted_rows = sorted(
+            csv_reader, key=lambda row: int(row["Batch Number"])
+        )
+
+    with open(
+        output_path, mode="w", newline="", encoding="utf-8"
+    ) as output_file:
+        for row in sorted_rows:
+            if "Augmented Pool Text" in row:
+                augmented_pool_lines = row["Augmented Pool Text"].split("\n")
+                for augmented_pool_line in augmented_pool_lines:
+                    output_file.write(augmented_pool_line + "\n")
+
+
 # Function to log a divider when the program exits
 def log_exit_divider():
     logging.info("=" * 80)
@@ -841,8 +878,15 @@ if __name__ == "__main__":
     logging.info(f"{BLUE}Using prompt: {GRAMMAR_PROMPT}{RESET}")
     logging.info("Starting to process the file...")
     asyncio.run(process_file(client, TEST_FILE_PATH, CSV_OUTPUT_PATH))
+
     logging.info("Generating the corrected file from CSV...")
     generate_corrected_file_from_csv(CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH)
+
+    logging.info("Generating the augmented pool file from CSV...")
+    generate_augmented_pool_file_from_csv(
+        CSV_OUTPUT_PATH, FINAL_OUTPUT_PATH_AUGMENTED_POOL
+    )
+
     logging.info("File processing completed.")
     prompt_for_evaluation()
     logging.info("=" * 80)

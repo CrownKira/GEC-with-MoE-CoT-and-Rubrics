@@ -32,6 +32,9 @@ CEFR_LEVEL_FILENAME = args.filename
 # CEFR_LEVEL_FILENAME = "ABCN.dev.gold.bea19.first100"
 input_file_path = f"./test/{CEFR_LEVEL_FILENAME}.orig"
 corrected_file_path = f"./corrected_output/{CEFR_LEVEL_FILENAME}.corrected"
+corrected_file_path_augmented_pool = (
+    f"./corrected_output/{CEFR_LEVEL_FILENAME}.augmented_pool.corrected"
+)
 reference_m2_path = (
     f"./reference_m2/{CEFR_LEVEL_FILENAME}.m2"  # true corrections
 )
@@ -89,6 +92,52 @@ evaluation_results = subprocess.run(
 # Print the evaluation results
 print("Evaluation Results:")
 print(evaluation_results.stdout)
+
+
+# Check if the augmented pool corrected file exists
+if os.path.isfile(corrected_file_path_augmented_pool):
+    # Define the path for the augmented pool corrected M2 file
+    corrected_m2_path_augmented_pool = (
+        f"./corrected_m2/{CEFR_LEVEL_FILENAME}.augmented_pool.m2"
+    )
+
+    # Step 1 for augmented pool: Convert the original and corrected (augmented pool) text files to M2 format
+    subprocess.run(
+        [
+            "python3",
+            parallel_to_m2_script,
+            "-orig",
+            input_file_path,
+            "-cor",
+            corrected_file_path_augmented_pool,
+            "-out",
+            corrected_m2_path_augmented_pool,
+        ],
+        check=True,
+    )
+
+    print(
+        f"Converted augmented pool files to M2 format: {corrected_m2_path_augmented_pool}"
+    )
+
+    # Step 2 for augmented pool: Evaluate the system output (augmented pool) with the reference M2 file
+    evaluation_results_augmented_pool = subprocess.run(
+        [
+            "python3",
+            compare_m2_script,
+            "-hyp",
+            corrected_m2_path_augmented_pool,
+            "-ref",
+            reference_m2_path,
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    # Print the evaluation results for augmented pool
+    print("Evaluation Results for Augmented Pool:")
+    print(evaluation_results_augmented_pool.stdout)
 
 
 # Define the path to the corr_from_m2.py script
@@ -163,3 +212,4 @@ print(
     f"To compare the extracted corrected text with the system's corrected text, run the following command:"
 )
 print(f"diff {corr_from_m2_output} {corrected_file_path}")
+print(f"diff {corr_from_m2_output} {corrected_file_path_augmented_pool}")
