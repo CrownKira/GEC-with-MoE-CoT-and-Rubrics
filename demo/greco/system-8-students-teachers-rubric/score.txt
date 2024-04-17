@@ -1,0 +1,9 @@
+Loading resources...
+Processing parallel files...
+Converted augmented pool files to M2 format: ./corrected_m2/ABCN.dev.gold.bea19.augmented_pool.m2
+Evaluation Results for Augmented Pool:
+
+=========== Span-Based Correction ============
+TP      FP      FN      Prec    Rec     F0.5
+3352    5111    4109    0.3961  0.4493  0.4057
+==============================================

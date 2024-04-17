@@ -1,0 +1,10 @@
+Evaluating the corrections...
+Loading resources...
+Processing parallel files...
+Converted files to M2 format: ./corrected_m2/ABCN.dev.gold.bea19.m2
+Evaluation Results:
+
+=========== Span-Based Correction ============
+TP      FP      FN      Prec    Rec     F0.5
+2563    2634    4898    0.4932  0.3435  0.4536
+==============================================
