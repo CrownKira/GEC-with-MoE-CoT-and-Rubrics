@@ -1,7 +1,7 @@
-# NLP-GEC
+# GEC-CoT-Rubrics
 
 ## GEC System Architecture
-![Untitled Diagram7-Page-1 drawio](https://github.com/CrownKira/nlp-gec/assets/24221801/a28c9e53-4857-4c10-8954-b0c49e8893c4)
+![Untitled Diagram7-Page-1 drawio](https://github.com/CrownKira/GEC-with-CoT-and-Rubrics/assets/24221801/a28c9e53-4857-4c10-8954-b0c49e8893c4)
 
 Our system leverages NLP techniques to address a wide range of grammatical errors, providing high-quality corrections. By integrating Chain-of-Thought (CoT) prompting with rubric-guided evaluations, our models achieve significant performance improvements in quality estimation tasks.
 
@@ -21,13 +21,13 @@ Our GEC system architecture employs a novel combination of technologies and meth
 1. **Clone the Repository:**
 
    ```bash
-   git clone git@github.com:CrownKira/nlp-gec.git
+   git clone git@github.com:CrownKira/GEC-with-CoT-and-Rubrics.git
    ```
 
 2. **Navigate to the Project Directory:**
 
    ```bash
-   cd nlp-gec
+   cd GEC-with-CoT-and-Rubrics
    ```
 
 3. **Create and Activate the Virtual Environment:**
@@ -61,4 +61,4 @@ Our GEC system architecture employs a novel combination of technologies and meth
    ```
 
 3. **Check Outputs:**
-   Navigate to the `outputs` directory to access corrected text files and CSV outputs.# nlp-gec
+   Navigate to the `outputs` directory to access corrected text files and CSV outputs.
