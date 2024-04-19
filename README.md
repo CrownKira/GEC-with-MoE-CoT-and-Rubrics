@@ -1,7 +1,18 @@
 # NLP-GEC
 
-## System Architecture
+## GEC System Architecture
 ![Untitled Diagram7-Page-1 drawio](https://github.com/CrownKira/nlp-gec/assets/24221801/a28c9e53-4857-4c10-8954-b0c49e8893c4)
+
+Our system leverages NLP techniques to address a wide range of grammatical errors, providing high-quality corrections. By integrating Chain-of-Thought (CoT) prompting with rubric-guided evaluations, our models achieve significant performance improvements in quality estimation tasks.
+
+## Overview
+
+Our GEC system architecture employs a novel combination of technologies and methodologies to enhance the accuracy and diversity of grammatical error corrections:
+
+- **Chain-of-Thought Prompting**: Utilizes structured reasoning prompts to guide the model towards more logical and contextually relevant corrections.
+- **Rubric-Guided Evaluations**: Incorporates specific evaluation criteria, ensuring that corrections adhere to predefined quality standards.
+- **In-Context Learning**: Leverages the capabilities of models with advanced reasoning abilities, notably GPT-3.5-turbo-1106, for dynamic learning within contextual boundaries.
+- **Teacher and Student Model Integration**: Combines the insights of teacher models in evaluating student corrections, fostering a rich pool of diverse and insightful corrections.
 
 ## Installation
 
