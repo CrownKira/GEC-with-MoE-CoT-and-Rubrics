@@ -1,5 +1,8 @@
 # NLP-GEC
 
+## System Architecture
+![Untitled Diagram7-Page-1 drawio](https://github.com/CrownKira/nlp-gec/assets/24221801/a28c9e53-4857-4c10-8954-b0c49e8893c4)
+
 ## Installation
 
 ### Steps
